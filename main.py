@@ -3,6 +3,8 @@ import sys, random
 from settings import *
 from sprites import *
 
+#hei på deg
+
 # Lager en plattform for bakken
 platform_list = [Platform(0, HEIGHT-40, WIDTH, 40)]
 
