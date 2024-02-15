@@ -3,8 +3,10 @@ import sys, random
 from settings import *
 from sprites import *
 
+
 # Lager en plattform for bakken
 platform_list = [Platform(0, HEIGHT-40, WIDTH, 40)]
+
 
 class Game:
     def __init__(self):
@@ -88,6 +90,8 @@ class Game:
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
             collide = False
+            if self.player.pos[1] > HEIGHT:
+                print("Du døde")
             
             # Sjekker om spilleren kolliderer med en plattform
             for p in platform_list:
@@ -98,9 +102,16 @@ class Game:
             if collide:
                 self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
+        """   
+        # Spilleren er på øvre 1/4 av skjermen
+        if player.rect.top <= HEIGHT / 4:
+            self.player.pos[2] += abs(self.player.vel[1])
+        """
+        # Scroller
+        if self.player.rect.top <= HEIGHT / 4:
+            for p in platform_list:
+                p.rect.y += 4
             
-            
-    
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge
