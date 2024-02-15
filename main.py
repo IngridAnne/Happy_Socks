@@ -102,15 +102,20 @@ class Game:
             if collide:
                 self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
-        """   
-        # Spilleren er på øvre 1/4 av skjermen
-        if player.rect.top <= HEIGHT / 4:
-            self.player.pos[2] += abs(self.player.vel[1])
-        """
+
         # Scroller
         if self.player.rect.top <= HEIGHT / 4:
             for p in platform_list:
-                p.rect.y += 4
+                p.rect.y += 6
+                if p.rect.y > HEIGHT:
+                    platform_list.remove(p)
+                    newest_platform = Platform(
+                        random.randint(10, WIDTH-110),
+                        0,
+                        100,
+                        20
+                        )
+                    platform_list.append(newest_platform)
             
     # Metode som tegner ting på skjermen
     def draw(self):
