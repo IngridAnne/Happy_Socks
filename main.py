@@ -96,13 +96,17 @@ class Game:
             collide = False
             if self.player.pos[1] > HEIGHT:
                 print("Du døde")
+                """
+                Game over skjerm!!!
+                """
             
             # Sjekker om spilleren kolliderer med en plattform
             for p in platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
                     collide = True
                     break
-                
+            
+            # Spilleren blir stående oppå plattformen når collide er lik true
             if collide:
                 self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
@@ -188,6 +192,6 @@ while game_object.running:
 
 # Avslutter pygame
 pg.quit()
-#sys.exit() # Dersom det ikke er tilstrekkelig med pg.quit()
+sys.exit() # Dersom det ikke er tilstrekkelig med pg.quit()
 
 
