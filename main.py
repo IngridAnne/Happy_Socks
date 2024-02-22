@@ -7,6 +7,9 @@ from sprites import *
 # Lager en plattform for bakken
 platform_list = [Platform(0, HEIGHT-40, WIDTH, 40)]
 
+# Liste med vaskemaskiner
+washing_machine_list = []
+
 
 class Game:
     def __init__(self):
@@ -66,7 +69,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        
+            self.enchantement()
         
     # Metode som håndterer hendelser
     def events(self):
@@ -87,6 +90,7 @@ class Game:
     def update(self):
         self.player.update()
         
+        
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
             collide = False
@@ -102,9 +106,28 @@ class Game:
             if collide:
                 self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
-
-        # Scroller
+                
+        # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
+            
+            # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
+            r = random.randint(1, 200)
+        
+            # Sjekker om et vaskemaskin skal bli laget
+            if r == 1:
+                new_washing_machine = Washing_machine(
+                    platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - 20/2,
+                    platform_list[-1].rect.y - platform_list[-1].rect.h,
+                    20,
+                    20)
+                washing_machine_list.append(new_washing_machine)
+            # Vaskemaskinene scroller nedover
+            for w in washing_machine_list:
+                w.rect.y += 6
+                if w.rect.y > HEIGHT:
+                    washing_machine_list.remove(w)
+                    
+            # Plattformene scroller nedover        
             for p in platform_list:
                 p.rect.y += 6
                 if p.rect.y > HEIGHT:
@@ -126,6 +149,10 @@ class Game:
         for p in platform_list:
             self.screen.blit(p.image, (p.rect.x, p.rect.y))
         
+        # Tegner vaskemaskinene
+        for w in washing_machine_list:
+            self.screen.blit(w.image, (w.rect.x, w.rect.y))
+        
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
@@ -136,7 +163,16 @@ class Game:
     # Metode som viser start-skjerm
     def show_start_screen(self):
         pass
-
+    
+    # Metode for å gi spilleren en egenskap
+    def enchantement(self):
+        
+        # Sjekkker kollisjon med vaskemaskin og gir deretter økt fart
+        for w in washing_machine_list:
+                if pg.Rect.colliderect(self.player.rect, w.rect):
+                    washing_machine_list.remove(w)
+                    print("øker farten")
+                    break
 
     
     

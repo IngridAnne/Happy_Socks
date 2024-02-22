@@ -1,6 +1,7 @@
 import pygame as pg
 from settings import *
 
+
 class Player:
     def __init__(self):
         self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
@@ -54,6 +55,16 @@ class Platform:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+class Washing_machine:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(RED)
         
         self.rect = self.image.get_rect()
         self.rect.x = x
