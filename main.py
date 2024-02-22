@@ -67,9 +67,9 @@ class Game:
         while self.playing:
             self.clock.tick(FPS)
             self.events()
-            self.update()
             self.draw()
             self.enchantement()
+            self.update()
         
     # Metode som håndterer hendelser
     def events(self):
@@ -171,7 +171,8 @@ class Game:
         for w in washing_machine_list:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
                     washing_machine_list.remove(w)
-                    print("øker farten")
+                    print("gir en boost")
+                    self.player.vel[1] = -40
                     break
 
     
