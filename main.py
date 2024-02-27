@@ -10,6 +10,7 @@ platform_list = [Platform(0, HEIGHT-40, WIDTH, 40)]
 # Liste med vaskemaskiner
 washing_machine_list = []
 
+# heisann
 
 class Game:
     def __init__(self):
