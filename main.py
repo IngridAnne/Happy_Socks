@@ -36,18 +36,23 @@ class Game:
         # Lager plattformer
         while len(platform_list) < 7:
             # Lager ny plattform
+            random_x = random.randint(10, WIDTH-110)
+            random_y = random.randint(10, HEIGHT-20)
+            
             new_platform = Platform(
-                random.randint(10, WIDTH-110),
-                random.randint(50, HEIGHT-210),
-                100,
-                20
+                random_x,
+                random_y,
+                PLATFORM_WIDTH,
+                PLATFORM_HEIGHT
             )
+            
+            new_platform_margin = Platform(random_x - 10, random_y - 10, 120, 40)
             
             safe = True
             
             # Sjekker om den nye plattformen kolliderer med noen av de gamle
             for p in platform_list:
-                if pg.Rect.colliderect(new_platform.rect, p.rect):
+                if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
                     safe = False
                     break
             
@@ -210,13 +215,32 @@ class Game:
                 p.rect.y += 6
                 if p.rect.y > HEIGHT:
                     platform_list.remove(p)
-                    newest_platform = Platform(
-                        random.randint(10, WIDTH-110),
+                    
+                    # Lager ny plattform
+                    random_x = random.randint(10, WIDTH-110)
+                    
+                    new_platform = Platform(
+                        random_x,
                         0,
-                        100,
-                        20
-                        )
-                    platform_list.append(newest_platform)
+                        PLATFORM_WIDTH,
+                        PLATFORM_HEIGHT
+                    )
+                    
+                    new_platform_margin = Platform(random_x - 10, 0 - 10, 120, 40)
+                    
+                    safe = True
+                    
+                    # Sjekker om den nye plattformen kolliderer med noen av de gamle
+                    for p in platform_list:
+                        if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
+                            safe = False
+                            break
+                    
+                    if safe:
+                        # Legger i lista
+                        platform_list.append(new_platform)
+                    else:
+                        print("Plattformen kolliderte, prøver på nytt")
             
 
     
