@@ -1,5 +1,5 @@
 import pygame as pg
-import sys, random
+import sys, random, time
 from settings import *
 from sprites import *
 
@@ -155,7 +155,7 @@ class Game:
     # Metode for å gi spilleren en egenskap
     def enchantement(self):
         
-        # Sjekkker kollisjon med vaskemaskin og gir deretter økt fart
+        # Sjekker kollisjon med vaskemaskin og gir deretter økt fart
         for w in washing_machine_list:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
                     washing_machine_list.remove(w)
@@ -163,10 +163,16 @@ class Game:
                     self.player.vel[1] = -40
                     break
         
-        # Sjekkker kollisjon med gjørme og gir deretter minket fart
+        # Sjekker kollisjon med gjørme og gir deretter minket fart
         for m in mud_list:
                 if pg.Rect.colliderect(self.player.rect, m.rect):
-                    print("minker farten")
+                    self.player.is_dirty()
+                    """
+                    start = time.time()
+                    while time.time() - start < 5:
+                        print("hei")
+                    self.player.is_not_dirty()
+                    """
                     break
     
     # Metode for å scrolle alle elementene nedover

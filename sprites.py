@@ -18,18 +18,29 @@ class Player:
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
         self.vel = [0, 0]
         self.acc = [0, 0]
-        
-        #print(self.rect)
+    
+        self.dirty = False
     
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
         
-    
-    
+    def is_dirty(self):
+        self.dirty = True
+        self.image.fill(BROWN)
+        
+    def is_not_dirty(self):
+        self.dirty = False
+        self.image.fill(GREEN)
+        
     def update(self):
         self.collision_wall()
-        self.acc = [0, GRAVITY]
+        
+        if not self.dirty:
+            self.acc = [0, 0.8]
+        else:
+            self.acc = [0, 3]
+            
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
         

@@ -19,8 +19,6 @@ LIGHTRED = (255, 100, 100)
 BROWN = (165, 42, 42)
 
 
-GRAVITY = 0.8
-
 # Innstillinger til spilleren
 PLAYER_WIDTH = 40
 PLAYER_HEIGHT = 60
