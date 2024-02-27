@@ -3,7 +3,6 @@ import sys, random
 from settings import *
 from sprites import *
 
-# hei på deg
 
 # Lager en plattform for bakken
 platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
@@ -11,7 +10,8 @@ platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM
 # Liste med vaskemaskiner
 washing_machine_list = []
 
-# heisann
+# Liste med gjørme
+mud_list = []
 
 class Game:
     def __init__(self):
@@ -132,6 +132,10 @@ class Game:
         for w in washing_machine_list:
             self.screen.blit(w.image, (w.rect.x, w.rect.y))
         
+        # Tegner gjørmen
+        for m in mud_list:
+            self.screen.blit(m.image, (m.rect.x, m.rect.y))
+        
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
@@ -153,6 +157,12 @@ class Game:
                     print("gir en boost")
                     self.player.vel[1] = -40
                     break
+        
+        # Sjekkker kollisjon med gjørme og gir deretter minket fart
+        for m in mud_list:
+                if pg.Rect.colliderect(self.player.rect, m.rect):
+                    print("minker farten")
+                    break
     
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
@@ -162,7 +172,8 @@ class Game:
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
             r = random.randint(1, 200)
         
-            # Sjekker om et vaskemaskin skal bli laget
+        
+            # Sjekker om en vaskemaskin skal bli laget
             if r == 1:
                 new_washing_machine = Washing_machine(
                     platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - 20/2,
@@ -170,12 +181,30 @@ class Game:
                     20,
                     20)
                 washing_machine_list.append(new_washing_machine)
+                
             # Vaskemaskinene scroller nedover
             for w in washing_machine_list:
                 w.rect.y += 6
                 if w.rect.y > HEIGHT:
                     washing_machine_list.remove(w)
-                    
+             
+             
+            # Sjekker om gjørme skal bli laget
+            if r == 2:
+                new_mud = Mud(
+                    platform_list[-1].rect.x,
+                    platform_list[-1].rect.y,
+                    platform_list[-1].rect.w,
+                    5)
+                mud_list.append(new_mud)
+                
+            # Gjørmen scroller nedover
+            for m in mud_list:
+                m.rect.y += 6
+                if m.rect.y > HEIGHT:
+                    mud_list.remove(m)
+              
+              
             # Plattformene scroller nedover        
             for p in platform_list:
                 p.rect.y += 6
