@@ -6,7 +6,7 @@ from sprites import *
 # hei på deg
 
 # Lager en plattform for bakken
-platform_list = [Platform(0, HEIGHT-40, WIDTH, 40)]
+platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
 
 # Liste med vaskemaskiner
 washing_machine_list = []

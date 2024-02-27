@@ -7,12 +7,15 @@ class Player:
         self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
+        """
         self.rect.center = (
             WIDTH//2 - PLAYER_WIDTH//2,
             HEIGHT//2 - PLAYER_HEIGHT//2
         )
         
         self.pos = list(self.rect.center)
+        """
+        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
         self.vel = [0, 0]
         self.acc = [0, 0]
         
