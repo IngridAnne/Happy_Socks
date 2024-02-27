@@ -86,13 +86,15 @@ class Game:
             if event.type == pg.KEYDOWN:
                 # Spilleren skal hoppe hvis vi trykker på mellomromstasten
                 if event.key == pg.K_SPACE:
-                    self.player.jump()
+                    if self.jump:
+                        self.player.jump()
             
     
     # Metode som oppdaterer
     def update(self):
         self.player.update()
         
+        self.jump = False
         
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
@@ -107,6 +109,7 @@ class Game:
             for p in platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
                     collide = True
+                    self.jump = True
                     break
             
             # Spilleren blir stående oppå plattformen når collide er lik true
