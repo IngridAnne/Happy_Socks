@@ -21,9 +21,11 @@ class Player:
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
+        
     
     
     def update(self):
+        self.collision_wall()
         self.acc = [0, GRAVITY]
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
@@ -47,6 +49,12 @@ class Player:
         # Oppdaterer rektangelets posisjon
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
+    
+    def collision_wall(self):
+        if self.pos[0] > WIDTH:
+            self.pos[0] = 0
+        elif self.pos[0] <= 0:
+            self.pos[0] = WIDTH
     
     
 

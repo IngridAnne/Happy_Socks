@@ -70,6 +70,7 @@ class Game:
             self.draw()
             self.enchantement()
             self.update()
+            self.scroll()
         
     # Metode som håndterer hendelser
     def events(self):
@@ -80,11 +81,12 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.running = False # Spillet skal avsluttes
-                
+            
             if event.type == pg.KEYDOWN:
                 # Spilleren skal hoppe hvis vi trykker på mellomromstasten
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+            
     
     # Metode som oppdaterer
     def update(self):
@@ -111,38 +113,6 @@ class Game:
                 self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
                 
-        # Sjekker om spilleren er på den øverste delen av skjermen
-        if self.player.rect.top <= HEIGHT / 4:
-            
-            # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
-            r = random.randint(1, 200)
-        
-            # Sjekker om et vaskemaskin skal bli laget
-            if r == 1:
-                new_washing_machine = Washing_machine(
-                    platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - 20/2,
-                    platform_list[-1].rect.y - platform_list[-1].rect.h,
-                    20,
-                    20)
-                washing_machine_list.append(new_washing_machine)
-            # Vaskemaskinene scroller nedover
-            for w in washing_machine_list:
-                w.rect.y += 6
-                if w.rect.y > HEIGHT:
-                    washing_machine_list.remove(w)
-                    
-            # Plattformene scroller nedover        
-            for p in platform_list:
-                p.rect.y += 6
-                if p.rect.y > HEIGHT:
-                    platform_list.remove(p)
-                    newest_platform = Platform(
-                        random.randint(10, WIDTH-110),
-                        0,
-                        100,
-                        20
-                        )
-                    platform_list.append(newest_platform)
             
     # Metode som tegner ting på skjermen
     def draw(self):
@@ -178,6 +148,42 @@ class Game:
                     print("gir en boost")
                     self.player.vel[1] = -40
                     break
+    
+    # Metode for å scrolle alle elementene nedover
+    def scroll(self):
+        # Sjekker om spilleren er på den øverste delen av skjermen
+        if self.player.rect.top <= HEIGHT / 4:
+            
+            # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
+            r = random.randint(1, 200)
+        
+            # Sjekker om et vaskemaskin skal bli laget
+            if r == 1:
+                new_washing_machine = Washing_machine(
+                    platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - 20/2,
+                    platform_list[-1].rect.y - platform_list[-1].rect.h,
+                    20,
+                    20)
+                washing_machine_list.append(new_washing_machine)
+            # Vaskemaskinene scroller nedover
+            for w in washing_machine_list:
+                w.rect.y += 6
+                if w.rect.y > HEIGHT:
+                    washing_machine_list.remove(w)
+                    
+            # Plattformene scroller nedover        
+            for p in platform_list:
+                p.rect.y += 6
+                if p.rect.y > HEIGHT:
+                    platform_list.remove(p)
+                    newest_platform = Platform(
+                        random.randint(10, WIDTH-110),
+                        0,
+                        100,
+                        20
+                        )
+                    platform_list.append(newest_platform)
+            
 
     
     
