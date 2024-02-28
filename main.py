@@ -185,7 +185,8 @@ class Game:
         
         
             # Sjekker om en vaskemaskin skal bli laget
-            if r == 1:
+            if r == 1 and platform_list[-1].taken == False:
+                platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
                     platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - 20/2,
                     platform_list[-1].rect.y - platform_list[-1].rect.h,
@@ -201,7 +202,8 @@ class Game:
              
              
             # Sjekker om gjørme skal bli laget
-            if r == 2:
+            if r == 2 and platform_list[-1].taken == False:
+                platform_list[-1].taken = True
                 new_mud = Mud(
                     platform_list[-1].rect.x,
                     platform_list[-1].rect.y,
