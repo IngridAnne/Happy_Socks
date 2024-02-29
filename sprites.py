@@ -1,6 +1,6 @@
 import pygame as pg
 from settings import *
-import random
+import time
 
 
 class Player:
@@ -21,26 +21,34 @@ class Player:
         self.acc = [0, 0]
     
         self.dirty = False
+        self.color = GREEN
+        self.start = time.time()
     
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
-        
-    def is_dirty(self):
-        self.dirty = True
-        self.image.fill(BROWN)
-        
-    def is_not_dirty(self):
-        self.dirty = False
-        self.image.fill(GREEN)
+    
+    
         
     def update(self):
         self.collision_wall()
+        dt = time.time() - self.start
+        
+        print(dt)
+        
+        if dt > 3:
+            self.dirty = False
+            #self.start = time.time()
+            
         
         if not self.dirty:
             self.acc = [0, 0.8]
+            self.color = GREEN
         else:
             self.acc = [0, 3]
+            self.color = BROWN
+            
+        self.image.fill(self.color)
             
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
@@ -105,6 +113,7 @@ class Mud:
         self.rect.x = x
         self.rect.y = y
 
+
 class Cloud:
     def __init__(self, x, y):
         self.x = x
@@ -115,11 +124,7 @@ class Cloud:
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
 
-    
-    
-    
-    
-    
+
     
     
     

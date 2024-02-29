@@ -11,6 +11,7 @@ platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM
 washing_machine_list = []
 
 # Liste med gjørme
+#mud_list = [Mud(platform_list[-1].rect.x,platform_list[-1].rect.y,platform_list[-1].rect.w,5)]
 mud_list = []
 
 # Liste med skyer
@@ -66,6 +67,12 @@ class Game:
                 print("Plattformen kolliderte, prøver på nytt")
             
         
+        mud_list.append(Mud(
+                    platform_list[1].rect.x,
+                    platform_list[1].rect.y,
+                    platform_list[1].rect.w,
+                    5)
+        )
         self.run()
 
 
@@ -177,14 +184,12 @@ class Game:
         # Sjekker kollisjon med gjørme og gir deretter minket fart
         for m in mud_list:
                 if pg.Rect.colliderect(self.player.rect, m.rect):
-                    self.player.is_dirty()
-                    """
-                    start = time.time()
-                    while time.time() - start < 5:
-                        print("hei")
-                    self.player.is_not_dirty()
-                    """
-                    break
+                    self.player.dirty = True
+                    self.player.start = time.time()
+                    print("Mud")
+                    #self.player.not_dirty()
+                    
+                    
     
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
@@ -262,7 +267,6 @@ class Game:
                         print("Plattformen kolliderte, prøver på nytt")
             
 
-    
     
 # Lager et spill-objekt
 game_object = Game()
