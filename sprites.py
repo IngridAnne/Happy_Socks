@@ -35,8 +35,6 @@ class Player:
         self.collision_wall()
         dt = time.time() - self.start
         
-        print(dt)
-        
         if dt > 3:
             self.dirty = False
             #self.start = time.time()
@@ -46,7 +44,7 @@ class Player:
             self.acc = [0, 0.8]
             self.color = GREEN
         else:
-            self.acc = [0, 3]
+            self.acc = [0, 1.3]
             self.color = BROWN
             
         self.image.fill(self.color)
