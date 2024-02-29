@@ -213,6 +213,7 @@ class Game:
             # Vaskemaskinene scroller nedover
             for w in washing_machine_list:
                 w.rect.y += 6
+            for w in washing_machine_list:
                 if w.rect.y > HEIGHT:
                     washing_machine_list.remove(w)
              
@@ -225,11 +226,13 @@ class Game:
                     platform_list[-1].rect.y,
                     platform_list[-1].rect.w,
                     MUD_HEIGHT)
-                mud_list.append(new_mud)
-                
+                mud_list.append(new_mud)    
+
+
             # Gjørmen scroller nedover
             for m in mud_list:
                 m.rect.y += 6
+            for m in mud_list:
                 if m.rect.y > HEIGHT:
                     mud_list.remove(m)
               
@@ -237,6 +240,7 @@ class Game:
             # Plattformene scroller nedover        
             for p in platform_list:
                 p.rect.y += 6
+            for p in platform_list:
                 if p.rect.y > HEIGHT:
                     platform_list.remove(p)
                     
