@@ -139,11 +139,13 @@ class Game:
         # Fyller skjermen med en farge
         self.screen.fill(LIGHTBLUE)
         
+
         # Tegner skyer på skjermen
         while len(cloud_list) < 9:
-            cloud_list.append(Cloud(random.randint(10, WIDTH - 20),
-                                    random.randint(10, HEIGHT - 40),
+            cloud_list.append(Cloud(random.randint(0, WIDTH - 20),
+                                    random.randint(0, HEIGHT - 40),
                                 ))
+        
         for c in cloud_list:
             self.screen.blit(c.image, (c.x, c.y))    
         
@@ -183,7 +185,7 @@ class Game:
         
         # Sjekker kollisjon med gjørme og gir deretter minket fart
         for m in mud_list:
-                if pg.Rect.colliderect(self.player.rect, m.rect):
+                if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
                     self.player.dirty = True
                     self.player.start = time.time()
                     print("Mud")
@@ -195,6 +197,15 @@ class Game:
     def scroll(self):
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
+            
+            """
+            # Skyene scroller nedover
+            for c in cloud_list:
+                c.y += CLOUD_SPEED
+            for c in cloud_list:
+                if c.y > HEIGHT:
+                    cloud_list.remove(c)
+            """
             
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
             r = random.randint(1, 200)
@@ -212,7 +223,7 @@ class Game:
                 
             # Vaskemaskinene scroller nedover
             for w in washing_machine_list:
-                w.rect.y += 6
+                w.rect.y += ELEMENT_SPEED
             for w in washing_machine_list:
                 if w.rect.y > HEIGHT:
                     washing_machine_list.remove(w)
@@ -231,7 +242,7 @@ class Game:
 
             # Gjørmen scroller nedover
             for m in mud_list:
-                m.rect.y += 6
+                m.rect.y += ELEMENT_SPEED
             for m in mud_list:
                 if m.rect.y > HEIGHT:
                     mud_list.remove(m)
@@ -239,7 +250,7 @@ class Game:
               
             # Plattformene scroller nedover        
             for p in platform_list:
-                p.rect.y += 6
+                p.rect.y += ELEMENT_SPEED
             for p in platform_list:
                 if p.rect.y > HEIGHT:
                     platform_list.remove(p)

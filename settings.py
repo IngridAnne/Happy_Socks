@@ -38,3 +38,6 @@ WASHING_MACHINE_SIDE = 20
 
 # Innstillinger til gjørme
 MUD_HEIGHT = 5
+
+ELEMENT_SPEED = 6
+CLOUD_SPEED = 2
