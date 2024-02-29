@@ -13,6 +13,9 @@ washing_machine_list = []
 # Liste med gjørme
 mud_list = []
 
+# Liste med skyer
+cloud_list = []
+
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -127,7 +130,15 @@ class Game:
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge
-        self.screen.fill(WHITE)
+        self.screen.fill(LIGHTBLUE)
+        
+        # Tegner skyer på skjermen
+        while len(cloud_list) < 9:
+            cloud_list.append(Cloud(random.randint(10, WIDTH - 20),
+                                    random.randint(10, HEIGHT - 40),
+                                ))
+        for c in cloud_list:
+            self.screen.blit(c.image, (c.x, c.y))    
         
         # Tegner plattformene
         for p in platform_list:

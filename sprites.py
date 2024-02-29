@@ -1,5 +1,6 @@
 import pygame as pg
 from settings import *
+import random
 
 
 class Player:
@@ -103,8 +104,17 @@ class Mud:
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-    
-    
+
+class Cloud:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        
+        self.rd = random.randint(40, 80)
+        self.image = pg.image.load('cloud.png')
+        # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
+        self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
+
     
     
     
