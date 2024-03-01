@@ -269,6 +269,7 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in platform_list:
                 if p.rect.y > HEIGHT:
+                    self.player.points += 1
                     
                     platform_list.remove(p)
                     
