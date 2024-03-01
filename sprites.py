@@ -89,6 +89,7 @@ class Player:
 
 class Platform:
     def __init__(self, x, y, w, h):
+        self.w = w
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
         

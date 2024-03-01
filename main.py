@@ -50,6 +50,16 @@ class Game:
                 PLATFORM_HEIGHT
             )
             
+            rd = random.randint(1, 10)
+            if rd == 1:
+                new_platform = Platform(
+                    random_x,
+                    random_y,
+                    PLATFORM_MUD_WIDTH,
+                    PLATFORM_HEIGHT
+                )
+            
+            
             new_platform_margin = Platform(random_x - 50, random_y - 50, 200, 120)
             
             safe = True
@@ -166,7 +176,7 @@ class Game:
         self.screen.blit(self.player.image, self.player.pos)
         
         # Tegner poeng
-        self.text(f"{self.player.points}", 20, 20, BLACK, 30)
+        self.text(f"{self.player.points}", 40, 40, BLACK, 30)
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
@@ -253,6 +263,13 @@ class Game:
                     platform_list[-1].rect.y,
                     platform_list[-1].rect.w,
                     MUD_HEIGHT)
+                
+                if platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
+                    new_mud = Mud(
+                    random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
+                    platform_list[-1].rect.y,
+                    platform_list[-1].rect.w/2,
+                    MUD_HEIGHT)
                 mud_list.append(new_mud)    
 
 
@@ -282,6 +299,15 @@ class Game:
                         PLATFORM_WIDTH,
                         PLATFORM_HEIGHT
                     )
+                    
+                    rd = random.randint(1, 10)
+                    if rd == 1:
+                        new_platform = Platform(
+                            random_x,
+                            0,
+                            PLATFORM_MUD_WIDTH,
+                            PLATFORM_HEIGHT
+                        )
                     
                     new_platform_margin = Platform(random_x - 50, 0 - 50, 200, 120)
                     
