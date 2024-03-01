@@ -6,6 +6,7 @@ import time
 
 class Player:
     def __init__(self):
+        self.points = 0
         self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()

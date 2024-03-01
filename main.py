@@ -88,6 +88,7 @@ class Game:
             self.enchantement()
             self.update()
             self.scroll()
+            
         
     # Metode som håndterer hendelser
     def events(self):
@@ -142,10 +143,10 @@ class Game:
 
         # Tegner skyer på skjermen
         while len(cloud_list) < 9:
-            cloud_list.append(Cloud(random.randint(0, WIDTH - 20),
-                                    random.randint(0, HEIGHT - 40),
+            cloud_list.append(Cloud(random.randint(-20, WIDTH - 20),
+                                    random.randint(-HEIGHT, -80),
                                 ))
-        
+        # Tegner skyene
         for c in cloud_list:
             self.screen.blit(c.image, (c.x, c.y))    
         
@@ -164,10 +165,21 @@ class Game:
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
+        # Tegner poeng
+        self.text(f"{self.player.points}", 20, 20, BLACK, 30)
+        
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
     
-    
+    # Funksjon som skriver tekst til vinduet
+    def text(self, text, x, y, color, fontSize):
+        font = pg.font.SysFont("Arial", fontSize)
+        textPicture = font.render(text, True, color)
+        textRectangle = textPicture.get_rect()
+        
+        # Putter i vinduet
+        self.screen.blit(textPicture, (x - textRectangle.width//2, y - textRectangle.height//2))
+        
     # Metode som viser start-skjerm
     def show_start_screen(self):
         pass
@@ -198,14 +210,14 @@ class Game:
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
             
-            """
+            
             # Skyene scroller nedover
             for c in cloud_list:
                 c.y += CLOUD_SPEED
             for c in cloud_list:
                 if c.y > HEIGHT:
                     cloud_list.remove(c)
-            """
+            
             
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
             r = random.randint(1, 200)
@@ -253,6 +265,8 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in platform_list:
                 if p.rect.y > HEIGHT:
+                    self.player.points += 1
+                    
                     platform_list.remove(p)
                     
                     # Lager ny plattform
