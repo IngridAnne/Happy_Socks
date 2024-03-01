@@ -50,7 +50,7 @@ class Game:
                 PLATFORM_HEIGHT
             )
             
-            new_platform_margin = Platform(random_x - 10, random_y - 10, 120, 40)
+            new_platform_margin = Platform(random_x - 50, random_y - 50, 200, 120)
             
             safe = True
             
@@ -198,6 +198,10 @@ class Game:
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
             
+            # Synker graviditet når skjermen scroller ned
+            self.player.scrolling = True
+            
+            
             """
             # Skyene scroller nedover
             for c in cloud_list:
@@ -265,7 +269,7 @@ class Game:
                         PLATFORM_HEIGHT
                     )
                     
-                    new_platform_margin = Platform(random_x - 10, 0 - 10, 120, 40)
+                    new_platform_margin = Platform(random_x - 50, 0 - 50, 200, 120)
                     
                     safe = True
                     
@@ -279,7 +283,9 @@ class Game:
                         # Legger i lista
                         platform_list.append(new_platform)
                     else:
-                        print("Plattformen kolliderte, prøver på nytt")
+                        print("Plattformen kolliderte, prøver på nytt")       
+        else:
+            self.player.scrolling = False
             
 
     

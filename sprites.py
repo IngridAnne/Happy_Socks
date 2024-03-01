@@ -24,6 +24,8 @@ class Player:
         self.dirty = False
         self.color = GREEN
         self.start = time.time()
+        
+        self.scrolling = False
     
     # Metode for hopping
     def jump(self):
@@ -40,12 +42,15 @@ class Player:
             #self.start = time.time()
             
         
-        if not self.dirty:
-            self.acc = [0, 0.8]
-            self.color = GREEN
-        else:
-            self.acc = [0, 1.3]
+        if self.dirty:
+            self.acc = [0, 1.5]
             self.color = BROWN
+        elif self.scrolling:
+            self.acc = [0, 1.3]
+        elif not self.dirty:
+            self.acc = [0, 0.8]
+            self.color = GREEN 
+            
             
         self.image.fill(self.color)
             
