@@ -127,6 +127,16 @@ class Cloud:
         self.image = pg.image.load('cloud.png')
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
+        
+
+class Hanger:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
 
     
