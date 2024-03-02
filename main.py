@@ -58,17 +58,20 @@ class Game:
                 PLATFORM_HEIGHT
             )
             
+            new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+            
             rd = random.randint(1, 8)
             if rd == 1:
                 new_platform = Platform(
                     random_x,
                     random_y,
-                    PLATFORM_MUD_WIDTH,
+                    PLATFORM_LONG_WIDTH,
                     PLATFORM_HEIGHT
                 )
+                new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
             
             
-            new_platform_margin = Platform(random_x - 50, random_y - 50, 200, 120)
+            
             
             safe = True
             
@@ -80,7 +83,7 @@ class Game:
             
             if safe:
                 # Legger i lista
-                self.platform_list.append(new_platform_margin)
+                self.platform_list.append(new_platform)
             else:
                 print("Plattformen kolliderte, prøver på nytt")
             
@@ -134,10 +137,7 @@ class Game:
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
             collide = False
-            """
-            if self.player.pos[1] > HEIGHT:
-                print("Du døde")
-            """
+
             # Sjekker om spilleren kolliderer med en plattform
             for p in self.platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
@@ -296,7 +296,7 @@ class Game:
             # Sjekker om gjørme skal bli laget
             r_mud = random.randint(1, 4)
             if r_mud == 1:
-                if self.platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
+                if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
                     r_mud = random.randint(1, 2)
                     print(r_mud)
                     if r_mud == 2 and self.platform_list[-1].taken == False:
@@ -351,16 +351,19 @@ class Game:
                         PLATFORM_HEIGHT
                     )
                     
+                    new_platform_margin = Platform(random_x - PLATFORM_MARGIN, 0 - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+                    
                     rd = random.randint(1, 8)
                     if rd == 1:
                         new_platform = Platform(
                             random_x,
                             0,
-                            PLATFORM_MUD_WIDTH,
+                            PLATFORM_LONG_WIDTH,
                             PLATFORM_HEIGHT
                         )
+                        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, 0 - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
                     
-                    new_platform_margin = Platform(random_x - 50, 0 - 50, 200, 120)
+                    
                     
                     safe = True
                     
@@ -372,7 +375,7 @@ class Game:
                     
                     if safe:
                         # Legger i lista
-                        self.platform_list.append(new_platform_margin)
+                        self.platform_list.append(new_platform)
                     else:
                         print("Plattformen kolliderte, prøver på nytt")       
         else:
