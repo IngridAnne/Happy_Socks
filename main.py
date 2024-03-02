@@ -17,6 +17,9 @@ mud_list = []
 # Liste med skyer
 cloud_list = []
 
+# Liste med klessnorer
+hanger_list = []
+
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -50,7 +53,7 @@ class Game:
                 PLATFORM_HEIGHT
             )
             
-            rd = random.randint(1, 10)
+            rd = random.randint(1, 8)
             if rd == 1:
                 new_platform = Platform(
                     random_x,
@@ -77,12 +80,6 @@ class Game:
                 print("Plattformen kolliderte, prøver på nytt")
             
         
-        mud_list.append(Mud(
-                    platform_list[1].rect.x,
-                    platform_list[1].rect.y,
-                    platform_list[1].rect.w,
-                    5)
-        )
         self.run()
 
 
@@ -253,25 +250,21 @@ class Game:
             for w in washing_machine_list:
                 if w.rect.y > HEIGHT:
                     washing_machine_list.remove(w)
-             
-             
+            
             # Sjekker om gjørme skal bli laget
-            if r == 2 and platform_list[-1].taken == False:
-                platform_list[-1].taken = True
-                new_mud = Mud(
-                    platform_list[-1].rect.x,
-                    platform_list[-1].rect.y,
-                    platform_list[-1].rect.w,
-                    MUD_HEIGHT)
-                
+            r = random.randint(1, 4)
+            if r == 1:
                 if platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
-                    new_mud = Mud(
-                    random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
-                    platform_list[-1].rect.y,
-                    platform_list[-1].rect.w/2,
-                    MUD_HEIGHT)
-                mud_list.append(new_mud)    
-
+                    r_mud = random.randint(1, 2)
+                    print(r_mud)
+                    if r_mud == 2 and platform_list[-1].taken == False:
+                        platform_list[-1].taken = True
+                        new_mud = Mud(
+                        random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
+                        platform_list[-1].rect.y,
+                        platform_list[-1].rect.w/2,
+                        MUD_HEIGHT)
+                        mud_list.append(new_mud)
 
             # Gjørmen scroller nedover
             for m in mud_list:
@@ -300,7 +293,7 @@ class Game:
                         PLATFORM_HEIGHT
                     )
                     
-                    rd = random.randint(1, 10)
+                    rd = random.randint(1, 8)
                     if rd == 1:
                         new_platform = Platform(
                             random_x,
