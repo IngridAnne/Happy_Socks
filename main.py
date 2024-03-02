@@ -4,21 +4,6 @@ from settings import *
 from sprites import *
 
 
-# Lager en plattform for bakken
-platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
-
-# Liste med vaskemaskiner
-washing_machine_list = []
-
-# Liste med gjørme
-#mud_list = [Mud(platform_list[-1].rect.x,platform_list[-1].rect.y,platform_list[-1].rect.w,5)]
-mud_list = []
-
-# Liste med skyer
-cloud_list = []
-
-# Liste med klessnorer
-hanger_list = []
 
 class Game:
     def __init__(self):
@@ -37,6 +22,23 @@ class Game:
         
     # Metode for å starte et nytt spill
     def new(self):
+        # Lister
+        
+        # Lager en plattform for bakken
+        self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
+
+        # Liste med vaskemaskiner
+        self.washing_machine_list = []
+
+        # Liste med gjørme
+        self.mud_list = []
+
+        # Liste med skyer
+        self.cloud_list = []
+
+        # Liste med klessnorer
+        self.hanger_list = []
+        
         # Poeng
         self.score = 0
         
@@ -44,7 +46,7 @@ class Game:
         self.player = Player()
         
         # Lager plattformer
-        while len(platform_list) < 7:
+        while len(self.platform_list) < 7:
             # Lager ny plattform
             random_x = random.randint(10, WIDTH-110)
             random_y = random.randint(10, HEIGHT-20)
@@ -71,14 +73,14 @@ class Game:
             safe = True
             
             # Sjekker om den nye plattformen kolliderer med noen av de gamle
-            for p in platform_list:
+            for p in self.platform_list:
                 if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
                     safe = False
                     break
             
             if safe:
                 # Legger i lista
-                platform_list.append(new_platform)
+                self.platform_list.append(new_platform_margin)
             else:
                 print("Plattformen kolliderte, prøver på nytt")
             
@@ -125,7 +127,7 @@ class Game:
         
         # Die!
         if self.player.pos[1] > HEIGHT:
-            platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
+            self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
             self.playing = False
             print("du døde")
         
@@ -137,7 +139,7 @@ class Game:
                 print("Du døde")
             """
             # Sjekker om spilleren kolliderer med en plattform
-            for p in platform_list:
+            for p in self.platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
                     collide = True
                     self.jump = True
@@ -156,28 +158,28 @@ class Game:
         
 
         # Tegner skyer på skjermen
-        while len(cloud_list) < 9:
-            cloud_list.append(Cloud(random.randint(-20, WIDTH - 20),
+        while len(self.cloud_list) < 9:
+            self.cloud_list.append(Cloud(random.randint(-20, WIDTH - 20),
                                     random.randint(-HEIGHT, -80),
                                 ))
         # Tegner skyene
-        for c in cloud_list:
+        for c in self.cloud_list:
             self.screen.blit(c.image, (c.x, c.y))    
         
         # Tegner plattformene
-        for p in platform_list:
+        for p in self.platform_list:
             self.screen.blit(p.image, (p.rect.x, p.rect.y))
         
         # Tegner vaskemaskinene
-        for w in washing_machine_list:
+        for w in self.washing_machine_list:
             self.screen.blit(w.image, (w.rect.x, w.rect.y))
         
         # Tegner gjørmen
-        for m in mud_list:
+        for m in self.mud_list:
             self.screen.blit(m.image, (m.rect.x, m.rect.y))
             
         # Tegner klessnoren
-        for h in hanger_list:
+        for h in self.hanger_list:
             self.screen.blit(h.image, (h.rect.x, h.rect.y))
         
         # Tegner spilleren
@@ -235,15 +237,15 @@ class Game:
     def enchantement(self):
         
         # Sjekker kollisjon med vaskemaskin og gir deretter økt fart
-        for w in washing_machine_list:
+        for w in self.washing_machine_list:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
-                    washing_machine_list.remove(w)
+                    self.washing_machine_list.remove(w)
                     print("gir en boost")
                     self.player.vel[1] = -40
                     break
         
         # Sjekker kollisjon med gjørme og gir deretter minket fart
-        for m in mud_list:
+        for m in self.mud_list:
                 if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
                     self.player.dirty = True
                     self.player.start = time.time()
@@ -263,11 +265,11 @@ class Game:
             
             
             # Skyene scroller nedover
-            for c in cloud_list:
+            for c in self.cloud_list:
                 c.y += CLOUD_SPEED
-            for c in cloud_list:
+            for c in self.cloud_list:
                 if c.y > HEIGHT:
-                    cloud_list.remove(c)
+                    self.cloud_list.remove(c)
             
             
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
@@ -275,69 +277,69 @@ class Game:
         
         
             # Sjekker om en vaskemaskin skal bli laget
-            if r == 1 and platform_list[-1].taken == False:
-                platform_list[-1].taken = True
+            if r == 1 and self.platform_list[-1].taken == False:
+                self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
-                    platform_list[-1].rect.x + (platform_list[-1].rect.w/2) - PLATFORM_HEIGHT/2,
-                    platform_list[-1].rect.y - platform_list[-1].rect.h,
+                    self.platform_list[-1].rect.x + (self.platform_list[-1].rect.w/2) - PLATFORM_HEIGHT/2,
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h,
                     WASHING_MACHINE_SIDE,
                     WASHING_MACHINE_SIDE)
-                washing_machine_list.append(new_washing_machine)
+                self.washing_machine_list.append(new_washing_machine)
                 
             # Vaskemaskinene scroller nedover
-            for w in washing_machine_list:
+            for w in self.washing_machine_list:
                 w.rect.y += ELEMENT_SPEED
-            for w in washing_machine_list:
+            for w in self.washing_machine_list:
                 if w.rect.y > HEIGHT:
-                    washing_machine_list.remove(w)
+                    self.washing_machine_list.remove(w)
             
             # Sjekker om gjørme skal bli laget
             r_mud = random.randint(1, 4)
             if r_mud == 1:
-                if platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
+                if self.platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
                     r_mud = random.randint(1, 2)
                     print(r_mud)
-                    if r_mud == 2 and platform_list[-1].taken == False:
-                        platform_list[-1].taken = True
+                    if r_mud == 2 and self.platform_list[-1].taken == False:
+                        self.platform_list[-1].taken = True
                         new_mud = Mud(
-                        random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
-                        platform_list[-1].rect.y,
-                        platform_list[-1].rect.w/2,
+                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - self.platform_list[-1].rect.w/2),
+                        self.platform_list[-1].rect.y,
+                        self.platform_list[-1].rect.w/2,
                         MUD_HEIGHT)
-                        mud_list.append(new_mud)
+                        self.mud_list.append(new_mud)
 
             # Gjørmen scroller nedover
-            for m in mud_list:
+            for m in self.mud_list:
                 m.rect.y += ELEMENT_SPEED
-            for m in mud_list:
+            for m in self.mud_list:
                 if m.rect.y > HEIGHT:
-                    mud_list.remove(m)
+                    self.mud_list.remove(m)
             
             # Sjekker om en klessnorer skal bli laget
-            if r == 3 and len(hanger_list) < 1:
+            if r == 3 and len(self.hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
                     0,
                     WIDTH,
                     2)
-                hanger_list.append(new_hanger)
+                self.hanger_list.append(new_hanger)
             
             # Klessnoren scroller nedover
-            for h in hanger_list:
+            for h in self.hanger_list:
                 h.rect.y += ELEMENT_SPEED
-            for h in hanger_list:
+            for h in self.hanger_list:
                 if h.rect.y > HEIGHT:
-                    hanger_list.remove(h)
+                    self.hanger_list.remove(h)
               
               
             # Plattformene scroller nedover        
-            for p in platform_list:
+            for p in self.platform_list:
                 p.rect.y += ELEMENT_SPEED
-            for p in platform_list:
+            for p in self.platform_list:
                 if p.rect.y > HEIGHT:
                     self.score += 10
                     
-                    platform_list.remove(p)
+                    self.platform_list.remove(p)
                     
                     # Lager ny plattform
                     random_x = random.randint(10, WIDTH-110)
@@ -363,14 +365,14 @@ class Game:
                     safe = True
                     
                     # Sjekker om den nye plattformen kolliderer med noen av de gamle
-                    for p in platform_list:
+                    for p in self.platform_list:
                         if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
                             safe = False
                             break
                     
                     if safe:
                         # Legger i lista
-                        platform_list.append(new_platform)
+                        self.platform_list.append(new_platform_margin)
                     else:
                         print("Plattformen kolliderte, prøver på nytt")       
         else:
