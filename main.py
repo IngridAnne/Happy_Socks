@@ -17,6 +17,9 @@ mud_list = []
 # Liste med skyer
 cloud_list = []
 
+# Liste med klessnorer
+hanger_list = []
+
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -53,7 +56,7 @@ class Game:
                 PLATFORM_HEIGHT
             )
             
-            rd = random.randint(1, 10)
+            rd = random.randint(1, 8)
             if rd == 1:
                 new_platform = Platform(
                     random_x,
@@ -80,12 +83,6 @@ class Game:
                 print("Plattformen kolliderte, prøver på nytt")
             
         
-        mud_list.append(Mud(
-                    platform_list[1].rect.x,
-                    platform_list[1].rect.y,
-                    platform_list[1].rect.w,
-                    5)
-        )
         self.run()
 
 
@@ -178,6 +175,10 @@ class Game:
         # Tegner gjørmen
         for m in mud_list:
             self.screen.blit(m.image, (m.rect.x, m.rect.y))
+            
+        # Tegner klessnoren
+        for h in hanger_list:
+            self.screen.blit(h.image, (h.rect.x, h.rect.y))
         
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
@@ -289,25 +290,21 @@ class Game:
             for w in washing_machine_list:
                 if w.rect.y > HEIGHT:
                     washing_machine_list.remove(w)
-             
-             
+            
             # Sjekker om gjørme skal bli laget
-            if r == 2 and platform_list[-1].taken == False:
-                platform_list[-1].taken = True
-                new_mud = Mud(
-                    platform_list[-1].rect.x,
-                    platform_list[-1].rect.y,
-                    platform_list[-1].rect.w,
-                    MUD_HEIGHT)
-                
+            r_mud = random.randint(1, 4)
+            if r_mud == 1:
                 if platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
-                    new_mud = Mud(
-                    random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
-                    platform_list[-1].rect.y,
-                    platform_list[-1].rect.w/2,
-                    MUD_HEIGHT)
-                mud_list.append(new_mud)    
-
+                    r_mud = random.randint(1, 2)
+                    print(r_mud)
+                    if r_mud == 2 and platform_list[-1].taken == False:
+                        platform_list[-1].taken = True
+                        new_mud = Mud(
+                        random.randint(platform_list[-1].rect.x, platform_list[-1].rect.x + platform_list[-1].rect.w - platform_list[-1].rect.w/2),
+                        platform_list[-1].rect.y,
+                        platform_list[-1].rect.w/2,
+                        MUD_HEIGHT)
+                        mud_list.append(new_mud)
 
             # Gjørmen scroller nedover
             for m in mud_list:
@@ -315,6 +312,22 @@ class Game:
             for m in mud_list:
                 if m.rect.y > HEIGHT:
                     mud_list.remove(m)
+            
+            # Sjekker om en klessnorer skal bli laget
+            if r == 3 and len(hanger_list) < 1:
+                new_hanger = Hanger(
+                    0,
+                    0,
+                    WIDTH,
+                    2)
+                hanger_list.append(new_hanger)
+            
+            # Klessnoren scroller nedover
+            for h in hanger_list:
+                h.rect.y += ELEMENT_SPEED
+            for h in hanger_list:
+                if h.rect.y > HEIGHT:
+                    hanger_list.remove(h)
               
               
             # Plattformene scroller nedover        
@@ -322,7 +335,7 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in platform_list:
                 if p.rect.y > HEIGHT:
-                    self.score += 10
+                    self.player.points += 1
                     
                     platform_list.remove(p)
                     
@@ -336,7 +349,7 @@ class Game:
                         PLATFORM_HEIGHT
                     )
                     
-                    rd = random.randint(1, 10)
+                    rd = random.randint(1, 8)
                     if rd == 1:
                         new_platform = Platform(
                             random_x,
@@ -374,7 +387,6 @@ while game_object.running:
     # Starter et nytt spill
     game_object.new()
     game_object.show_end_screen()
-    
 
 
 # Avslutter pygame
