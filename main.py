@@ -214,7 +214,7 @@ class Game:
     # Metode som viser start-skjerm
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
-        self.text("Happy Jump!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
         self.text("Arrows to move, Space to jump!", WIDTH //2 , HEIGHT // 2, WHITE, 25)
         self.text("Press a key to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
