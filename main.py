@@ -34,6 +34,9 @@ class Game:
         
     # Metode for å starte et nytt spill
     def new(self):
+        # Poeng
+        self.score = 0
+        
         # Lager spiller-objekt
         self.player = Player()
         
@@ -123,15 +126,19 @@ class Game:
         
         self.jump = False
         
+        # Die!
+        if self.player.pos[1] > HEIGHT:
+            platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
+            self.playing = False
+            print("du døde")
+        
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
             collide = False
+            """
             if self.player.pos[1] > HEIGHT:
                 print("Du døde")
-                """
-                Game over skjerm!!!
-                """
-            
+            """
             # Sjekker om spilleren kolliderer med en plattform
             for p in platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
@@ -176,7 +183,7 @@ class Game:
         self.screen.blit(self.player.image, self.player.pos)
         
         # Tegner poeng
-        self.text(f"{self.player.points}", 40, 40, BLACK, 30)
+        self.text(f"{self.score}", 40, 40, BLACK, 30)
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
@@ -192,7 +199,36 @@ class Game:
         
     # Metode som viser start-skjerm
     def show_start_screen(self):
-        pass
+        self.screen.fill(LIGHTBLUE)
+        self.text("Happy Jump!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text("Arrows to move, Space to jump!", WIDTH //2 , HEIGHT // 2, WHITE, 25)
+        self.text("Press a key to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+        pg.display.flip()
+        self.wait_for_key()
+    
+    # Metode som viser start-skjerm
+    def show_end_screen(self):
+        # Tester om spilleren ønsker å forlate vinduet og ikke vil se game over skjermen
+        if not self.running:
+            return
+        self.screen.fill(LIGHTBLUE)
+        self.text("GAME OVER!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT // 2, WHITE, 25)
+        self.text("Press a key to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+        pg.display.flip()
+        self.wait_for_key()
+    
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                if event.type == pg.KEYUP:
+                    waiting = False
+                
     
     # Metode for å gi spilleren en egenskap
     def enchantement(self):
@@ -286,7 +322,7 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in platform_list:
                 if p.rect.y > HEIGHT:
-                    self.player.points += 1
+                    self.score += 10
                     
                     platform_list.remove(p)
                     
@@ -331,11 +367,13 @@ class Game:
     
 # Lager et spill-objekt
 game_object = Game()
+game_object.show_start_screen()
 
 # Spill-løkken
 while game_object.running:
     # Starter et nytt spill
     game_object.new()
+    game_object.show_end_screen()
     
 
 
