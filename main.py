@@ -20,6 +20,9 @@ cloud_list = []
 # Liste med klessnorer
 hanger_list = []
 
+# Liste med klyper
+clip_list = []
+
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -95,6 +98,8 @@ class Game:
             self.enchantement()
             self.update()
             self.scroll()
+            if len(clip_list) > 0:
+                self.motion()
             
         
     # Metode som håndterer hendelser
@@ -173,6 +178,10 @@ class Game:
         for h in hanger_list:
             self.screen.blit(h.image, (h.rect.x, h.rect.y))
         
+        # Tegner klypen
+        for c in clip_list:
+            self.screen.blit(c.image, (c.rect.x, c.rect.y))
+        
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
@@ -213,9 +222,20 @@ class Game:
                     self.player.start = time.time()
                     print("Mud")
                     #self.player.not_dirty()
+        
+        # Sjekker kollisjon med klype og spiller dør hvis kollisjon
+        for c in clip_list:
+                if pg.Rect.colliderect(self.player.rect, c.rect):
+                    self.playing = False
+                    break
                     
-                    
-    
+    # Metode slik at klesklypen skal bevege seg
+    def motion(self):
+        clip = clip_list[0]
+        clip.rect.x += clip.speed
+        if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
+            clip.speed = clip.speed*(-1)
+            
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
         # Sjekker om spilleren er på den øverste delen av skjermen
@@ -277,7 +297,7 @@ class Game:
                 if m.rect.y > HEIGHT:
                     mud_list.remove(m)
             
-            # Sjekker om en klessnorer skal bli laget
+            # Sjekker om en klessnorer og klyper skal bli laget
             if r == 3 and len(hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
@@ -285,6 +305,14 @@ class Game:
                     WIDTH,
                     2)
                 hanger_list.append(new_hanger)
+                
+                new_clip = Clip(
+                    0,
+                    0,
+                    CLIP_WIDTH,
+                    50)
+                clip_list.append(new_clip)
+                    
             
             # Klessnoren scroller nedover
             for h in hanger_list:
@@ -292,7 +320,13 @@ class Game:
             for h in hanger_list:
                 if h.rect.y > HEIGHT:
                     hanger_list.remove(h)
-              
+            
+            # Klypene scroller nedover
+            for c in clip_list:
+                c.rect.y += ELEMENT_SPEED
+            for c in clip_list:
+                if c.rect.y > HEIGHT:
+                    clip_list.remove(c)
               
             # Plattformene scroller nedover        
             for p in platform_list:
@@ -349,8 +383,7 @@ game_object = Game()
 while game_object.running:
     # Starter et nytt spill
     game_object.new()
-      
-
+   
 
 # Avslutter pygame
 pg.quit()

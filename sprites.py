@@ -141,7 +141,15 @@ class Hanger:
         self.rect.y = y
 
 
-    
+class Clip:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        self.speed = 5
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y    
     
     
     

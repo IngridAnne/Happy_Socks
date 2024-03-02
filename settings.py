@@ -42,3 +42,6 @@ MUD_HEIGHT = 5
 
 ELEMENT_SPEED = 6
 CLOUD_SPEED = 2
+
+# Innstillinger til klype
+CLIP_WIDTH = 15
