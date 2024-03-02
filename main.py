@@ -168,6 +168,10 @@ class Game:
         # Tegner gjørmen
         for m in mud_list:
             self.screen.blit(m.image, (m.rect.x, m.rect.y))
+            
+        # Tegner klessnoren
+        for h in hanger_list:
+            self.screen.blit(h.image, (h.rect.x, h.rect.y))
         
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
@@ -252,8 +256,8 @@ class Game:
                     washing_machine_list.remove(w)
             
             # Sjekker om gjørme skal bli laget
-            r = random.randint(1, 4)
-            if r == 1:
+            r_mud = random.randint(1, 4)
+            if r_mud == 1:
                 if platform_list[-1].rect.w == PLATFORM_MUD_WIDTH:
                     r_mud = random.randint(1, 2)
                     print(r_mud)
@@ -272,6 +276,22 @@ class Game:
             for m in mud_list:
                 if m.rect.y > HEIGHT:
                     mud_list.remove(m)
+            
+            # Sjekker om en klessnorer skal bli laget
+            if r == 3 and len(hanger_list) < 1:
+                new_hanger = Hanger(
+                    0,
+                    0,
+                    WIDTH,
+                    2)
+                hanger_list.append(new_hanger)
+            
+            # Klessnoren scroller nedover
+            for h in hanger_list:
+                h.rect.y += ELEMENT_SPEED
+            for h in hanger_list:
+                if h.rect.y > HEIGHT:
+                    hanger_list.remove(h)
               
               
             # Plattformene scroller nedover        
