@@ -5,8 +5,7 @@ from sprites import *
 
 
 
-# Liste med klyper
-clip_list = []
+
 
 class Game:
     def __init__(self):
@@ -41,6 +40,9 @@ class Game:
 
         # Liste med klessnorer
         self.hanger_list = []
+        
+        # Liste med klyper
+        self.clip_list = []
         
         # Poeng
         self.score = 0
@@ -106,7 +108,7 @@ class Game:
             self.enchantement()
             self.update()
             self.scroll()
-            if len(clip_list) > 0:
+            if len(self.clip_list) > 0:
                 self.motion()
             
         
@@ -188,7 +190,7 @@ class Game:
             self.screen.blit(h.image, (h.rect.x, h.rect.y))
         
         # Tegner klypen
-        for c in clip_list:
+        for c in self.clip_list:
             self.screen.blit(c.image, (c.rect.x, c.rect.y))
         
         # Tegner spilleren
@@ -262,14 +264,14 @@ class Game:
                     #self.player.not_dirty()
         
         # Sjekker kollisjon med klype og spiller dør hvis kollisjon
-        for c in clip_list:
+        for c in self.clip_list:
                 if pg.Rect.colliderect(self.player.rect, c.rect):
                     self.playing = False
                     break
                     
     # Metode slik at klesklypen skal bevege seg
     def motion(self):
-        clip = clip_list[0]
+        clip = self.clip_list[0]
         clip.rect.x += clip.speed
         if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
             clip.speed = clip.speed*(-1)
@@ -336,20 +338,20 @@ class Game:
                     self.mud_list.remove(m)
             
             # Sjekker om en klessnorer og klyper skal bli laget
-            if r == 3 and len(hanger_list) < 1:
+            if r == 3 and len(self.hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
                     0,
                     WIDTH,
                     2)
-                hanger_list.append(new_hanger)
+                self.hanger_list.append(new_hanger)
                 
                 new_clip = Clip(
                     0,
                     0,
                     CLIP_WIDTH,
                     50)
-                clip_list.append(new_clip)
+                self.clip_list.append(new_clip)
                     
             
             # Klessnoren scroller nedover
@@ -357,14 +359,14 @@ class Game:
                 h.rect.y += ELEMENT_SPEED
             for h in self.hanger_list:
                 if h.rect.y > HEIGHT:
-                    hanger_list.remove(h)
+                    self.hanger_list.remove(h)
             
             # Klypene scroller nedover
-            for c in clip_list:
+            for c in self.clip_list:
                 c.rect.y += ELEMENT_SPEED
-            for c in clip_list:
+            for c in self.clip_list:
                 if c.rect.y > HEIGHT:
-                    clip_list.remove(c)
+                    self.clip_list.remove(c)
               
             # Plattformene scroller nedover        
             for p in self.platform_list:
@@ -425,6 +427,7 @@ game_object.show_start_screen()
 while game_object.running:
     # Starter et nytt spill
     game_object.new()
+    game_object.show_end_screen()
    
 
 # Avslutter pygame
