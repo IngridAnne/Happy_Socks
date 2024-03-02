@@ -285,7 +285,7 @@ class Game:
             for p in platform_list:
                 p.rect.y += ELEMENT_SPEED
             for p in platform_list:
-                if p.rect.y > HEIGHT:
+                if p.rect.y > HEIGHT:                     
                     self.player.points += 1
                     
                     platform_list.remove(p)
@@ -336,7 +336,7 @@ game_object = Game()
 while game_object.running:
     # Starter et nytt spill
     game_object.new()
-    
+      
 
 
 # Avslutter pygame
