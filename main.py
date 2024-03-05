@@ -21,6 +21,7 @@ class Game:
         # Attributt som styrer om spillet skal kjøres
         self.running = True
         
+        pg.display.set_caption('Happy Sock')
         
     # Metode for å starte et nytt spill
     def new(self):
@@ -197,7 +198,7 @@ class Game:
         self.screen.blit(self.player.image, self.player.pos)
         
         # Tegner poeng
-        self.text(f"{self.score}", 40, 40, BLACK, 30)
+        self.text(f"{self.score}", WIDTH//2, HEIGHT-20, BLACK, 30)
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
