@@ -46,6 +46,24 @@ class Game:
         # Liste med klyper
         self.clip_list = []
         
+        # Liste med vaskemiddel
+        self.detergent_list = [Detergent(
+                    WIDTH - 40,
+                    20,
+                    20,
+                    20),
+                               Detergent(
+                    WIDTH - 40,
+                    60,
+                    20,
+                    20),
+                               Detergent(
+                    WIDTH - 40,
+                    100,
+                    20,
+                    20),           
+                    ]
+        
         # Poeng
         self.score = 0
         
@@ -130,6 +148,8 @@ class Game:
                 if event.key == pg.K_SPACE:
                     if self.jump:
                         self.player.jump()
+                if event.key == pg.K_RETURN:
+                    self.detergent_boost()
             
     
     # Metode som oppdaterer
@@ -195,6 +215,10 @@ class Game:
         # Tegner klypen
         for c in self.clip_list:
             self.screen.blit(c.image, (c.rect.x, c.rect.y))
+            
+        # Tegner vaskemiddelet
+        for d in self.detergent_list:
+            self.screen.blit(d.image, (d.rect.x, d.rect.y))
         
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
@@ -230,7 +254,10 @@ class Game:
             return
         self.screen.fill(LIGHTBLUE)
         self.text("GAME OVER!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
-        self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
+        if (self.score == self.highscore):
+            self.text(f"Ny highscore! : {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
+        else:
+            self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
         self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT // 2, WHITE, 25)
         self.text("Press a key to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
@@ -249,7 +276,6 @@ class Game:
     
     def points(self):
         if self.playing == False:
-            print("hei")
             import csv
 
             filename = "score.txt"
@@ -284,7 +310,15 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, c.rect):
                     self.playing = False
                     break
-                    
+    
+    def detergent_boost(self):
+        if len(self.detergent_list) > 0:
+            self.detergent_list.pop()
+            self.player.vel[1] = -40
+        else:
+            pass
+        
+    
     # Metode slik at klesklypen skal bevege seg
     def motion(self):
         clip = self.clip_list[0]
