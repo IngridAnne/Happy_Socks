@@ -2,6 +2,7 @@ import pygame as pg
 import sys, random, time
 from settings import *
 from sprites import *
+import numpy as np
 
 
 
@@ -111,6 +112,7 @@ class Game:
             self.scroll()
             if len(self.clip_list) > 0:
                 self.motion()
+            self.points()
             
         
     # Metode som håndterer hendelser
@@ -228,6 +230,7 @@ class Game:
             return
         self.screen.fill(LIGHTBLUE)
         self.text("GAME OVER!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
         self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT // 2, WHITE, 25)
         self.text("Press a key to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
@@ -243,7 +246,19 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYUP:
                     waiting = False
-                
+    
+    def points(self):
+        if self.playing == False:
+            print("hei")
+            import csv
+
+            filename = "score.txt"
+            with open(filename, "a") as file:
+                file.write(f"{self.score}\n") 
+            
+            scores_list = np.loadtxt(filename, 'int')
+            self.highscore = max(scores_list)
+            
     
     # Metode for å gi spilleren en egenskap
     def enchantement(self):
