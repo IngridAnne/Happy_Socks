@@ -45,6 +45,9 @@ START_PLATFORM_HEIGHT = 40
 # Innstillinger til vaskemaskin
 WASHING_MACHINE_SIDE = 20
 
+# Innstillinger til vaskemiddel
+DETERGENT_SIDE = 20
+
 # Innstillinger til gjørme
 MUD_HEIGHT = 5
 

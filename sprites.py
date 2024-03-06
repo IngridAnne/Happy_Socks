@@ -156,6 +156,8 @@ class Detergent:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(PURPLE)
+        self.speed = 1
+        self.space = 40
         
         self.rect = self.image.get_rect()
         self.rect.x = x

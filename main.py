@@ -48,20 +48,20 @@ class Game:
         
         # Liste med vaskemiddel
         self.detergent_list = [Detergent(
-                    WIDTH - 40,
-                    20,
-                    20,
-                    20),
+                    WIDTH - DETERGENT_SIDE*2,
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE),
                                Detergent(
-                    WIDTH - 40,
-                    60,
-                    20,
-                    20),
+                    WIDTH - DETERGENT_SIDE*2,
+                    DETERGENT_SIDE*3,
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE),
                                Detergent(
-                    WIDTH - 40,
-                    100,
-                    20,
-                    20),           
+                    WIDTH - DETERGENT_SIDE*2,
+                    DETERGENT_SIDE*5,
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE),           
                     ]
         
         # Poeng
@@ -126,6 +126,7 @@ class Game:
             self.events()
             self.draw()
             self.enchantement()
+            self.detergent_movement()
             self.update()
             self.scroll()
             if len(self.clip_list) > 0:
@@ -310,13 +311,23 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, c.rect):
                     self.playing = False
                     break
-    
+    # Metode for at en får en egenskap ved å ta boost
     def detergent_boost(self):
         if len(self.detergent_list) > 0:
             self.detergent_list.pop()
             self.player.vel[1] = -40
         else:
             pass
+        
+    # Metode for å gi bevegelse til vaskemiddelet
+    def detergent_movement(self):
+        for d in range (len(self.detergent_list)):
+            det = self.detergent_list[d]
+            det.rect.y += det.speed
+            if det.rect.y < (det.space/4)+ det.space*(d):
+                det.speed *= (-1)
+            if det.rect.y > (det.space/2)+ det.space*(d):
+                det.speed *= (-1)
         
     
     # Metode slik at klesklypen skal bevege seg
@@ -325,6 +336,7 @@ class Game:
         clip.rect.x += clip.speed
         if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
             clip.speed = clip.speed*(-1)
+        
             
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
