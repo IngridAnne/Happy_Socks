@@ -3,7 +3,7 @@ import sys, random, time
 from settings import *
 from sprites import *
 import numpy as np
-
+from pygame import mixer
 
 
 
@@ -24,8 +24,18 @@ class Game:
         
         pg.display.set_caption('Happy Sock')
         
+        
+        
     # Metode for å starte et nytt spill
     def new(self):
+        
+        # Spiller bakgrunnsmusikk
+        mixer.init()
+        mixer.music.load('song.mp3')
+        mixer.music.set_volume(0.2)
+
+        mixer.music.play()
+        
         # Lister
         
         # Lager en plattform for bakken
@@ -143,6 +153,7 @@ class Game:
             self.scroll()
             if len(self.clip_list) > 0:
                 self.motion()
+            self.music()
             self.points()
             
         
@@ -246,6 +257,15 @@ class Game:
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
     
+    def music(self):
+        if self.playing == False:
+            mixer.music.stop()
+            mixer.init()
+            mixer.music.load('died_song.mp3')
+            mixer.music.set_volume(0.2)
+
+            mixer.music.play()
+    
     # Funksjon som skriver tekst til vinduet
     def text(self, text, x, y, color, fontSize):
         font = pg.font.SysFont("Arial", fontSize)
@@ -293,6 +313,7 @@ class Game:
     
     def points(self):
         if self.playing == False:
+            
             import csv
 
             filename = "score.txt"
