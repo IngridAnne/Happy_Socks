@@ -30,8 +30,9 @@ class Game:
     def new(self):
         
         # Spiller bakgrunnsmusikk
+        # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
         mixer.init()
-        mixer.music.load('song.mp3')
+        mixer.music.load('POPCORN.mp3')
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
@@ -189,7 +190,12 @@ class Game:
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge
-        self.screen.fill(LIGHTBLUE)
+        if self.score <= 40:
+            self.screen.fill(LIGHTBLUE)
+        elif self.score > 40 and self.score <= 70:
+            self.screen.fill(ORANGE)
+        else:
+            self.screen.fill(PURPLE)
         
 
         # Tegner skyer på skjermen
@@ -241,9 +247,7 @@ class Game:
     def music(self):
         if self.playing == False:
             mixer.music.stop()
-            mixer.init()
             mixer.music.load('died_song.mp3')
-            mixer.music.set_volume(0.2)
 
             mixer.music.play()
     

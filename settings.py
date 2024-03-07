@@ -18,6 +18,7 @@ GREY = (142, 142, 142)
 LIGHTRED = (255, 100, 100)
 BROWN = (165, 42, 42)
 PURPLE = (197, 66, 245)
+ORANGE = (237, 125, 45)
 
 # Innstillinger til spilleren
 PLAYER_WIDTH = 40
