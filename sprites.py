@@ -127,6 +127,7 @@ class Cloud:
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
         
+        self.speed = 2
         self.x = x
         self.y = y
         

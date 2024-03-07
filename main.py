@@ -4,6 +4,7 @@ from settings import *
 from sprites import *
 import numpy as np
 from pygame import mixer
+import csv
 
 
 
@@ -24,8 +25,7 @@ class Game:
         
         pg.display.set_caption('Happy Sock')
         
-        
-        
+         
     # Metode for å starte et nytt spill
     def new(self):
         
@@ -56,25 +56,6 @@ class Game:
         # Liste med klyper
         self.clip_list = []
         
-        """
-        # Liste med vaskemiddel
-        self.detergent_list = [Detergent(
-                    WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE,
-                    DETERGENT_SIDE,
-                    DETERGENT_SIDE),
-                               Detergent(
-                    WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE*3,
-                    DETERGENT_SIDE,
-                    DETERGENT_SIDE),
-                               Detergent(
-                    WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE*5,
-                    DETERGENT_SIDE,
-                    DETERGENT_SIDE),           
-                    ]
-        """
         # Liste med vaskemiddel
         self.detergent_list = []
         for i in range(3):
@@ -310,16 +291,17 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYUP:
                     waiting = False
-    
+                    
+    # Metode for å finne poeng til spilleren
     def points(self):
+        
         if self.playing == False:
-            
-            import csv
-
+            # Skriver inn poengscoren i en fil
             filename = "score.txt"
             with open(filename, "a") as file:
                 file.write(f"{self.score}\n") 
             
+            # Henter ut highscoren
             scores_list = np.loadtxt(filename, 'int')
             self.highscore = max(scores_list)
             
@@ -387,7 +369,7 @@ class Game:
             
             # Skyene scroller nedover
             for c in self.cloud_list:
-                c.y += CLOUD_SPEED
+                c.y += c.speed
             for c in self.cloud_list:
                 if c.y > HEIGHT:
                     self.cloud_list.remove(c)
@@ -488,6 +470,7 @@ class Game:
                     
                     new_platform_margin = Platform(random_x - PLATFORM_MARGIN, 0 - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
                     
+                    # Sjekker om den ny plattform skal være lang
                     rd = random.randint(1, 8)
                     if rd == 1:
                         new_platform = Platform(
