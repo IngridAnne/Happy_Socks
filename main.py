@@ -46,6 +46,7 @@ class Game:
         # Liste med klyper
         self.clip_list = []
         
+        """
         # Liste med vaskemiddel
         self.detergent_list = [Detergent(
                     WIDTH - DETERGENT_SIDE*2,
@@ -63,6 +64,17 @@ class Game:
                     DETERGENT_SIDE,
                     DETERGENT_SIDE),           
                     ]
+        """
+        # Liste med vaskemiddel
+        self.detergent_list = []
+        for i in range(3):
+            detergent = Detergent(
+                    WIDTH - DETERGENT_SIDE*2,
+                    DETERGENT_SIDE*((i*2)+1),
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE)
+            self.detergent_list.append(detergent)
+        print(self.detergent_list)
         
         # Poeng
         self.score = 0
@@ -225,7 +237,11 @@ class Game:
         self.screen.blit(self.player.image, self.player.pos)
         
         # Tegner poeng
-        self.text(f"{self.score}", WIDTH//2, HEIGHT-20, BLACK, 30)
+        if self.score > 0:
+            w = 80
+            h = 40
+            #pg.draw.rect(self.screen, BLACK,(WIDTH//2 - (w//2), HEIGHT - (h*1.2),w,h))
+            self.text(f"{self.score}", WIDTH//2, HEIGHT- (h*0.7), WHITE, 30)
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
@@ -243,7 +259,7 @@ class Game:
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
         self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
-        self.text("Arrows to move, Space to jump!", WIDTH //2 , HEIGHT // 2, WHITE, 25)
+        self.text("Arrows to move, Enter to boost, Space to jump!", WIDTH //2 , HEIGHT // 2, WHITE, 20)
         self.text("Press a key to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()

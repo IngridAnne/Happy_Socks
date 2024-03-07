@@ -121,14 +121,14 @@ class Mud:
 
 
 class Cloud:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        
+    def __init__(self, x, y):      
         self.rd = random.randint(40, 80)
         self.image = pg.image.load('cloud.png')
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
+        
+        self.x = x
+        self.y = y
         
 
 class Hanger:
@@ -156,7 +156,7 @@ class Detergent:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(PURPLE)
-        self.speed = 1
+        self.speed = 0.8
         self.space = 40
         
         self.rect = self.image.get_rect()
