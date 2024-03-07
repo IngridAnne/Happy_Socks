@@ -156,7 +156,7 @@ class Clip:
 class Detergent:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
-        self.image.fill(PURPLE)
+        self.image.fill(WHITE)
         self.speed = 0.8
         self.space = 40
         

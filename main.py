@@ -189,19 +189,24 @@ class Game:
             
     # Metode som tegner ting på skjermen
     def draw(self):
-        # Fyller skjermen med en farge
+        # Fyller skjermen med en farge og elementer
         if self.score <= 40:
             self.screen.fill(LIGHTBLUE)
-        elif self.score > 40 and self.score <= 70:
+        elif self.score > 60 and self.score <= 70:
             self.screen.fill(ORANGE)
+            for c in self.cloud_list:
+                c.image = pg.transform.scale(pg.image.load('planet.png'), (c.rd*2, c.rd))
+                # http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
-        
+            for c in self.cloud_list:
+                c.image = pg.transform.scale(pg.image.load('ufo.png'), (c.rd*2, c.rd))
+                # https://no.pinterest.com/pin/584482857867587248/
 
         # Tegner skyer på skjermen
-        while len(self.cloud_list) < 9:
+        while len(self.cloud_list) < 6:
             self.cloud_list.append(Cloud(random.randint(-20, WIDTH - 20),
-                                    random.randint(-HEIGHT, -80),
+                                    random.randint(-HEIGHT, -80)
                                 ))
         # Tegner skyene
         for c in self.cloud_list:
