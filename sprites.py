@@ -121,11 +121,11 @@ class Mud:
 
 
 class Cloud:
-    def __init__(self, x, y):      
+    def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
         self.image = pg.image.load('cloud.png')
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
-        self.image = pg.transform.scale(self.image, (self.rd*2, self.rd))
+        self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
         
         self.speed = 2
         self.x = x
