@@ -42,8 +42,10 @@ class Player:
             self.dirty = False
             #self.start = time.time()
             
-        
-        if self.dirty:
+        if self.dirty and self.scrolling:
+            self.acc = [0, 1.8]
+            self.color = BROWN
+        elif self.dirty:
             self.acc = [0, 1.5]
             self.color = BROWN
         elif self.scrolling:

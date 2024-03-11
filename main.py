@@ -190,10 +190,10 @@ class Game:
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge og elementer
-        if self.score <= 60:
+        if self.score <= 200:
             self.screen.fill(LIGHTBLUE)
             ratio = 2
-        elif self.score > 60 and self.score <= 100:
+        elif self.score > 200 and self.score <= 400:
             self.screen.fill(ORANGE)
             ratio = 1.66
             for c in self.cloud_list:
@@ -303,7 +303,8 @@ class Game:
                     waiting = False
                     self.running = False
                 if event.type == pg.KEYUP:
-                    waiting = False
+                    if event.key == pg.K_RETURN:
+                        waiting = False
                     
     # Metode for å finne poeng til spilleren
     def points(self):
@@ -343,6 +344,7 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, c.rect):
                     self.playing = False
                     break
+                
     # Metode for at en får en egenskap ved å ta boost
     def detergent_boost(self):
         if len(self.detergent_list) > 0:
