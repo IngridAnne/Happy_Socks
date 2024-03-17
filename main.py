@@ -384,7 +384,7 @@ class Game:
             if r == 1 and self.platform_list[-1].taken == False:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
-                    self.platform_list[-1].rect.x + (MUD_WIDTH) - PLATFORM_HEIGHT/2,
+                    self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
                     self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2))
                 self.washing_machine_list.append(new_washing_machine)
                 
