@@ -10,7 +10,7 @@ class Player:
         self.points = 0
         
         self.image = pg.image.load('sock1.png')
-        self.image = pg.transform.scale(self.image, (60, 60*P_RATIO))
+        self.image = pg.transform.scale(self.image, (PLAYER_HEIGHT, PLAYER_HEIGHT*P_RATIO))
         self.rect = self.image.get_rect()
           
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]

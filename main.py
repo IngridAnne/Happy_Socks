@@ -149,6 +149,7 @@ class Game:
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     if self.jump:
                         self.player.jump()
+                        self.player.image = pg.transform.scale(pg.image.load('sock2.png'), (PLAYER_HEIGHT, PLAYER_HEIGHT*P_RATIO))
                 if event.key == pg.K_SPACE:
                     self.detergent_boost()
             
@@ -172,6 +173,7 @@ class Game:
             # Sjekker om spilleren kolliderer med en plattform
             for p in self.platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
+                    self.player.image = pg.transform.scale(pg.image.load('sock1.png'), (PLAYER_HEIGHT, PLAYER_HEIGHT*P_RATIO))
                     collide = True
                     self.jump = True
                     break
