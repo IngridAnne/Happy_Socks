@@ -83,7 +83,6 @@ class Player:
 """
 class Elements:
     def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -91,29 +90,29 @@ class Elements:
 
 class Platform(Elements):
     def __init__(self, x, y, w, h):
+        # kan ta inn vanlig bredde og margin bredde
         self.w = w
+        self.h = h
+        
+        # lager overflate (ikke tegning)
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
         
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        
+        # Sjekker om det er et element på platformen
         self.taken = False
 
-
-class Washing_machine:
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(RED)
+class Washing_machine(Elements):
+    def __init__(self, x, y):
+        self.w = WASHING_MACHINE_SIDE
+        self.h = WASHING_MACHINE_SIDE
+        self.image = pg.image.load('washing_machine.png')
+        self.image = pg.transform.scale(self.image, (w, h*W_RATIO))
         
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-    
-    
-class Mud:
+class Mud(Elements):
     def __init__(self, x, y, w, h):
+        self.w = MUD_WIDTH
+        self.h = MUD_HEIGHT
+        
         self.image = pg.Surface((w, h))
         self.image.fill(BROWN)
         
@@ -122,7 +121,7 @@ class Mud:
         self.rect.y = y
 
 
-class Background_element:
+class Background_element(Elements):
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
         self.image = pg.image.load('cloud.png')
@@ -134,7 +133,7 @@ class Background_element:
         self.y = y
         
 
-class Hanger:
+class Hanger(Elements):
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
@@ -144,7 +143,7 @@ class Hanger:
         self.rect.y = y
 
 
-class Clip:
+class Clip(Elements):
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(BLACK)
@@ -155,7 +154,7 @@ class Clip:
         self.rect.y = y    
     
 
-class Detergent:
+class Detergent(Elements):
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
         self.image.fill(WHITE)

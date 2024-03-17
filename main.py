@@ -384,7 +384,7 @@ class Game:
             if r == 1 and self.platform_list[-1].taken == False:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
-                    self.platform_list[-1].rect.x + (self.platform_list[-1].rect.w/2) - PLATFORM_HEIGHT/2,
+                    self.platform_list[-1].rect.x + (MUD_WIDTH) - PLATFORM_HEIGHT/2,
                     self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2),
                     WASHING_MACHINE_SIDE,
                     WASHING_MACHINE_SIDE)
@@ -400,9 +400,9 @@ class Game:
                     if r_mud == 2 and self.platform_list[-1].taken == False:
                         self.platform_list[-1].taken = True
                         new_mud = Mud(
-                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - self.platform_list[-1].rect.w/2),
+                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH),
                         self.platform_list[-1].rect.y,
-                        self.platform_list[-1].rect.w/2,
+                        MUD_WIDTH,
                         MUD_HEIGHT)
                         self.mud_list.append(new_mud)
 

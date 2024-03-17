@@ -53,6 +53,7 @@ DETERGENT_SIDE = 20
 
 # Innstillinger til gjørme
 MUD_HEIGHT = 5
+MUD_WIDTH = 125
 
 ELEMENT_SPEED = 6
 
