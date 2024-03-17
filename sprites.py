@@ -80,90 +80,31 @@ class Player:
         elif self.pos[0] <= 0:
             self.pos[0] = WIDTH
     
-"""
+
 class Elements:
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, fill, w, h):
+        self.image = pg.Surface((w, h))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.image.fill(fill)
 
 
 class Platform(Elements):
     def __init__(self, x, y, w, h):
+        super().__init__( x, y, BLACK, w, h)
         # kan ta inn vanlig bredde og margin bredde
-        self.w = w
-        self.h = h
+        #self.w = w
+        #self.h = h
         
         # lager overflate (ikke tegning)
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
+        #self.image = pg.Surface((w, h))
+        #self.image.fill(BLACK)
         
         # Sjekker om det er et element på platformen
         self.taken = False
 
-class Washing_machine(Elements):
-    def __init__(self, x, y):
-        self.w = WASHING_MACHINE_SIDE
-        self.h = WASHING_MACHINE_SIDE
-        self.image = pg.image.load('washing_machine.png')
-        self.image = pg.transform.scale(self.image, (w, h*W_RATIO))
-        
-class Mud(Elements):
-    def __init__(self, x, y, w, h):
-        self.w = MUD_WIDTH
-        self.h = MUD_HEIGHT
-        
-        self.image = pg.Surface((w, h))
-        self.image.fill(BROWN)
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
 
-
-class Background_element(Elements):
-    def __init__(self, x, y, ratio):      
-        self.rd = random.randint(40, 80)
-        self.image = pg.image.load('cloud.png')
-        # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
-        self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
-        
-        self.speed = 2
-        self.x = x
-        self.y = y
-        
-
-class Hanger(Elements):
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-
-class Clip(Elements):
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
-        self.speed = 5
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y    
-    
-
-class Detergent(Elements):
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(WHITE)
-        self.speed = 0.8
-        self.space = 40
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y 
 """
 class Platform:
     def __init__(self, x, y, w, h):
@@ -176,7 +117,7 @@ class Platform:
         self.rect.y = y
         
         self.taken = False
-
+"""
 
 class Washing_machine:
     def __init__(self, x, y):
@@ -246,7 +187,3 @@ class Detergent:
 
         self.rect.x = x
         self.rect.y = y
-        
-  
-    
-    
