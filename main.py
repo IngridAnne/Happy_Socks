@@ -60,7 +60,9 @@ class Game:
         for i in range(3):
             detergent = Detergent(
                     WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE*((i*2)+1))
+                    DETERGENT_SIDE*((i*2)+1),
+                    DETERGENT_SIDE,
+                    DETERGENT_SIDE)
             self.detergent_list.append(detergent)
         print(self.detergent_list)
         
@@ -216,17 +218,12 @@ class Game:
         for be in self.background_element_list:
             self.screen.blit(be.image, (be.x, be.y))
         
-        drawing_list = [self.washing_machine_list, self.detergent_list]
-        for i in range(len(drawing_list)):
-            for j in drawing_list[i]:
-                self.screen.blit(j.image, (j.rect.x, j.rect.y))
-        """
         # Tegner vaskemaskinene
         for w in self.washing_machine_list:
             self.screen.blit(w.image, (w.rect.x, w.rect.y))
-        """
+        
         # Tegner det som skal på skjermen
-        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list]
+        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list]
         for i in range(len(draw_list)):
             for j in draw_list[i]:
                 self.screen.blit(j.image, (j.rect.x, j.rect.y))
@@ -389,9 +386,10 @@ class Game:
             if r == 1 and self.platform_list[-1].taken == False:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
-                    self.platform_list[-1].rect.x + (self.platform_list[-1].rect.w/2) - PLATFORM_HEIGHT/2,
-                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2))
-                    
+                    self.platform_list[-1].rect.x + (MUD_WIDTH) - PLATFORM_HEIGHT/2,
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2),
+                    WASHING_MACHINE_SIDE,
+                    WASHING_MACHINE_SIDE)
                 self.washing_machine_list.append(new_washing_machine)
                 
             
@@ -404,9 +402,9 @@ class Game:
                     if r_mud == 2 and self.platform_list[-1].taken == False:
                         self.platform_list[-1].taken = True
                         new_mud = Mud(
-                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - self.platform_list[-1].rect.w/2),
-                        self.platform_list[-1].rect.y-1,
-                        self.platform_list[-1].rect.w/2,
+                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH),
+                        self.platform_list[-1].rect.y,
+                        MUD_WIDTH,
                         MUD_HEIGHT)
                         self.mud_list.append(new_mud)
 

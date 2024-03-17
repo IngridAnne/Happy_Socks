@@ -46,16 +46,14 @@ START_PLATFORM_HEIGHT = 40
 
 # Innstillinger til vaskemaskin
 WASHING_MACHINE_SIDE = 40
-W_RATIO = 1.33
+W_RATIO = 1.35
 
 # Innstillinger til vaskemiddel
-DETERGENT_SIDE = 30
-D_RATIO = 1.47
+DETERGENT_SIDE = 20
 
 # Innstillinger til gjørme
-MUD_SIDE = 20
 MUD_HEIGHT = 5
-M_RATIO = 4.84
+MUD_WIDTH = 125
 
 ELEMENT_SPEED = 6
 
