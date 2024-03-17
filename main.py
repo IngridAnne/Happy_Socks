@@ -49,7 +49,7 @@ class Game:
         self.mud_list = []
 
         # Liste med skyer
-        self.cloud_list = []
+        self.background_element_list = []
 
         # Liste med klessnorer
         self.hanger_list = []
@@ -196,25 +196,25 @@ class Game:
         elif self.score > 200 and self.score <= 400:
             self.screen.fill(ORANGE)
             ratio = 1.66
-            for c in self.cloud_list:
-                c.image = pg.transform.scale(pg.image.load('planet.png'), (c.rd*2, c.rd))
+            for be in self.background_element_list:
+                be.image = pg.transform.scale(pg.image.load('planet.png'), (c.rd*2, c.rd))
                 # http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
             ratio = 1.69
-            for c in self.cloud_list:
-                c.image = pg.transform.scale(pg.image.load('ufo.png'), (c.rd*2, c.rd))
+            for be in self.background_element_list:
+                be.image = pg.transform.scale(pg.image.load('ufo.png'), (c.rd*2, c.rd))
                 # https://no.pinterest.com/pin/584482857867587248/
 
         # Tegner skyer på skjermen
-        while len(self.cloud_list) < 6:
-            self.cloud_list.append(Background_element(random.randint(-20, WIDTH - 20),
+        while len(self.background_element_list) < 6:
+            self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
                                     random.randint(-HEIGHT, -80),
                                     ratio
                                 ))
         # Tegner skyene
-        for c in self.cloud_list:
-            self.screen.blit(c.image, (c.x, c.y))    
+        for be in self.background_element_list:
+            self.screen.blit(be.image, (be.x, be.y))    
         
         # Tegner plattformene
         for p in self.platform_list:
@@ -383,11 +383,11 @@ class Game:
             
             
             # Skyene scroller nedover
-            for c in self.cloud_list:
-                c.y += c.speed
-            for c in self.cloud_list:
-                if c.y > HEIGHT:
-                    self.cloud_list.remove(c)
+            for be in self.background_element_list:
+                be.y += be.speed
+            for be in self.background_element_list:
+                if be.y > HEIGHT:
+                    self.background_element_list.remove(be)
             
             
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
