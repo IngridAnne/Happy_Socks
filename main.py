@@ -150,11 +150,11 @@ class Game:
                 self.running = False # Spillet skal avsluttes
             
             if event.type == pg.KEYDOWN:
-                # Spilleren skal hoppe hvis vi trykker på mellomromstasten
-                if event.key == pg.K_SPACE:
+                # Spilleren skal hoppe hvis vi trykker på piltast opp eller W
+                if event.key == pg.K_UP or event.key == pg.K_w:
                     if self.jump:
                         self.player.jump()
-                if event.key == pg.K_RETURN:
+                if event.key == pg.K_SPACE:
                     self.detergent_boost()
             
     
@@ -208,7 +208,7 @@ class Game:
 
         # Tegner skyer på skjermen
         while len(self.cloud_list) < 6:
-            self.cloud_list.append(Cloud(random.randint(-20, WIDTH - 20),
+            self.cloud_list.append(Background_element(random.randint(-20, WIDTH - 20),
                                     random.randint(-HEIGHT, -80),
                                     ratio
                                 ))

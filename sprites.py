@@ -60,9 +60,9 @@ class Player:
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
         
-        if keys[pg.K_LEFT]:
+        if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.acc[0] = -PLAYER_ACC
-        if keys[pg.K_RIGHT]:
+        if keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.acc[0] = PLAYER_ACC
             
         # Friksjon
@@ -122,7 +122,7 @@ class Mud:
         self.rect.y = y
 
 
-class Cloud:
+class Background_element:
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
         self.image = pg.image.load('cloud.png')
