@@ -222,12 +222,8 @@ class Game:
         for be in self.background_element_list:
             self.screen.blit(be.image, (be.x, be.y))
         
-        # Tegner vaskemaskinene
-        for w in self.washing_machine_list:
-            self.screen.blit(w.image, (w.rect.x, w.rect.y))
-        
         # Tegner det som skal på skjermen
-        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list]
+        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
         for i in range(len(draw_list)):
             for j in draw_list[i]:
                 self.screen.blit(j.image, (j.rect.x, j.rect.y))
@@ -391,7 +387,7 @@ class Game:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
                     self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
-                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2))
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2)-5)
                 self.washing_machine_list.append(new_washing_machine)
                 
             
@@ -422,7 +418,7 @@ class Game:
                 
                 new_clip = Clip(
                     0,
-                    0)
+                    -CLIP_HEIGHT//2)
                 self.clip_list.append(new_clip)
             
             # Scroller elementene nedover og fjerner hvis under skjermen

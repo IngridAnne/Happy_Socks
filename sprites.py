@@ -131,8 +131,8 @@ class Clip(Elements):
         w = CLIP_WIDTH
         h = CLIP_HEIGHT
         
-        image = pg.Surface((w, h))
-        image.fill(BLACK)
+        image = pg.image.load('clip.png')
+        image = pg.transform.scale(image, (CLIP_WIDTH, CLIP_HEIGHT))
         super().__init__(x, y, w, h, image)
         
         self.speed = 5
