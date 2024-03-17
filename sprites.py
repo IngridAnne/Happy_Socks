@@ -82,28 +82,88 @@ class Player:
     
 
 class Elements:
-    def __init__(self, x, y, fill, w, h):
-        self.image = pg.Surface((w, h))
+    def __init__(self, x, y, w, h, image):
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.image.fill(fill)
+        self.w = w
+        self.h = h
+        
 
 
 class Platform(Elements):
     def __init__(self, x, y, w, h):
-        super().__init__( x, y, BLACK, w, h)
-        # kan ta inn vanlig bredde og margin bredde
-        #self.w = w
-        #self.h = h
-        
-        # lager overflate (ikke tegning)
-        #self.image = pg.Surface((w, h))
-        #self.image.fill(BLACK)
-        
-        # Sjekker om det er et element på platformen
-        self.taken = False
+        image = pg.Surface((w, h))
+        image.fill(BLACK)
+        super().__init__(x, y, w, h, image)
 
+        self.taken = False
+        
+class Washing_machine(Elements):
+    def __init__(self, x, y):
+        w = WASHING_MACHINE_SIDE
+        h = WASHING_MACHINE_SIDE*W_RATIO # hvorfor w_ratio?
+  
+        image = pg.image.load('washing_machine.png')
+        image = pg.transform.scale(image, (w, h))
+        super().__init__(x, y, w, h, image)
+ 
+class Mud(Elements):
+    def __init__(self, x, y):
+        w = MUD_WIDTH
+        h = MUD_HEIGHT
+        
+        image = pg.image.load('mud.png')
+        image = pg.transform.scale(image, (w, h))
+        super().__init__(x, y, w, h, image)
+        
+
+class Hanger(Elements):
+    def __init__(self, x, y):
+        w = HANGER_WIDTH
+        h = HANGER_HEIGHT
+        
+        image = pg.Surface((w, h))
+        image.fill(BLACK)
+        super().__init__(x, y, w, h, image)
+        
+
+class Clip(Elements):
+    def __init__(self, x, y):
+        w = CLIP_WIDTH
+        h = CLIP_HEIGHT
+        
+        image = pg.Surface((w, h))
+        image.fill(BLACK)
+        super().__init__(x, y, w, h, image)
+        
+        self.speed = 5
+        
+
+class Detergent(Elements):
+    def __init__(self, x, y):
+        w = DETERGENT_WIDTH
+        h = DETERGENT_HEIGHT
+        self.speed = 0
+        self.space = 40
+        
+        image = pg.image.load('detergent.png')
+        image = pg.transform.scale(image, (DETERGENT_WIDTH, DETERGENT_HEIGHT))
+        super().__init__(x, y, w, h, image)
+
+
+
+class Background_element:
+    def __init__(self, x, y, ratio):      
+        self.rd = random.randint(40, 80)
+        self.image = pg.image.load('cloud.png')
+        # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
+        self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
+        
+        self.x = x
+        self.y = y
+        self.speed = 2
 
 """
 class Platform:
@@ -117,7 +177,7 @@ class Platform:
         self.rect.y = y
         
         self.taken = False
-"""
+        
 
 class Washing_machine:
     def __init__(self, x, y):
@@ -128,7 +188,8 @@ class Washing_machine:
 
         self.rect.x = x
         self.rect.y = y
-         
+        
+        
 class Mud:
     def __init__(self, x, y, w, h):
         #self.image = pg.Surface((w, h))
@@ -139,8 +200,7 @@ class Mud:
         
         self.rect.x = x
         self.rect.y = y
-
-
+        
 class Background_element:
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
@@ -152,7 +212,7 @@ class Background_element:
         self.y = y
         self.speed = 2
         
-
+        
 class Hanger:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
@@ -161,8 +221,7 @@ class Hanger:
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-
+        
 class Clip:
     def __init__(self, x, y, w, h):
         self.image = pg.Surface((w, h))
@@ -171,19 +230,20 @@ class Clip:
         
         self.rect = self.image.get_rect()
         self.rect.x = x
-        self.rect.y = y    
+        self.rect.y = y  
+"""
+
+
+         
+
+
+
+
+        
+
+
+
+
+  
     
 
-class Detergent:
-    def __init__(self, x, y):
-        self.side = DETERGENT_SIDE
-        self.speed = 0
-        self.space = 40
-        
-        
-        self.image = pg.image.load('detergent.png')
-        self.image = pg.transform.scale(self.image, (DETERGENT_SIDE, DETERGENT_SIDE*D_RATIO))
-        self.rect = self.image.get_rect()
-
-        self.rect.x = x
-        self.rect.y = y

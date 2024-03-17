@@ -59,8 +59,8 @@ class Game:
         self.detergent_list = []
         for i in range(3):
             detergent = Detergent(
-                    WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE*((i*2)+1))
+                    WIDTH - DETERGENT_WIDTH*2,
+                    DETERGENT_WIDTH*((i*2)+1))
             self.detergent_list.append(detergent)
         print(self.detergent_list)
         
@@ -397,11 +397,13 @@ class Game:
                     print(r_mud)
                     if r_mud == 2 and self.platform_list[-1].taken == False:
                         self.platform_list[-1].taken = True
+                        
+                        x = int(self.platform_list[-1].rect.x)
+                        y = int(self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH)
+                        ran = random.randint(x, y)
                         new_mud = Mud(
-                        random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH),
-                        self.platform_list[-1].rect.y - 1,
-                        MUD_WIDTH,
-                        MUD_HEIGHT)
+                            ran,
+                            self.platform_list[-1].rect.y - 1)
                         self.mud_list.append(new_mud)
 
             
@@ -409,16 +411,12 @@ class Game:
             if r == 3 and len(self.hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
-                    0,
-                    WIDTH,
-                    2)
+                    0)
                 self.hanger_list.append(new_hanger)
                 
                 new_clip = Clip(
                     0,
-                    0,
-                    CLIP_WIDTH,
-                    50)
+                    0)
                 self.clip_list.append(new_clip)
             
             # Scroller elementene nedover og fjerner hvis under skjermen
