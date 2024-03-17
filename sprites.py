@@ -80,13 +80,7 @@ class Player:
         elif self.pos[0] <= 0:
             self.pos[0] = WIDTH
     
-
-
-
-
-
-
-
+"""
 class Elements:
     def __init__(self, x, y, w, h):
         self.rect = self.image.get_rect()
@@ -106,17 +100,14 @@ class Platform(Elements):
         
         # Sjekker om det er et element på platformen
         self.taken = False
-        
-        
+
 class Washing_machine(Elements):
     def __init__(self, x, y):
         self.w = WASHING_MACHINE_SIDE
         self.h = WASHING_MACHINE_SIDE
-        
         self.image = pg.image.load('washing_machine.png')
         self.image = pg.transform.scale(self.image, (w, h*W_RATIO))
-
-
+        
 class Mud(Elements):
     def __init__(self, x, y, w, h):
         self.w = MUD_WIDTH
@@ -128,21 +119,6 @@ class Mud(Elements):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        
-        
-        
-         
-class Mud:
-    def __init__(self, x, y, w, h):
-        #self.image = pg.Surface((w, h))
-        #self.image.fill(BROWN)
-        self.image = pg.image.load('mud.png')
-        self.image = pg.transform.scale(self.image, (MUD_SIDE*M_RATIO, MUD_SIDE))
-        self.rect = self.image.get_rect()
-        
-        self.rect.x = x
-        self.rect.y = y
-
 
 
 class Background_element(Elements):
@@ -188,12 +164,40 @@ class Detergent(Elements):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y 
+"""
+class Platform:
+    def __init__(self, x, y, w, h):
+        self.w = w
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        
+        self.taken = False
 
 
+class Washing_machine:
+    def __init__(self, x, y):
+  
+        self.image = pg.image.load('washing_machine.png')
+        self.image = pg.transform.scale(self.image, (WASHING_MACHINE_SIDE, WASHING_MACHINE_SIDE*W_RATIO))
+        self.rect = self.image.get_rect()
 
-
-
-
+        self.rect.x = x
+        self.rect.y = y
+         
+class Mud:
+    def __init__(self, x, y, w, h):
+        #self.image = pg.Surface((w, h))
+        #self.image.fill(BROWN)
+        self.image = pg.image.load('mud.png')
+        self.image = pg.transform.scale(self.image, (MUD_SIDE*M_RATIO, MUD_SIDE))
+        self.rect = self.image.get_rect()
+        
+        self.rect.x = x
+        self.rect.y = y
 
 
 class Background_element:
