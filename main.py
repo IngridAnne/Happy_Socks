@@ -68,6 +68,7 @@ class Game:
             self.detergent_list.append(detergent)
         print(self.detergent_list)
         
+        
         # Poeng
         self.score = 0
         
@@ -197,25 +198,33 @@ class Game:
             self.screen.fill(ORANGE)
             ratio = 1.66
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('planet.png'), (c.rd*2, c.rd))
+                be.image = pg.transform.scale(pg.image.load('planet.png'), (be.rd*2, be.rd))
                 # http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
             ratio = 1.69
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('ufo.png'), (c.rd*2, c.rd))
+                be.image = pg.transform.scale(pg.image.load('ufo.png'), (be.rd*2, be.rd))
                 # https://no.pinterest.com/pin/584482857867587248/
-
-        # Tegner skyer på skjermen
+                
+        # Fyller bakgrunnselementliste med bakgrunnselementer
         while len(self.background_element_list) < 6:
             self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
                                     random.randint(-HEIGHT, -80),
                                     ratio
                                 ))
-        # Tegner skyene
+            
+        # Tegner bakgrunnselementene
         for be in self.background_element_list:
-            self.screen.blit(be.image, (be.x, be.y))    
+            self.screen.blit(be.image, (be.x, be.y))
         
+        # Tegner det som skal på skjermen
+        draw_list = [self.platform_list, self.washing_machine_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list]
+        for i in range(len(draw_list)):
+            for j in draw_list[i]:
+                self.screen.blit(j.image, (j.rect.x, j.rect.y))
+        
+        """
         # Tegner plattformene
         for p in self.platform_list:
             self.screen.blit(p.image, (p.rect.x, p.rect.y))
@@ -239,7 +248,7 @@ class Game:
         # Tegner vaskemiddelet
         for d in self.detergent_list:
             self.screen.blit(d.image, (d.rect.x, d.rect.y))
-        
+        """
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
@@ -404,12 +413,6 @@ class Game:
                     WASHING_MACHINE_SIDE)
                 self.washing_machine_list.append(new_washing_machine)
                 
-            # Vaskemaskinene scroller nedover
-            for w in self.washing_machine_list:
-                w.rect.y += ELEMENT_SPEED
-            for w in self.washing_machine_list:
-                if w.rect.y > HEIGHT:
-                    self.washing_machine_list.remove(w)
             
             # Sjekker om gjørme skal bli laget
             r_mud = random.randint(1, 4)
@@ -426,12 +429,6 @@ class Game:
                         MUD_HEIGHT)
                         self.mud_list.append(new_mud)
 
-            # Gjørmen scroller nedover
-            for m in self.mud_list:
-                m.rect.y += ELEMENT_SPEED
-            for m in self.mud_list:
-                if m.rect.y > HEIGHT:
-                    self.mud_list.remove(m)
             
             # Sjekker om en klessnorer og klyper skal bli laget
             if r == 3 and len(self.hanger_list) < 1:
@@ -448,7 +445,28 @@ class Game:
                     CLIP_WIDTH,
                     50)
                 self.clip_list.append(new_clip)
+            
+            scroll_list = [self.washing_machine_list, self.mud_list, self.hanger_list, self.clip_list]
+            for i in range(len(scroll_list)):
+                for j in scroll_list[i]:
+                    j.rect.y += ELEMENT_SPEED
+                for j in scroll_list[i]:
+                    if j.rect.y > HEIGHT:
+                        scroll_list[i].remove(j)
+            """
+            # Vaskemaskinene scroller nedover
+            for w in self.washing_machine_list:
+                w.rect.y += ELEMENT_SPEED
+            for w in self.washing_machine_list:
+                if w.rect.y > HEIGHT:
+                    self.washing_machine_list.remove(w)
                     
+            # Gjørmen scroller nedover
+            for m in self.mud_list:
+                m.rect.y += ELEMENT_SPEED
+            for m in self.mud_list:
+                if m.rect.y > HEIGHT:
+                    self.mud_list.remove(m)
             
             # Klessnoren scroller nedover
             for h in self.hanger_list:
@@ -463,14 +481,15 @@ class Game:
             for c in self.clip_list:
                 if c.rect.y > HEIGHT:
                     self.clip_list.remove(c)
-              
+            """  
             # Plattformene scroller nedover        
             for p in self.platform_list:
                 p.rect.y += ELEMENT_SPEED
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
                     self.score += 10
-                    
+            
+            
                     self.platform_list.remove(p)
                     
                     # Lager ny plattform
