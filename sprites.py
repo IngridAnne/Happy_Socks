@@ -6,21 +6,22 @@ import time
 
 class Player:
     def __init__(self):
-        
         self.points = 0
         
         self.image = pg.image.load('sock1.png')
-        self.image = pg.transform.scale(self.image, (PLAYER_HEIGHT, PLAYER_HEIGHT*P_RATIO))
+        self.image = pg.transform.scale(self.image, (PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
           
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
         self.vel = [0, 0]
         self.acc = [0, 0]
-    
-        self.dirty = False
-        self.start = time.time()
         
+        #self.bottom = pos[1]
+        
+        self.dirty = False
         self.scrolling = False
+        
+        self.start = time.time()
 
     # Metode for hopping
     def jump(self):
