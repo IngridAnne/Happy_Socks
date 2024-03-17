@@ -7,6 +7,33 @@ from pygame import mixer
 import csv
 
 
+def new_platform_margin_function(y):
+    # Lager ny platform med margin
+    random_x = random.randint(10, WIDTH-110)
+    random_y = y
+    
+    new_platform = Platform(
+        random_x,
+        random_y,
+        PLATFORM_WIDTH,
+        PLATFORM_HEIGHT
+    )
+    
+    new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+    
+    rd = random.randint(1, 8)
+    if rd == 1:
+        new_platform = Platform(
+            random_x,
+            random_y,
+            PLATFORM_LONG_WIDTH,
+            PLATFORM_HEIGHT
+        )
+        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
+    
+    return new_platform, new_platform_margin
+
+
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -73,29 +100,8 @@ class Game:
         
         # Lager plattformer
         while len(self.platform_list) < 7:
-            # Lager ny plattform
-            random_x = random.randint(10, WIDTH-110)
             random_y = random.randint(10, HEIGHT-20)
-            
-            new_platform = Platform(
-                random_x,
-                random_y,
-                PLATFORM_WIDTH,
-                PLATFORM_HEIGHT
-            )
-            
-            new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
-            
-            rd = random.randint(1, 8)
-            if rd == 1:
-                new_platform = Platform(
-                    random_x,
-                    random_y,
-                    PLATFORM_LONG_WIDTH,
-                    PLATFORM_HEIGHT
-                )
-                new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
-            
+            new_platform, new_platform_margin = new_platform_margin_function(random_y)
             
             safe = True
             
@@ -435,33 +441,10 @@ class Game:
                 if p.rect.y > HEIGHT:
                     self.score += 10
             
-            
                     self.platform_list.remove(p)
                     
-                    # Lager ny plattform
-                    random_x = random.randint(10, WIDTH-110)
-                    
-                    new_platform = Platform(
-                        random_x,
-                        0,
-                        PLATFORM_WIDTH,
-                        PLATFORM_HEIGHT
-                    )
-                    
-                    new_platform_margin = Platform(random_x - PLATFORM_MARGIN, 0 - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
-                    
-                    # Sjekker om den ny plattform skal være lang
-                    rd = random.randint(1, 8)
-                    if rd == 1:
-                        new_platform = Platform(
-                            random_x,
-                            0,
-                            PLATFORM_LONG_WIDTH,
-                            PLATFORM_HEIGHT
-                        )
-                        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, 0 - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
-                    
-                    
+                    y = 0
+                    new_platform, new_platform_margin = new_platform_margin_function(y)
                     
                     safe = True
                     
