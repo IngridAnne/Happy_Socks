@@ -6,18 +6,15 @@ import time
 
 class Player:
     def __init__(self):
+        """
         self.points = 0
-        self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image.fill(GREEN)
+        #self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
+        #self.image.fill(GREEN)
+        #self.rect = self.image.get_rect()
+        self.image = pg.image.load('sock1.png')
+        self.image = pg.transform.scale(self.image, (30, 60))
         self.rect = self.image.get_rect()
-        """
-        self.rect.center = (
-            WIDTH//2 - PLAYER_WIDTH//2,
-            HEIGHT//2 - PLAYER_HEIGHT//2
-        )
-        
-        self.pos = list(self.rect.center)
-        """
+          
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
         self.vel = [0, 0]
         self.acc = [0, 0]
@@ -26,6 +23,19 @@ class Player:
         self.color = GREEN
         self.start = time.time()
         
+        self.scrolling = False
+        """
+        self.points = 0
+        # Last inn bilde og skaler det
+        self.image = pg.image.load('sock1.png')
+        self.image = pg.transform.scale(self.image, (30, 60))  # Skaler etter behov
+        self.rect = self.image.get_rect()
+        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
+        self.vel = [0, 0]
+        self.acc = [0, 0]
+        self.dirty = False
+        self.color = GREEN
+        self.start = time.time()
         self.scrolling = False
     
     # Metode for hopping
@@ -86,10 +96,16 @@ class Player:
         elif self.pos[0] <= 0:
             self.pos[0] = WIDTH
     
-    
+"""
+class Elements:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
 
-class Platform:
+class Platform(Elements):
     def __init__(self, x, y, w, h):
         self.w = w
         self.image = pg.Surface((w, h))
@@ -164,7 +180,89 @@ class Detergent:
         
         self.rect = self.image.get_rect()
         self.rect.x = x
-        self.rect.y = y  
+        self.rect.y = y 
+"""
+class Platform:
+    def __init__(self, x, y, w, h):
+        self.w = w
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        
+        self.taken = False
+
+
+class Washing_machine:
+    def __init__(self, x, y, w, h):
+        """
+        self.image = pg.Surface((w, h))
+        self.image.fill(RED)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        """
+        self.rect.x = x
+        self.rect.y = y
+        self.image = pg.image.load('washing_machine.png')
+        self.image = pg.transform.scale(self.image, (20, 20))
     
+class Mud:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(BROWN)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+class Background_element:
+    def __init__(self, x, y, ratio):      
+        self.rd = random.randint(40, 80)
+        self.image = pg.image.load('cloud.png')
+        # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
+        self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
+        
+        self.x = x
+        self.y = y
+        self.speed = 2
+        
+
+class Hanger:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+class Clip:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(BLACK)
+        self.speed = 5
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y    
+    
+
+class Detergent:
+    def __init__(self, x, y, w, h):
+        self.image = pg.Surface((w, h))
+        self.image.fill(WHITE)
+        self.speed = 0.8
+        self.space = 40
+        
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y  
+  
     
     

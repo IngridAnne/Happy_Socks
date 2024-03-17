@@ -101,8 +101,6 @@ class Game:
                 new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
             
             
-            
-            
             safe = True
             
             # Sjekker om den nye plattformen kolliderer med noen av de gamle
@@ -224,31 +222,6 @@ class Game:
             for j in draw_list[i]:
                 self.screen.blit(j.image, (j.rect.x, j.rect.y))
         
-        """
-        # Tegner plattformene
-        for p in self.platform_list:
-            self.screen.blit(p.image, (p.rect.x, p.rect.y))
-        
-        # Tegner vaskemaskinene
-        for w in self.washing_machine_list:
-            self.screen.blit(w.image, (w.rect.x, w.rect.y))
-        
-        # Tegner gjørmen
-        for m in self.mud_list:
-            self.screen.blit(m.image, (m.rect.x, m.rect.y))
-            
-        # Tegner klessnoren
-        for h in self.hanger_list:
-            self.screen.blit(h.image, (h.rect.x, h.rect.y))
-        
-        # Tegner klypen
-        for c in self.clip_list:
-            self.screen.blit(c.image, (c.rect.x, c.rect.y))
-            
-        # Tegner vaskemiddelet
-        for d in self.detergent_list:
-            self.screen.blit(d.image, (d.rect.x, d.rect.y))
-        """
         # Tegner spilleren
         self.screen.blit(self.player.image, self.player.pos)
         
@@ -299,7 +272,7 @@ class Game:
         else:
             self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
         self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT // 2, WHITE, 25)
-        self.text("Press a key to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+        self.text("Press enter to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
     
@@ -446,6 +419,7 @@ class Game:
                     50)
                 self.clip_list.append(new_clip)
             
+            # Scroller elementene nedover og fjerner hvis under skjermen
             scroll_list = [self.washing_machine_list, self.mud_list, self.hanger_list, self.clip_list]
             for i in range(len(scroll_list)):
                 for j in scroll_list[i]:
@@ -453,35 +427,7 @@ class Game:
                 for j in scroll_list[i]:
                     if j.rect.y > HEIGHT:
                         scroll_list[i].remove(j)
-            """
-            # Vaskemaskinene scroller nedover
-            for w in self.washing_machine_list:
-                w.rect.y += ELEMENT_SPEED
-            for w in self.washing_machine_list:
-                if w.rect.y > HEIGHT:
-                    self.washing_machine_list.remove(w)
-                    
-            # Gjørmen scroller nedover
-            for m in self.mud_list:
-                m.rect.y += ELEMENT_SPEED
-            for m in self.mud_list:
-                if m.rect.y > HEIGHT:
-                    self.mud_list.remove(m)
             
-            # Klessnoren scroller nedover
-            for h in self.hanger_list:
-                h.rect.y += ELEMENT_SPEED
-            for h in self.hanger_list:
-                if h.rect.y > HEIGHT:
-                    self.hanger_list.remove(h)
-            
-            # Klypene scroller nedover
-            for c in self.clip_list:
-                c.rect.y += ELEMENT_SPEED
-            for c in self.clip_list:
-                if c.rect.y > HEIGHT:
-                    self.clip_list.remove(c)
-            """  
             # Plattformene scroller nedover        
             for p in self.platform_list:
                 p.rect.y += ELEMENT_SPEED
