@@ -10,7 +10,7 @@ class Player:
         self.points = 0
         
         self.image = pg.image.load('sock1.png')
-        self.image = pg.transform.scale(self.image, (60, 60*1.73))
+        self.image = pg.transform.scale(self.image, (60, 60*P_RATIO))
         self.rect = self.image.get_rect()
           
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
@@ -179,9 +179,7 @@ class Platform:
 
 
 class Washing_machine:
-    def __init__(self, x, y, w, h):
-        
-        #self.image = pg.Surface((w, h))
+    def __init__(self, x, y):
   
         self.image = pg.image.load('washing_machine.png')
         self.image = pg.transform.scale(self.image, (WASHING_MACHINE_SIDE, WASHING_MACHINE_SIDE*W_RATIO))
@@ -189,20 +187,15 @@ class Washing_machine:
 
         self.rect.x = x
         self.rect.y = y
-        
-        """
-        self.rect.x = x
-        self.rect.y = y
-        self.image = pg.image.load('washing_machine.png')
-        self.image = pg.transform.scale(self.image, (20, 20))
-        """
-    
+         
 class Mud:
     def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(BROWN)
-        
+        #self.image = pg.Surface((w, h))
+        #self.image.fill(BROWN)
+        self.image = pg.image.load('mud.png')
+        self.image = pg.transform.scale(self.image, (MUD_SIDE*M_RATIO, MUD_SIDE))
         self.rect = self.image.get_rect()
+        
         self.rect.x = x
         self.rect.y = y
 
@@ -241,15 +234,19 @@ class Clip:
     
 
 class Detergent:
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(WHITE)
-        self.speed = 0.8
+    def __init__(self, x, y):
+        self.side = DETERGENT_SIDE
+        self.speed = 0
         self.space = 40
         
+        
+        self.image = pg.image.load('detergent.png')
+        self.image = pg.transform.scale(self.image, (DETERGENT_SIDE, DETERGENT_SIDE*D_RATIO))
         self.rect = self.image.get_rect()
+
         self.rect.x = x
-        self.rect.y = y  
+        self.rect.y = y
+        
   
     
     
