@@ -6,13 +6,11 @@ import time
 
 class Player:
     def __init__(self):
-        """
+        
         self.points = 0
-        #self.image = pg.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        #self.image.fill(GREEN)
-        #self.rect = self.image.get_rect()
+        
         self.image = pg.image.load('sock1.png')
-        self.image = pg.transform.scale(self.image, (30, 60))
+        self.image = pg.transform.scale(self.image, (60, 60*1.73))
         self.rect = self.image.get_rect()
           
         self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
@@ -20,24 +18,10 @@ class Player:
         self.acc = [0, 0]
     
         self.dirty = False
-        self.color = GREEN
         self.start = time.time()
         
         self.scrolling = False
-        """
-        self.points = 0
-        # Last inn bilde og skaler det
-        self.image = pg.image.load('sock1.png')
-        self.image = pg.transform.scale(self.image, (30, 60))  # Skaler etter behov
-        self.rect = self.image.get_rect()
-        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
-        self.vel = [0, 0]
-        self.acc = [0, 0]
-        self.dirty = False
-        self.color = GREEN
-        self.start = time.time()
-        self.scrolling = False
-    
+
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
@@ -54,18 +38,18 @@ class Player:
             
         if self.dirty and self.scrolling:
             self.acc = [0, 1.8]
-            self.color = BROWN
+            #self.color = BROWN
         elif self.dirty:
             self.acc = [0, 1.5]
-            self.color = BROWN
+            #self.color = BROWN
         elif self.scrolling:
             self.acc = [0, 1.3]
         elif not self.dirty:
             self.acc = [0, 0.8]
-            self.color = GREEN 
+            #self.color = GREEN 
             
             
-        self.image.fill(self.color)
+        #self.image.fill(self.color)
             
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
@@ -197,18 +181,22 @@ class Platform:
 
 class Washing_machine:
     def __init__(self, x, y, w, h):
-        """
-        self.image = pg.Surface((w, h))
-        self.image.fill(RED)
         
+        #self.image = pg.Surface((w, h))
+  
+        self.image = pg.image.load('washing_machine.png')
+        self.image = pg.transform.scale(self.image, (WASHING_MACHINE_SIDE, WASHING_MACHINE_SIDE*W_RATIO))
         self.rect = self.image.get_rect()
+
         self.rect.x = x
         self.rect.y = y
+        
         """
         self.rect.x = x
         self.rect.y = y
         self.image = pg.image.load('washing_machine.png')
         self.image = pg.transform.scale(self.image, (20, 20))
+        """
     
 class Mud:
     def __init__(self, x, y, w, h):

@@ -7,8 +7,6 @@ from pygame import mixer
 import csv
 
 
-
-
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -182,7 +180,9 @@ class Game:
             
             # Spilleren blir stående oppå plattformen når collide er lik true
             if collide:
-                self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
+                #self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
+                self.player.pos[1] = p.rect.y - PLAYER_HEIGHT*1.71
+
                 self.player.vel[1] = 0
                 
             
@@ -216,14 +216,18 @@ class Game:
         for be in self.background_element_list:
             self.screen.blit(be.image, (be.x, be.y))
         
+        # Tegner vaskemaskinene
+        for w in self.washing_machine_list:
+            self.screen.blit(w.image, (w.rect.x, w.rect.y))
+        
         # Tegner det som skal på skjermen
-        draw_list = [self.platform_list, self.washing_machine_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list]
+        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list]
         for i in range(len(draw_list)):
             for j in draw_list[i]:
                 self.screen.blit(j.image, (j.rect.x, j.rect.y))
         
         # Tegner spilleren
-        self.screen.blit(self.player.image, self.player.pos)
+        self.screen.blit(self.player.image, (self.player.pos[0], self.player.pos[1]))
         
         # Tegner poeng
         if self.score > 0:
@@ -381,7 +385,7 @@ class Game:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
                     self.platform_list[-1].rect.x + (self.platform_list[-1].rect.w/2) - PLATFORM_HEIGHT/2,
-                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h,
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2),
                     WASHING_MACHINE_SIDE,
                     WASHING_MACHINE_SIDE)
                 self.washing_machine_list.append(new_washing_machine)
