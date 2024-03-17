@@ -16,8 +16,6 @@ class Player:
         self.vel = [0, 0]
         self.acc = [0, 0]
         
-        #self.bottom = pos[1]
-        
         self.dirty = False
         self.scrolling = False
         
@@ -50,8 +48,6 @@ class Player:
             #self.color = GREEN 
             
             
-        #self.image.fill(self.color)
-            
         # Henter tastene fra tastaturet
         keys = pg.key.get_pressed()
         
@@ -71,7 +67,7 @@ class Player:
         self.vel[1] += self.acc[1]
         self.pos[1] += self.vel[1] + 0.5*self.acc[1]
         
-        # Oppdaterer rektangelets posisjon
+        # Oppdaterer spillerens posisjon
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
     

@@ -181,7 +181,7 @@ class Game:
             # Spilleren blir stående oppå plattformen når collide er lik true
             if collide:
                 #self.player.pos[1] = p.rect.y - PLAYER_WIDTH
-                self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
+                self.player.pos[1] = p.rect.y - PLAYER_WIDTH*1.71
 
                 self.player.vel[1] = 0
                 
