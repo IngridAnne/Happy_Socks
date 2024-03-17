@@ -49,11 +49,14 @@ WASHING_MACHINE_SIDE = 40
 W_RATIO = 1.35
 
 # Innstillinger til vaskemiddel
-DETERGENT_SIDE = 20
+DETERGENT_SIDE = 30
+D_RATIO = 1.47
 
 # Innstillinger til gjørme
 MUD_HEIGHT = 5
 MUD_WIDTH = 125
+MUD_SIDE = 20
+M_RATIO = 4.84
 
 ELEMENT_SPEED = 6
 

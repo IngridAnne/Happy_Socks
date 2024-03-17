@@ -60,9 +60,7 @@ class Game:
         for i in range(3):
             detergent = Detergent(
                     WIDTH - DETERGENT_SIDE*2,
-                    DETERGENT_SIDE*((i*2)+1),
-                    DETERGENT_SIDE,
-                    DETERGENT_SIDE)
+                    DETERGENT_SIDE*((i*2)+1))
             self.detergent_list.append(detergent)
         print(self.detergent_list)
         
@@ -387,9 +385,7 @@ class Game:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
                     self.platform_list[-1].rect.x + (MUD_WIDTH) - PLATFORM_HEIGHT/2,
-                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2),
-                    WASHING_MACHINE_SIDE,
-                    WASHING_MACHINE_SIDE)
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2))
                 self.washing_machine_list.append(new_washing_machine)
                 
             
@@ -403,7 +399,7 @@ class Game:
                         self.platform_list[-1].taken = True
                         new_mud = Mud(
                         random.randint(self.platform_list[-1].rect.x, self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH),
-                        self.platform_list[-1].rect.y,
+                        self.platform_list[-1].rect.y - 1,
                         MUD_WIDTH,
                         MUD_HEIGHT)
                         self.mud_list.append(new_mud)
