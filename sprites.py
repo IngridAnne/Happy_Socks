@@ -37,15 +37,12 @@ class Player:
             
         if self.dirty and self.scrolling:
             self.acc = [0, 1.8]
-            #self.color = BROWN
         elif self.dirty:
             self.acc = [0, 1.5]
-            #self.color = BROWN
         elif self.scrolling:
             self.acc = [0, 1.3]
         elif not self.dirty:
             self.acc = [0, 0.8]
-            #self.color = GREEN 
             
             
         # Henter tastene fra tastaturet

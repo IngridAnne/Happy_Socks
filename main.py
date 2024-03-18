@@ -155,7 +155,10 @@ class Game:
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     if self.jump:
                         self.player.jump()
-                        self.player.image = pg.transform.scale(pg.image.load('sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                        if self.player.dirty:
+                            self.player.image = pg.transform.scale(pg.image.load('dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                        else:
+                            self.player.image = pg.transform.scale(pg.image.load('sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
                 if event.key == pg.K_SPACE:
                     self.detergent_boost()
             
@@ -179,7 +182,10 @@ class Game:
             # Sjekker om spilleren kolliderer med en plattform
             for p in self.platform_list:
                 if pg.Rect.colliderect(self.player.rect, p.rect):
-                    self.player.image = pg.transform.scale(pg.image.load('sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                    if self.player.dirty:
+                        self.player.image = pg.transform.scale(pg.image.load('dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                    else:       
+                        self.player.image = pg.transform.scale(pg.image.load('sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
                     collide = True
                     self.jump = True
                     break
@@ -261,8 +267,8 @@ class Game:
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
         self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
-        self.text("Arrows to move, Enter to boost, Space to jump!", WIDTH //2 , HEIGHT // 2, WHITE, 20)
-        self.text("Press a key to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+        self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT // 2, WHITE, 20)
+        self.text("Press Enter to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
     
