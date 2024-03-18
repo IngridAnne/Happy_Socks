@@ -355,10 +355,17 @@ class Game:
         for d in range (len(self.detergent_list)):
             det = self.detergent_list[d]
             det.rect.y += det.speed
-            if det.rect.y < (det.space/4)+ det.space*(d):
+            if det.rect.y <= DETERGENT_WIDTH * (d * 2 + 1):
                 det.speed *= (-1)
-            if det.rect.y > (det.space/2)+ det.space*(d):
+            elif det.rect.y >= DETERGENT_WIDTH * (d * 2 + 3) - DETERGENT_HEIGHT:
+                det.speed *= (-1)  
+                
+            """
+            if det.rect.y < (det.space//4)+ det.space*(d):
                 det.speed *= (-1)
+            if det.rect.y > (det.space//2)+ det.space*(d):
+                det.speed *= (-1)
+            """ 
         
     
     # Metode slik at klesklypen skal bevege seg
@@ -416,7 +423,6 @@ class Game:
                             self.platform_list[-1].rect.y - 1)
                         self.mud_list.append(new_mud)
 
-            print(self.highest_random)
             # Sjekker om en klessnorer og klyper skal bli laget
             r_clip = random.randint(1, self.highest_random)
             if r_clip == 1 and len(self.hanger_list) < 1:
