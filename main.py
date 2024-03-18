@@ -95,6 +95,9 @@ class Game:
         # Poeng
         self.score = 0
         
+        # Høyeste tall i random
+        self.highest_random = 200
+        
         # Lager spiller-objekt
         self.player = Player()
         
@@ -385,11 +388,10 @@ class Game:
             
             
             # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
-            r = random.randint(1, 200)
-        
+            r_wm = random.randint(1, 200)
         
             # Sjekker om en vaskemaskin skal bli laget
-            if r == 1 and self.platform_list[-1].taken == False:
+            if r_wm == 1 and self.platform_list[-1].taken == False:
                 self.platform_list[-1].taken = True
                 new_washing_machine = Washing_machine(
                     self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
@@ -414,9 +416,10 @@ class Game:
                             self.platform_list[-1].rect.y - 1)
                         self.mud_list.append(new_mud)
 
-            
+            print(self.highest_random)
             # Sjekker om en klessnorer og klyper skal bli laget
-            if r == 3 and len(self.hanger_list) < 1:
+            r_clip = random.randint(1, self.highest_random)
+            if r_clip == 1 and len(self.hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
                     0)
@@ -442,6 +445,8 @@ class Game:
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
                     self.score += 10
+                    if self.highest_random > 1:
+                        self.highest_random -= 1
             
                     self.platform_list.remove(p)
                     
