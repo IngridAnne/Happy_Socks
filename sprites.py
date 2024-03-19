@@ -8,11 +8,14 @@ class Player:
     def __init__(self):
         self.points = 0
         
+        self.w = PLAYER_WIDTH
+        self.h = PLAYER_HEIGHT
+        
         self.image = pg.image.load('Bilder/sock1.png')
         self.image = pg.transform.scale(self.image, (PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
           
-        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT]
+        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT-200]
         self.vel = [0, 0]
         self.acc = [0, 0]
         
@@ -26,14 +29,12 @@ class Player:
         self.vel[1] = -20
     
     
-        
     def update(self):
         self.collision_wall()
         dt = time.time() - self.start
         
         if dt > 3:
             self.dirty = False
-            #self.start = time.time()
             
         if self.dirty and self.scrolling:
             self.acc = [0, 1.8]
@@ -73,7 +74,11 @@ class Player:
             self.pos[0] = 0
         elif self.pos[0] <= 0:
             self.pos[0] = WIDTH
-    
+        
+       
+        
+        
+         
 
 class Elements:
     def __init__(self, x, y, w, h, image):
@@ -84,7 +89,6 @@ class Elements:
         self.w = w
         self.h = h
         
-
 
 class Platform(Elements):
     def __init__(self, x, y, w, h):
@@ -99,7 +103,7 @@ class Washing_machine(Elements):
         w = WASHING_MACHINE_SIDE
         h = WASHING_MACHINE_SIDE*W_RATIO # hvorfor w_ratio?
   
-        image = pg.image.load('washing_machine.png')
+        image = pg.image.load('Bilder/washing_machine.png')
         image = pg.transform.scale(image, (w, h))
         super().__init__(x, y, w, h, image)
  
@@ -108,7 +112,7 @@ class Mud(Elements):
         w = MUD_WIDTH
         h = MUD_HEIGHT
         
-        image = pg.image.load('mud.png')
+        image = pg.image.load('Bilder/mud.png')
         image = pg.transform.scale(image, (w, h))
         super().__init__(x, y, w, h, image)
         
@@ -128,7 +132,7 @@ class Clip(Elements):
         w = CLIP_WIDTH
         h = CLIP_HEIGHT
         
-        image = pg.image.load('clip.png')
+        image = pg.image.load('Bilder/clip.png')
         image = pg.transform.scale(image, (CLIP_WIDTH, CLIP_HEIGHT))
         super().__init__(x, y, w, h, image)
         
@@ -145,7 +149,7 @@ class Detergent(Elements):
         self.speed = 0.6
         #self.space = 10
         
-        image = pg.image.load('detergent.png')
+        image = pg.image.load('Bilder/detergent.png')
         image = pg.transform.scale(image, (DETERGENT_WIDTH, DETERGENT_HEIGHT))
         super().__init__(x, y, w, h, image)
 
@@ -154,7 +158,7 @@ class Detergent(Elements):
 class Background_element:
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
-        self.image = pg.image.load('cloud.png')
+        self.image = pg.image.load('Bilder/cloud.png')
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
         
@@ -179,7 +183,7 @@ class Platform:
 class Washing_machine:
     def __init__(self, x, y):
   
-        self.image = pg.image.load('washing_machine.png')
+        self.image = pg.image.load('Bilder/washing_machine.png')
         self.image = pg.transform.scale(self.image, (WASHING_MACHINE_SIDE, WASHING_MACHINE_SIDE*W_RATIO))
         self.rect = self.image.get_rect()
 
@@ -191,7 +195,7 @@ class Mud:
     def __init__(self, x, y, w, h):
         #self.image = pg.Surface((w, h))
         #self.image.fill(BROWN)
-        self.image = pg.image.load('mud.png')
+        self.image = pg.image.load('Bilder/mud.png')
         self.image = pg.transform.scale(self.image, (MUD_SIDE*M_RATIO, MUD_SIDE))
         self.rect = self.image.get_rect()
         
@@ -201,7 +205,7 @@ class Mud:
 class Background_element:
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
-        self.image = pg.image.load('cloud.png')
+        self.image = pg.image.load('Bilder/cloud.png')
         # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
         self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
         
