@@ -451,6 +451,10 @@ class Game:
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
                     self.score += 10
+
+                    for i in range(len(self.clip_list)):
+                        self.clip_list[i].increase_speed_clip()
+                        
                     if self.highest_random > 1:
                         self.highest_random -= 1
             
