@@ -102,7 +102,7 @@ class Game:
         self.player = Player()
         
         # Lager plattformer
-        while len(self.platform_list) < 7:
+        while len(self.platform_list) < 10:
             random_y = random.randint(10, HEIGHT-20)
             new_platform, new_platform_margin = new_platform_margin_function(random_y)
             
