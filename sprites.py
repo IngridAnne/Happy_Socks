@@ -1,3 +1,4 @@
+# Importerer nyttige biblioteker
 import pygame as pg
 from settings import *
 import random
@@ -23,6 +24,7 @@ class Player:
         self.scrolling = False
         
         self.start = time.time()
+
 
     # Metode for hopping
     def jump(self):
@@ -69,17 +71,14 @@ class Player:
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
     
+    
     def collision_wall(self):
         if self.pos[0] > WIDTH:
             self.pos[0] = 0
         elif self.pos[0] <= 0:
-            self.pos[0] = WIDTH
-        
-       
-        
+            self.pos[0] = WIDTH      
         
          
-
 class Elements:
     def __init__(self, x, y, w, h, image):
         self.image = image
@@ -98,14 +97,16 @@ class Platform(Elements):
 
         self.taken = False
         
+        
 class Washing_machine(Elements):
     def __init__(self, x, y):
         w = WASHING_MACHINE_SIDE
-        h = WASHING_MACHINE_SIDE*W_RATIO # hvorfor w_ratio?
+        h = WASHING_MACHINE_SIDE*W_RATIO
   
         image = pg.image.load('Bilder/washing_machine.png')
         image = pg.transform.scale(image, (w, h))
         super().__init__(x, y, w, h, image)
+ 
  
 class Mud(Elements):
     def __init__(self, x, y):
@@ -147,14 +148,12 @@ class Detergent(Elements):
         w = DETERGENT_WIDTH
         h = DETERGENT_HEIGHT
         self.speed = 0.6
-        #self.space = 10
         
         image = pg.image.load('Bilder/detergent.png')
         image = pg.transform.scale(image, (DETERGENT_WIDTH, DETERGENT_HEIGHT))
         super().__init__(x, y, w, h, image)
 
 
-
 class Background_element:
     def __init__(self, x, y, ratio):      
         self.rd = random.randint(40, 80)
@@ -165,86 +164,3 @@ class Background_element:
         self.x = x
         self.y = y
         self.speed = 2
-
-"""
-class Platform:
-    def __init__(self, x, y, w, h):
-        self.w = w
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        
-        self.taken = False
-        
-
-class Washing_machine:
-    def __init__(self, x, y):
-  
-        self.image = pg.image.load('Bilder/washing_machine.png')
-        self.image = pg.transform.scale(self.image, (WASHING_MACHINE_SIDE, WASHING_MACHINE_SIDE*W_RATIO))
-        self.rect = self.image.get_rect()
-
-        self.rect.x = x
-        self.rect.y = y
-        
-        
-class Mud:
-    def __init__(self, x, y, w, h):
-        #self.image = pg.Surface((w, h))
-        #self.image.fill(BROWN)
-        self.image = pg.image.load('Bilder/mud.png')
-        self.image = pg.transform.scale(self.image, (MUD_SIDE*M_RATIO, MUD_SIDE))
-        self.rect = self.image.get_rect()
-        
-        self.rect.x = x
-        self.rect.y = y
-        
-class Background_element:
-    def __init__(self, x, y, ratio):      
-        self.rd = random.randint(40, 80)
-        self.image = pg.image.load('Bilder/cloud.png')
-        # bildet er hentet fra: https://clipart-library.com/free/cloud-clipart-transparent-background.html
-        self.image = pg.transform.scale(self.image, (self.rd*ratio, self.rd))
-        
-        self.x = x
-        self.y = y
-        self.speed = 2
-        
-        
-class Hanger:
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        
-class Clip:
-    def __init__(self, x, y, w, h):
-        self.image = pg.Surface((w, h))
-        self.image.fill(BLACK)
-        self.speed = 5
-        
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y  
-"""
-
-
-         
-
-
-
-
-        
-
-
-
-
-  
-    
-
