@@ -15,7 +15,7 @@ class Player:
         self.image = pg.transform.scale(self.image, (PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
           
-        self.pos = [WIDTH//2, HEIGHT-START_PLATFORM_HEIGHT-200]
+        self.pos = [WIDTH//2, HEIGHT-PLAYER_START_POSITION]
         self.vel = [0, 0]
         self.acc = [0, 0]
         

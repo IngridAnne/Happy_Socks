@@ -32,6 +32,8 @@ PLAYER_FRICTION = -0.12
 
 BOTTOM_HEIGHT = 30
 
+PLAYER_START_POSITION = 140
+
 
 # Innstillinger til plattform
 PLATFORM_WIDTH = 100

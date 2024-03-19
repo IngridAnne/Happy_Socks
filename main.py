@@ -231,7 +231,7 @@ class Game:
             
         # Tegner bakgrunnselementene
         for be in self.background_element_list:
-            self.screen.blit(be.image, (be.x, be.y)) #(image, x og y, 0, 4)
+            self.screen.blit(be.image, (be.x, be.y))
         
         # Tegner det som skal på skjermen
         draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
