@@ -95,6 +95,9 @@ class Game:
         # Poeng
         self.score = 0
         
+        # Poeng som avgjør om en får ekstra boost
+        self.score_boost = 0
+        
         # Høyeste tall i random
         self.highest_random = 200
         
@@ -459,8 +462,24 @@ class Game:
                         
                     if self.highest_random > 1:
                         self.highest_random -= 1
-            
+                        
                     self.platform_list.remove(p)
+                        
+                    self.score_boost += 10
+                    if self.score_boost == 300:
+                        self.score_boost = 0
+                        length = len(self.detergent_list)
+
+                        if length < 3:
+                            for i in range(length):
+                                self.detergent_list.pop()
+
+                            for i in range(length+1):
+                                detergent = Detergent(
+                                    WIDTH - DETERGENT_WIDTH*2,
+                                    DETERGENT_WIDTH*((i*2)+1))
+                                self.detergent_list.append(detergent)
+
                     
                     y = 0
                     new_platform, new_platform_margin = new_platform_margin_function(y)
