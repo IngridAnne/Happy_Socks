@@ -293,6 +293,12 @@ class Game:
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
         self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        
+        self.image = pg.image.load('Bilder/sock1.png')
+        self.image = pg.transform.scale(self.image, (SOCK_WIDTH, SOCK_HEIGHT))
+        self.rect = self.image.get_rect()
+        self.screen.blit(self.player.image, (WIDTH//2, HEIGHT//2))
+        
         self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT // 2, WHITE, 20)
         self.text("Press Enter to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
         pg.display.flip()

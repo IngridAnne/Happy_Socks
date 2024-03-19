@@ -21,8 +21,15 @@ DARKBROWN = (70, 45, 25)
 PURPLE = (197, 66, 245)
 ORANGE = (237, 125, 45)
 
+
+# Spiller/sokk forhold
+P_RATIO = 1.73
+
+# Innstillinger for startskjerm
+SOCK_WIDTH = 300
+SOCK_HEIGHT = SOCK_WIDTH * P_RATIO
+
 # Innstillinger til spilleren
-P_RATIO = 1.7
 STRETCH = 1.2
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = PLAYER_WIDTH * P_RATIO
