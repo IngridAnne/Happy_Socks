@@ -8,7 +8,7 @@ class Player:
     def __init__(self):
         self.points = 0
         
-        self.image = pg.image.load('sock1.png')
+        self.image = pg.image.load('Bilder/sock1.png')
         self.image = pg.transform.scale(self.image, (PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
           

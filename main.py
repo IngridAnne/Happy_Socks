@@ -57,7 +57,7 @@ class Game:
         # Spiller bakgrunnsmusikk
         # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
         mixer.init()
-        mixer.music.load('POPCORN.mp3')
+        mixer.music.load('Lyd/POPCORN.mp3')
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
