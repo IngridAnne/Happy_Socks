@@ -57,7 +57,7 @@ class Game:
         # Spiller bakgrunnsmusikk
         # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
         mixer.init()
-        mixer.music.load('POPCORN.mp3')
+        mixer.music.load('Lyd/POPCORN.mp3')
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
@@ -162,9 +162,9 @@ class Game:
                     if self.jump:
                         self.player.jump()
                         if self.player.dirty:
-                            self.player.image = pg.transform.scale(pg.image.load('dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                            self.player.image = pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
                         else:
-                            self.player.image = pg.transform.scale(pg.image.load('sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                            self.player.image = pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
                 if event.key == pg.K_SPACE:
                     self.detergent_boost()
             
@@ -187,11 +187,13 @@ class Game:
 
             # Sjekker om spilleren kolliderer med en plattform
             for p in self.platform_list:
-                if pg.Rect.colliderect(self.player.rect, p.rect):
+                if pg.Rect.colliderect(self.player.rect, p.rect) and (self.player.rect.y+(self.player.h/1.5) < p.rect.y):
+
                     if self.player.dirty:
-                        self.player.image = pg.transform.scale(pg.image.load('dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                        self.player.image = pg.transform.scale(pg.image.load('Bilder/dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
                     else:       
-                        self.player.image = pg.transform.scale(pg.image.load('sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                        self.player.image = pg.transform.scale(pg.image.load('Bilder/sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+
                     collide = True
                     self.jump = True
                     break
@@ -214,13 +216,13 @@ class Game:
             self.screen.fill(ORANGE)
             ratio = 1.66
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('planet.png'), (be.rd*2, be.rd))
+                be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*2, be.rd))
                 # http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
             ratio = 1.69
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('ufo.png'), (be.rd*2, be.rd))
+                be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*2, be.rd))
                 # https://no.pinterest.com/pin/584482857867587248/
                 
         # Fyller bakgrunnselementliste med bakgrunnselementer
@@ -232,7 +234,7 @@ class Game:
             
         # Tegner bakgrunnselementene
         for be in self.background_element_list:
-            self.screen.blit(be.image, (be.x, be.y))
+            self.screen.blit(be.image, (be.x, be.y)) #(image, x og y, 0, 4)
         
         # Tegner det som skal på skjermen
         draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
@@ -256,7 +258,7 @@ class Game:
     def music(self):
         if self.playing == False:
             mixer.music.stop()
-            mixer.music.load('died_song.mp3')
+            mixer.music.load('Lyd/died_song.mp3')
 
             mixer.music.play()
     
