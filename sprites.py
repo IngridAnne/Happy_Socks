@@ -134,13 +134,16 @@ class Clip(Elements):
         
         self.speed = 5
         
+    def increase_speed_clip(self):
+        self.speed += 0.01
+        
 
 class Detergent(Elements):
     def __init__(self, x, y):
         w = DETERGENT_WIDTH
         h = DETERGENT_HEIGHT
         self.speed = 0.6
-        self.space = 10
+        #self.space = 10
         
         image = pg.image.load('detergent.png')
         image = pg.transform.scale(image, (DETERGENT_WIDTH, DETERGENT_HEIGHT))
