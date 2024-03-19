@@ -54,13 +54,7 @@ class Game:
     # Metode for å starte et nytt spill
     def new(self):
         
-        # Spiller bakgrunnsmusikk
-        # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
-        mixer.init()
-        mixer.music.load('Lyd/POPCORN.mp3')
-        mixer.music.set_volume(0.2)
-
-        mixer.music.play()
+        self.play_background_music()
         
         # Lister
         
@@ -90,7 +84,6 @@ class Game:
                     DETERGENT_WIDTH*((i*2)+1))
             self.detergent_list.append(detergent)
         print(self.detergent_list)
-        
         
         # Poeng
         self.score = 0
@@ -204,8 +197,9 @@ class Game:
                 self.player.pos[1] = p.rect.y - PLAYER_WIDTH*1.71
 
                 self.player.vel[1] = 0
-                
-            
+        
+        if not pg.mixer.music.get_busy():
+                self.play_background_music()
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge og elementer
@@ -258,10 +252,18 @@ class Game:
     def music(self):
         if self.playing == False:
             mixer.music.stop()
-            mixer.music.load('Lyd/died_song.mp3')
+            mixer.music.load('Lyd/game_over.mp3')
 
             mixer.music.play()
-    
+            
+    def play_background_music(self):
+        # Spiller bakgrunnsmusikk
+        # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
+        mixer.init()
+        mixer.music.load('Lyd/POPCORN.mp3')
+        mixer.music.set_volume(0.2)
+
+        mixer.music.play()
     # Funksjon som skriver tekst til vinduet
     def text(self, text, x, y, color, fontSize):
         font = pg.font.SysFont("Arial", fontSize)
