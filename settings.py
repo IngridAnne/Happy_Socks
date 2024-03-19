@@ -22,15 +22,13 @@ PURPLE = (197, 66, 245)
 ORANGE = (237, 125, 45)
 
 # Innstillinger til spilleren
-P_RATIO = 1.73
+P_RATIO = 1.7
 STRETCH = 1.2
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = PLAYER_WIDTH * P_RATIO
 
 PLAYER_ACC = 0.5
 PLAYER_FRICTION = -0.12
-
-BOTTOM_HEIGHT = 30
 
 PLAYER_START_POSITION = 140
 
@@ -41,6 +39,7 @@ PLATFORM_HEIGHT = 20
 
 PLATFORM_LONG_WIDTH = 250
 
+
 #Innstillinger til plattform med margin
 PLATFORM_MARGIN = 50
 
@@ -49,12 +48,13 @@ PLATFORM_MARGIN_HEIGHT = 120
 
 PLATFORM_MARGIN_LONG_WIDTH = 350
 
-
 START_PLATFORM_HEIGHT = 40
+
 
 # Innstillinger til vaskemaskin
 WASHING_MACHINE_SIDE = 40
 W_RATIO = 1.35
+
 
 # Innstillinger til vaskemiddel
 D_RATIO = 1.47
@@ -67,14 +67,16 @@ M_RATIO = 4.84
 MUD_HEIGHT = 20
 MUD_WIDTH = MUD_HEIGHT * M_RATIO
 
+
 #Innstillinger til klype
 HANGER_WIDTH = WIDTH
 HANGER_HEIGHT = 2
 
 
-ELEMENT_SPEED = 6
-
 # Innstillinger til klype
 C_RATIO = 4.07
 CLIP_WIDTH = 15
 CLIP_HEIGHT = CLIP_WIDTH * C_RATIO
+
+# Alle elementene sin fart
+ELEMENT_SPEED = 6

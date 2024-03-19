@@ -1,3 +1,4 @@
+# Importerer nyttige biblioteker
 import pygame as pg
 import sys, random, time
 from settings import *
@@ -7,6 +8,7 @@ from pygame import mixer
 import csv
 
 
+# Funksjon som lager plattformer og margin
 def new_platform_margin_function(y):
     # Lager ny platform med margin
     random_x = random.randint(10, WIDTH-110)
@@ -34,6 +36,7 @@ def new_platform_margin_function(y):
     return new_platform, new_platform_margin
 
 
+# Lager gameklassen
 class Game:
     def __init__(self):
         # Initiere pygame
@@ -54,6 +57,7 @@ class Game:
     # Metode for å starte et nytt spill
     def new(self):
         
+        # Begynner å spille bakgrunnsmusikken
         self.play_background_music()
         
         # Lister
@@ -76,7 +80,7 @@ class Game:
         # Liste med klyper
         self.clip_list = []
         
-        # Liste med vaskemiddel
+        # Liste med vaskemiddeler
         self.detergent_list = []
         for i in range(3):
             detergent = Detergent(
@@ -154,10 +158,12 @@ class Game:
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     if self.jump:
                         self.player.jump()
+                        # Sokken endrer utseende ved hopp
                         if self.player.dirty:
                             self.player.image = pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
                         else:
                             self.player.image = pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                # Sokken får boost ved space tastetrykk
                 if event.key == pg.K_SPACE:
                     self.detergent_boost()
             
@@ -168,11 +174,10 @@ class Game:
         
         self.jump = False
         
-        # Die!
+        # Sjekker om en faller nedenfor skjermen og dør
         if self.player.pos[1] > HEIGHT:
             self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
             self.playing = False
-            print("du døde")
         
         # Sjekker om vi faller
         if self.player.vel[1] > 0:
@@ -193,13 +198,14 @@ class Game:
             
             # Spilleren blir stående oppå plattformen når collide er lik true
             if collide:
-                #self.player.pos[1] = p.rect.y - PLAYER_WIDTH
-                self.player.pos[1] = p.rect.y - PLAYER_WIDTH*1.71
-
+                self.player.pos[1] = p.rect.y - PLAYER_HEIGHT
                 self.player.vel[1] = 0
         
+        # Hvis musikken er ferdig begynner den på nytt
         if not pg.mixer.music.get_busy():
                 self.play_background_music()
+                
+                
     # Metode som tegner ting på skjermen
     def draw(self):
         # Fyller skjermen med en farge og elementer
@@ -211,14 +217,15 @@ class Game:
             ratio = 1.66
             for be in self.background_element_list:
                 be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*2, be.rd))
-                # http://www.clker.com/clipart-6958.html
+                # Bildet er hentet fra http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
             ratio = 1.69
             for be in self.background_element_list:
                 be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*2, be.rd))
-                # https://no.pinterest.com/pin/584482857867587248/
-                
+                # Bildet er hentet fra https://no.pinterest.com/pin/584482857867587248/
+         
+         
         # Fyller bakgrunnselementliste med bakgrunnselementer
         while len(self.background_element_list) < 6:
             self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
@@ -226,9 +233,11 @@ class Game:
                                     ratio
                                 ))
             
+            
         # Tegner bakgrunnselementene
         for be in self.background_element_list:
             self.screen.blit(be.image, (be.x, be.y))
+        
         
         # Tegner det som skal på skjermen
         draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
@@ -236,18 +245,20 @@ class Game:
             for j in draw_list[i]:
                 self.screen.blit(j.image, (j.rect.x, j.rect.y))
         
+        
         # Tegner spilleren
         self.screen.blit(self.player.image, (self.player.pos[0], self.player.pos[1]))
         
+        
         # Tegner poeng
         if self.score > 0:
-            w = 80
-            h = 40
-            #pg.draw.rect(self.screen, BLACK,(WIDTH//2 - (w//2), HEIGHT - (h*1.2),w,h))
-            self.text(f"{self.score}", WIDTH//2, HEIGHT- (h*0.7), WHITE, 30)
+            h = 30
+            self.text(f"{self.score}", WIDTH//2, HEIGHT- (h), WHITE, 30)
+        
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
+    
     
     def music(self):
         if self.playing == False:
@@ -255,25 +266,30 @@ class Game:
             mixer.music.load('Lyd/game_over.mp3')
 
             mixer.music.play()
-            
+    
+    
+    # Metode for å spille bakgrunnsmusikk
     def play_background_music(self):
-        # Spiller bakgrunnsmusikk
         # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
+        # https://archive.org/details/popcorn_202209
         mixer.init()
         mixer.music.load('Lyd/POPCORN.mp3')
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
-    # Funksjon som skriver tekst til vinduet
+        
+        
+    # Funksjon som skriver tekst
     def text(self, text, x, y, color, fontSize):
         font = pg.font.SysFont("Arial", fontSize)
         textPicture = font.render(text, True, color)
         textRectangle = textPicture.get_rect()
         
-        # Putter i vinduet
+        # Skriver i vinduet
         self.screen.blit(textPicture, (x - textRectangle.width//2, y - textRectangle.height//2))
         
-    # Metode som viser start-skjerm
+        
+    # Metode som viser startskjerm
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
         self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
@@ -282,7 +298,8 @@ class Game:
         pg.display.flip()
         self.wait_for_key()
     
-    # Metode som viser start-skjerm
+    
+    # Metode som viser sluttskjerm
     def show_end_screen(self):
         # Tester om spilleren ønsker å forlate vinduet og ikke vil se game over skjermen
         if not self.running:
@@ -298,6 +315,7 @@ class Game:
         pg.display.flip()
         self.wait_for_key()
     
+    
     def wait_for_key(self):
         waiting = True
         while waiting:
@@ -309,7 +327,8 @@ class Game:
                 if event.type == pg.KEYUP:
                     if event.key == pg.K_RETURN:
                         waiting = False
-                    
+    
+    
     # Metode for å finne poeng til spilleren
     def points(self):
         
@@ -349,13 +368,12 @@ class Game:
                     self.playing = False
                     break
                 
-    # Metode for at en får en egenskap ved å ta boost
+    # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
         if len(self.detergent_list) > 0:
             self.detergent_list.pop()
             self.player.vel[1] = -40
-        else:
-            pass
+
         
     # Metode for å gi bevegelse til vaskemiddelet
     def detergent_movement(self):
@@ -366,16 +384,9 @@ class Game:
                 det.speed *= (-1)
             elif det.rect.y >= DETERGENT_WIDTH * (d * 2 + 3) - DETERGENT_HEIGHT:
                 det.speed *= (-1)  
-                
-            """
-            if det.rect.y < (det.space//4)+ det.space*(d):
-                det.speed *= (-1)
-            if det.rect.y > (det.space//2)+ det.space*(d):
-                det.speed *= (-1)
-            """ 
         
     
-    # Metode slik at klesklypen skal bevege seg
+    # Metode for at klesklypen skal bevege seg
     def motion(self):
         clip = self.clip_list[0]
         clip.rect.x += clip.speed
@@ -388,10 +399,8 @@ class Game:
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
             
-
             # Synker graviditet når skjermen scroller ned
             self.player.scrolling = True
-            
             
             # Skyene scroller nedover
             for be in self.background_element_list:
@@ -399,9 +408,8 @@ class Game:
             for be in self.background_element_list:
                 if be.y > HEIGHT:
                     self.background_element_list.remove(be)
-            
-            
-            # Lager sannsynligheten for at en egenskap skal tegnes på skjermen
+                        
+            # Lager sannsynligheten for at en vaskemaskin skal tegnes på skjermen
             r_wm = random.randint(1, 200)
         
             # Sjekker om en vaskemaskin skal bli laget
@@ -413,8 +421,10 @@ class Game:
                 self.washing_machine_list.append(new_washing_machine)
                 
             
-            # Sjekker om gjørme skal bli laget
+            # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
             r_mud = random.randint(1, 4)
+            
+            # Sjekker om en gjørme skal bli laget
             if r_mud == 1:
                 if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
                     r_mud = random.randint(1, 2)
@@ -430,8 +440,10 @@ class Game:
                             self.platform_list[-1].rect.y - 1)
                         self.mud_list.append(new_mud)
 
-            # Sjekker om en klessnorer og klyper skal bli laget
+            # Lager sannsynligheten for at kleshenger og klype skal tegnes på skjermen
             r_clip = random.randint(1, self.highest_random)
+            
+            # Sjekker om kleshenger og klype skal bli laget
             if r_clip == 1 and len(self.hanger_list) < 1:
                 new_hanger = Hanger(
                     0,
@@ -457,16 +469,21 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
+                    # Øker poengscoren
                     self.score += 10
-
+                    
+                    # Øker farten til klypene
                     for i in range(len(self.clip_list)):
                         self.clip_list[i].increase_speed_clip()
-                        
+                    
+                    # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
                     if self.highest_random > 1:
                         self.highest_random -= 1
-                        
+                    
+                    # Fjerner plattform som har gått under skjermen
                     self.platform_list.remove(p)
-                        
+                    
+                    # Legger til nytt vaskemiddel hvert 300 poeng, hvis resterende vaskemidler er under 3
                     self.score_boost += 10
                     if self.score_boost == 300:
                         self.score_boost = 0
