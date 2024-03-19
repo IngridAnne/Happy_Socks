@@ -25,7 +25,7 @@ ORANGE = (237, 125, 45)
 P_RATIO = 1.73
 
 # Innstillinger for startskjerm
-SOCK_WIDTH = 300
+SOCK_WIDTH = 200
 SOCK_HEIGHT = SOCK_WIDTH * P_RATIO
 
 # Innstillinger til spilleren

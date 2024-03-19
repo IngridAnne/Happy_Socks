@@ -135,7 +135,6 @@ class Game:
             self.scroll()
             if len(self.clip_list) > 0:
                 self.motion()
-            self.music()
             self.points()
             
         
@@ -248,13 +247,6 @@ class Game:
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
-    
-    def music(self):
-        if self.playing == False:
-            mixer.music.stop()
-            mixer.music.load('Lyd/game_over.mp3')
-
-            mixer.music.play()
             
     def play_background_music(self):
         # Spiller bakgrunnsmusikk
@@ -264,6 +256,7 @@ class Game:
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
+        
     # Funksjon som skriver tekst til vinduet
     def text(self, text, x, y, color, fontSize):
         font = pg.font.SysFont("Arial", fontSize)
@@ -276,31 +269,44 @@ class Game:
     # Metode som viser start-skjerm
     def show_start_screen(self):
         self.screen.fill(LIGHTBLUE)
-        self.text("Happy Sock!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text("Happy Sock!", WIDTH //2 , HEIGHT // 6, WHITE, 50)
         
         self.image = pg.image.load('Bilder/sock1.png')
         self.image = pg.transform.scale(self.image, (SOCK_WIDTH, SOCK_HEIGHT))
         self.rect = self.image.get_rect()
-        self.screen.blit(self.player.image, (WIDTH//2, HEIGHT//2))
+        self.screen.blit(self.image, (WIDTH//2 - SOCK_WIDTH//2, HEIGHT//2 - SOCK_HEIGHT//2))
         
-        self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT // 2, WHITE, 20)
-        self.text("Press Enter to play", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+        self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT * 5/6, WHITE, 20)
+        self.text("Press Enter to play", WIDTH //2 , HEIGHT * 11/12, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
     
     # Metode som viser start-skjerm
     def show_end_screen(self):
+        if self.playing == False:
+            mixer.music.stop()
+            mixer.music.load('Lyd/game_over.mp3')
+
+            mixer.music.play()
+        
         # Tester om spilleren ønsker å forlate vinduet og ikke vil se game over skjermen
         if not self.running:
             return
         self.screen.fill(LIGHTBLUE)
-        self.text("GAME OVER!", WIDTH //2 , HEIGHT // 4, WHITE, 50)
+        self.text("GAME OVER!", WIDTH //2 , HEIGHT // 6, WHITE, 50)
+        
+        self.image = pg.image.load('Bilder/dirty_sock1.png')
+        self.image = pg.transform.scale(self.image, (SOCK_WIDTH, SOCK_HEIGHT))
+        self.rect = self.image.get_rect()
+        self.screen.blit(self.image, (WIDTH//2 - SOCK_WIDTH//2, HEIGHT//2 - SOCK_HEIGHT//2))
+        
         if (self.score == self.highscore):
-            self.text(f"Ny highscore! : {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
+            self.text(f"Ny highscore! : {self.highscore}", WIDTH //2 , HEIGHT * 25/30, WHITE, 25)
         else:
-            self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT // 2.5, WHITE, 25)
-        self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT // 2, WHITE, 25)
-        self.text("Press enter to play again", WIDTH //2 , HEIGHT * 3/4, WHITE, 25)
+            self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT * 24/30, WHITE, 25)
+            
+        self.text(f"Score: {self.score}", WIDTH //2 , HEIGHT * 26/30, WHITE, 25)
+        self.text("Press enter to play again", WIDTH //2 , HEIGHT * 28/30, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
     
