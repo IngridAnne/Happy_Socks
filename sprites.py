@@ -23,7 +23,16 @@ class Player:
         self.dirty = False
         self.scrolling = False
         
+        # Liste med bilder
+        self.images = [
+            pg.transform.scale(pg.image.load('Bilder/sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
+            pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH)),
+            pg.transform.scale(pg.image.load('Bilder/dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
+            pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+            ]
+        
         self.start = time.time()
+        
 
 
     # Metode for hopping
@@ -77,7 +86,13 @@ class Player:
             self.pos[0] = 0
         elif self.pos[0] <= 0:
             self.pos[0] = WIDTH      
-        
+    
+    # Sokken endrer utseende ved hopp
+    def change_look(self):
+        if self.dirty:
+            self.image = self.images[3]
+        else:
+            self.image = self.images[1]
          
 class Elements:
     def __init__(self, x, y, w, h, image):

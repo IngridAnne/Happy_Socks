@@ -28,11 +28,8 @@ class Game:
          
     # Metode for å starte et nytt spill
     def new(self):
-        
         # Begynner å spille bakgrunnsmusikken
-        self.play_background_music()
-        
-        
+        self.play_background_music()    
         
         # Lager en plattform for bakken
         self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
@@ -58,16 +55,7 @@ class Game:
             detergent = Detergent(
                     WIDTH - DETERGENT_WIDTH*2,
                     DETERGENT_WIDTH*((i*2)+1))
-            self.detergent_list.append(detergent)
-
-        # Liste med bilder
-        self.images = [
-            pg.transform.scale(pg.image.load('Bilder/sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
-            pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH)),
-            pg.transform.scale(pg.image.load('Bilder/dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
-            pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
-            ]
-        
+            self.detergent_list.append(detergent)        
         
         # Poeng
         self.score = 0
@@ -126,11 +114,7 @@ class Game:
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     if self.jump:
                         self.player.jump()
-                        # Sokken endrer utseende ved hopp
-                        if self.player.dirty:
-                            self.player.image = self.images[3]
-                        else:
-                            self.player.image = self.images[1]
+                        self.player.change_look()
                             
                 # Sokken får boost ved space tastetrykk
                 if event.key == pg.K_SPACE:
@@ -141,7 +125,7 @@ class Game:
     def update(self):
         self.player.update()
         
-        self.jump = False
+        #self.jump = False
         
         # Sjekker om en faller nedenfor skjermen og dør
         if self.player.pos[1] > HEIGHT:
@@ -157,9 +141,9 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, p.rect) and (self.player.rect.y+(self.player.h/1.5) < p.rect.y):
 
                     if self.player.dirty:
-                        self.player.image = self.images[2]
+                        self.player.image = self.player.images[2]
                     else:       
-                        self.player.image = self.images[0]
+                        self.player.image = self.player.images[0]
 
                     collide = True
                     self.jump = True
@@ -185,7 +169,8 @@ class Game:
         self.rect = self.image.get_rect()
         self.screen.blit(self.image, (WIDTH//2 - SOCK_WIDTH//2, HEIGHT//2 - SOCK_HEIGHT//2))
         
-        self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT * 5/6, WHITE, 20)
+        self.text("Arrows to move and Space to boost!", WIDTH //2 , HEIGHT * 5/6, WHITE, 20) 
+        self.text("Mud slow you down, but washing machine boost you!", WIDTH //2 , HEIGHT * 5/6 + 25, WHITE, 20)
         self.text("Press Enter to play", WIDTH //2 , HEIGHT * 11/12, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
@@ -193,10 +178,10 @@ class Game:
     
     # Metode som viser sluttskjerm
     def show_end_screen(self):
+
         if self.playing == False:
             mixer.music.stop()
             mixer.music.load('Lyd/game_over.mp3')
-
             mixer.music.play()
         
         # Tester om spilleren ønsker å forlate vinduet og ikke vil se game over skjermen
@@ -210,7 +195,7 @@ class Game:
         self.rect = self.image.get_rect()
         self.screen.blit(self.image, (WIDTH//2 - SOCK_WIDTH//2, HEIGHT//2 - SOCK_HEIGHT//2))
         
-        if (self.score == self.highscore):
+        if (self.score >= self.highscore):
             self.text(f"Ny highscore! : {self.highscore}", WIDTH //2 , HEIGHT * 25/30, WHITE, 25)
         else:
             self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT * 24/30, WHITE, 25)
@@ -219,7 +204,7 @@ class Game:
         self.text("Press enter to play again", WIDTH //2 , HEIGHT * 28/30, WHITE, 25)
         pg.display.flip()
         self.wait_for_key()
-    
+        
     
     # Venter og sjekker om tastetrykk på enter eller quit
     def wait_for_key(self):
@@ -294,9 +279,8 @@ class Game:
     def scroll(self):
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
-            print(self.clip_speed)
             
-            # Synker graviditet når skjermen scroller ned
+            # Synker tyngdekraften når skjermen scroller ned
             self.player.scrolling = True
             
             # Bakgrunnselementene scroller nedover
@@ -466,8 +450,8 @@ class Game:
         
         # "Flipper" displayet for å vise hva vi har tegnet
         pg.display.flip()
-         
-         
+    
+    
             
     """ Egenskaper til elementene i spillet"""       
     # Metode for å gi spilleren en egenskap
@@ -540,7 +524,7 @@ class Game:
 
         mixer.music.play()
         
-    # Metode for å finne poeng til spilleren
+    # Metode for å skrive ned poeng til spilleren
     def points(self):
         if self.playing == False:
             # Skriver inn poengscoren i en fil
