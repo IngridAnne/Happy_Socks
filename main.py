@@ -256,13 +256,13 @@ class Game:
         # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
         if r_long == 1:
             self.new_platform = Platform(
-                random_x,
+                random.randint(WIDTH//2, WIDTH + 100),
                 y,
                 PLATFORM_LONG_WIDTH,
                 PLATFORM_HEIGHT
             )
             self.new_platform_margin = Platform(
-                random_x - PLATFORM_MARGIN,
+                random.randint(WIDTH//2, WIDTH + 100) - PLATFORM_MARGIN,
                 y - PLATFORM_MARGIN,
                 PLATFORM_MARGIN_LONG_WIDTH,
                 PLATFORM_MARGIN_HEIGHT
@@ -283,7 +283,7 @@ class Game:
             print("kolliderte")
         
         # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
-        r_mud = random.randint(1, 3)
+        r_mud = random.randint(1, 2)
         
         # Sjekker om en gjørme skal bli laget
         if r_mud == 1:
