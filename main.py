@@ -96,8 +96,7 @@ class Game:
             self.scroll()
             if len(self.clip_list) > 0:
                 self.motion()
-            self.points()
-            
+            self.log_points()
         
     # Metode som håndterer hendelser
     def events(self):
@@ -178,12 +177,9 @@ class Game:
     
     # Metode som viser sluttskjerm
     def show_end_screen(self):
-
-        if self.playing == False:
-            mixer.music.stop()
-            mixer.music.load('Lyd/game_over.mp3')
-            mixer.music.play()
         
+        self.game_over_music()
+
         # Tester om spilleren ønsker å forlate vinduet og ikke vil se game over skjermen
         if not self.running:
             return
@@ -242,11 +238,23 @@ class Game:
             PLATFORM_MARGIN_HEIGHT
         )
         
+        
+        # Lager sannsynligheten for at en vaskemaskin skal tegnes på skjermen
+        r_wm = random.randint(1, 30)
+        
+        # Sjekker om en vaskemaskin skal bli laget
+        if r_wm == 2 and self.platform_list[-1].taken == False:
+            self.platform_list[-1].taken = True
+            new_washing_machine = Washing_machine(
+                self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
+                self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2)-5)
+            self.washing_machine_list.append(new_washing_machine)
+        
         # Lager en random verdi mellom fra og med 1 til og med 8
-        rd = random.randint(1, 8)
+        r_long = random.randint(1, 6)
         
         # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
-        if rd == 1:
+        if r_long == 1:
             self.new_platform = Platform(
                 random_x,
                 y,
@@ -274,6 +282,45 @@ class Game:
         else:
             print("Plattformen kolliderte")
         
+        # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
+        r_mud = random.randint(1, 3)
+        
+        # Sjekker om en gjørme skal bli laget
+        if r_mud == 1:
+            if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
+                r_mud = random.randint(1, 2)
+                #print(r_mud)
+                if r_mud == 2 and self.platform_list[-1].taken == False:
+                    self.platform_list[-1].taken = True
+                    
+                    x = int(self.platform_list[-1].rect.x)
+                    y = int(self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH)
+                    ran = random.randint(x, y)
+                    new_mud = Mud(
+                        ran,
+                        self.platform_list[-1].rect.y - 1)
+                    self.mud_list.append(new_mud)
+        
+        
+        # Lager sannsynligheten for at kleshenger og klype skal tegnes på skjermen
+        r_clip = random.randint(1, self.highest_random)
+        
+        # Sjekker om kleshenger og klype skal bli laget
+        if r_clip == 1 and len(self.hanger_list) < 1:
+            # Får farten i positiv retning
+            if self.clip_speed < 0:
+                self.clip_speed *= (-1)
+                
+            new_hanger = Hanger(
+                0,
+                0)
+            self.hanger_list.append(new_hanger)
+            
+            new_clip = Clip(
+                0,
+                -CLIP_HEIGHT//2)
+            self.clip_list.append(new_clip)
+        
             
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
@@ -289,56 +336,6 @@ class Game:
             for be in self.background_element_list:
                 if be.y > HEIGHT:
                     self.background_element_list.remove(be)
-                        
-            # Lager sannsynligheten for at en vaskemaskin skal tegnes på skjermen
-            r_wm = random.randint(1, 200)
-        
-            # Sjekker om en vaskemaskin skal bli laget
-            if r_wm == 1 and self.platform_list[-1].taken == False:
-                self.platform_list[-1].taken = True
-                new_washing_machine = Washing_machine(
-                    self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
-                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2)-5)
-                self.washing_machine_list.append(new_washing_machine)
-                
-            
-            # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
-            r_mud = random.randint(1, 4)
-            
-            # Sjekker om en gjørme skal bli laget
-            if r_mud == 1:
-                if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
-                    r_mud = random.randint(1, 2)
-                    #print(r_mud)
-                    if r_mud == 2 and self.platform_list[-1].taken == False:
-                        self.platform_list[-1].taken = True
-                        
-                        x = int(self.platform_list[-1].rect.x)
-                        y = int(self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH)
-                        ran = random.randint(x, y)
-                        new_mud = Mud(
-                            ran,
-                            self.platform_list[-1].rect.y - 1)
-                        self.mud_list.append(new_mud)
-
-            # Lager sannsynligheten for at kleshenger og klype skal tegnes på skjermen
-            r_clip = random.randint(1, self.highest_random)
-            
-            # Sjekker om kleshenger og klype skal bli laget
-            if r_clip == 1 and len(self.hanger_list) < 1:
-                # Får farten i positiv retning
-                if self.clip_speed < 0:
-                    self.clip_speed *= (-1)
-                    
-                new_hanger = Hanger(
-                    0,
-                    0)
-                self.hanger_list.append(new_hanger)
-                
-                new_clip = Clip(
-                    0,
-                    -CLIP_HEIGHT//2)
-                self.clip_list.append(new_clip)
             
             # Scroller elementene nedover og fjerner hvis under skjermen
             scroll_list = [self.washing_machine_list, self.mud_list, self.hanger_list, self.clip_list]
@@ -355,38 +352,11 @@ class Game:
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
                     
-                    # Øker poengscoren
-                    self.score += 10
-                                      
-                    # Øker farten til klypene
-                    if self.clip_speed < 0:
-                        self.clip_speed -= 0.01
-                    else:
-                        self.clip_speed += 0.01
-                    
-                    # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
-                    if self.highest_random > 1:
-                        self.highest_random -= 1
-                    
                     # Fjerner plattform som har gått under skjermen
                     self.platform_list.remove(p)
                     
-                    # Legger til nytt vaskemiddel hvert 300 poeng, hvis resterende vaskemidler er under 3
-                    self.score_boost += 10
-                    if self.score_boost == 300:
-                        self.score_boost = 0
-                        length = len(self.detergent_list)
-
-                        if length < 3:
-                            for i in range(length):
-                                self.detergent_list.pop()
-
-                            for i in range(length+1):
-                                detergent = Detergent(
-                                    WIDTH - DETERGENT_WIDTH*2,
-                                    DETERGENT_WIDTH*((i*2)+1))
-                                self.detergent_list.append(detergent)
-
+                    # Øker poengscoren
+                    self.score += 10
                     
                     # Lager plattformer
                     y = 0
@@ -461,7 +431,6 @@ class Game:
         for w in self.washing_machine_list:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
                     self.washing_machine_list.remove(w)
-                    #print("gir en boost")
                     self.player.vel[1] = -40
                     break
         
@@ -470,7 +439,6 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
                     self.player.dirty = True
                     self.player.start = time.time()
-                    #print("Mud")
         
         # Sjekker kollisjon med klype og spiller dør hvis kollisjon
         for c in self.clip_list:
@@ -506,7 +474,7 @@ class Game:
     
     
     """ Metoder som ikke vises direkte på skjermen"""
-    def music(self):
+    def game_over_music(self):
         if self.playing == False:
             mixer.music.stop()
             mixer.music.load('Lyd/game_over.mp3')
@@ -523,9 +491,37 @@ class Game:
         mixer.music.set_volume(0.2)
 
         mixer.music.play()
+    
+    # Metode for hva som skal skje ved økt poeng
+    def increase_points(self):
+        # Øker farten til klypene
+        if self.clip_speed < 0:
+            self.clip_speed -= 0.01
+        else:
+            self.clip_speed += 0.01
         
-    # Metode for å skrive ned poeng til spilleren
-    def points(self):
+        # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
+        if self.highest_random > 1:
+            self.highest_random -= 1
+        
+        # Legger til nytt vaskemiddel hvert 300 poeng, hvis resterende vaskemidler er under 3
+        self.score_boost += 10
+        if self.score_boost == 300:
+            self.score_boost = 0
+            length = len(self.detergent_list)
+
+            if length < 3:
+                for i in range(length):
+                    self.detergent_list.pop()
+
+                for i in range(length+1):
+                    detergent = Detergent(
+                        WIDTH - DETERGENT_WIDTH*2,
+                        DETERGENT_WIDTH*((i*2)+1))
+                    self.detergent_list.append(detergent)
+    
+    # Metode for hva som skjer ved økt poeng
+    def log_points(self):
         if self.playing == False:
             # Skriver inn poengscoren i en fil
             filename = "score.txt"
