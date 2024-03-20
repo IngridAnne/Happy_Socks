@@ -7,34 +7,6 @@ import numpy as np
 from pygame import mixer
 import csv
 
-"""
-# Funksjon som lager plattformer og margin
-def new_platform_margin_function(y):
-    # Lager ny platform med margin
-    random_x = random.randint(10, WIDTH-110)
-    random_y = y
-    
-    new_platform = Platform(
-        random_x,
-        random_y,
-        PLATFORM_WIDTH,
-        PLATFORM_HEIGHT
-    )
-    
-    new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
-    
-    rd = random.randint(1, 8)
-    if rd == 1:
-        new_platform = Platform(
-            random_x,
-            random_y,
-            PLATFORM_LONG_WIDTH,
-            PLATFORM_HEIGHT
-        )
-        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
-    
-    return new_platform, new_platform_margin
-"""
 
 # Lager gameklassen
 class Game:
@@ -106,19 +78,20 @@ class Game:
         # Lager plattformer
         while len(self.platform_list) < 10:
             random_y = random.randint(10, HEIGHT-20)
-            new_platform, new_platform_margin = self.new_platform_method(random_y)
+            #new_platform, new_platform_margin = self.new_platform_method(random_y)
+            self.new_platform_method(random_y)
             
             safe = True
             
             # Sjekker om den nye plattformen kolliderer med noen av de gamle
             for p in self.platform_list:
-                if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
+                if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
                     safe = False
                     break
             
             if safe:
                 # Legger i lista
-                self.platform_list.append(new_platform)
+                self.platform_list.append(self.new_platform)
             else:
                 pass
                 #print("Plattformen kolliderte, prøver på nytt")
@@ -395,7 +368,7 @@ class Game:
         random_x = random.randint(10, WIDTH-110)
         
         # Lager en ny plattform
-        new_platform = Platform(
+        self.new_platform = Platform(
             random_x,
             y,
             PLATFORM_WIDTH,
@@ -403,22 +376,22 @@ class Game:
         )
         
         # Lager en margin til plattformen
-        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+        self.new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
         
         # Lager en random verdi mellom fra og med 1 til og med 8
         rd = random.randint(1, 8)
         
         # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
         if rd == 1:
-            new_platform = Platform(
+            self.new_platform = Platform(
                 random_x,
                 y,
                 PLATFORM_LONG_WIDTH,
                 PLATFORM_HEIGHT
             )
-            new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
+            self.new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
         
-        return new_platform, new_platform_margin
+        #return new_platform, new_platform_margin
                 
     # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
@@ -553,19 +526,20 @@ class Game:
 
                     
                     y = 0
-                    new_platform, new_platform_margin = self.new_platform_method(y)
+                    #new_platform, new_platform_margin = self.new_platform_method(y)
+                    self.new_platform_method(y)
                     
                     safe = True
                     
                     # Sjekker om den nye plattformen kolliderer med noen av de gamle
                     for p in self.platform_list:
-                        if pg.Rect.colliderect(new_platform_margin.rect, p.rect):
+                        if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
                             safe = False
                             break
                     
                     if safe:
                         # Legger i lista
-                        self.platform_list.append(new_platform)
+                        self.platform_list.append(self.new_platform)
                     else:
                         pass
                         #print("Plattformen kolliderte, prøver på nytt")       
