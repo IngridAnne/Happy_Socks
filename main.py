@@ -59,8 +59,14 @@ class Game:
                     WIDTH - DETERGENT_WIDTH*2,
                     DETERGENT_WIDTH*((i*2)+1))
             self.detergent_list.append(detergent)
-        #print(self.detergent_list)
-        
+
+        # Liste med bilder
+        self.images = [
+            pg.transform.scale(pg.image.load('Bilder/sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
+            pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH)),
+            pg.transform.scale(pg.image.load('Bilder/dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT)),
+            pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+            ]
         
         
         # Poeng
@@ -79,7 +85,7 @@ class Game:
         self.player = Player()
         
         # Lager plattformer
-        while len(self.platform_list) < 7:
+        while len(self.platform_list) < 8:
             random_y = random.randint(10, HEIGHT-20)
             self.new_platform_method(random_y)
 
@@ -122,9 +128,10 @@ class Game:
                         self.player.jump()
                         # Sokken endrer utseende ved hopp
                         if self.player.dirty:
-                            self.player.image = pg.transform.scale(pg.image.load('Bilder/dirty_sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                            self.player.image = self.images[3]
                         else:
-                            self.player.image = pg.transform.scale(pg.image.load('Bilder/sock2.png'), (PLAYER_WIDTH, PLAYER_HEIGHT*STRETCH))
+                            self.player.image = self.images[1]
+                            
                 # Sokken får boost ved space tastetrykk
                 if event.key == pg.K_SPACE:
                     self.detergent_boost()
@@ -150,9 +157,9 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, p.rect) and (self.player.rect.y+(self.player.h/1.5) < p.rect.y):
 
                     if self.player.dirty:
-                        self.player.image = pg.transform.scale(pg.image.load('Bilder/dirty_sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                        self.player.image = self.images[2]
                     else:       
-                        self.player.image = pg.transform.scale(pg.image.load('Bilder/sock1.png'), (PLAYER_WIDTH, PLAYER_HEIGHT))
+                        self.player.image = self.images[0]
 
                     collide = True
                     self.jump = True
