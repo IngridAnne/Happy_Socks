@@ -78,23 +78,7 @@ class Game:
         # Lager plattformer
         while len(self.platform_list) < 10:
             random_y = random.randint(10, HEIGHT-20)
-            
             self.new_platform_method(random_y)
-            
-            safe = True
-            
-            # Sjekker om den nye plattformen kolliderer med noen av de gamle
-            for p in self.platform_list:
-                if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
-                    safe = False
-                    break
-            
-            if safe:
-                # Legger i lista
-                self.platform_list.append(self.new_platform)
-            else:
-                pass
-                #print("Plattformen kolliderte, prøver på nytt")
             
         
         self.run()
@@ -391,7 +375,20 @@ class Game:
             )
             self.new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
         
-        #return new_platform, new_platform_margin
+        safe = True
+            
+        # Sjekker om den nye plattformen kolliderer med noen av de gamle
+        for p in self.platform_list:
+            if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
+                safe = False
+                break
+        
+        if safe:
+            # Legger i lista
+            self.platform_list.append(self.new_platform)
+        else:
+            print("Plattformen kolliderte, prøver på nytt")
+
                 
     # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
@@ -526,23 +523,9 @@ class Game:
 
                     
                     y = 0
-                    
                     self.new_platform_method(y)
-                    
-                    safe = True
-                    
-                    # Sjekker om den nye plattformen kolliderer med noen av de gamle
-                    for p in self.platform_list:
-                        if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
-                            safe = False
-                            break
-                    
-                    if safe:
-                        # Legger i lista
-                        self.platform_list.append(self.new_platform)
-                    else:
-                        pass
-                        #print("Plattformen kolliderte, prøver på nytt")       
+                        
+                        
         else:
             self.player.scrolling = False
             
