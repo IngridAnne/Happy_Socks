@@ -358,11 +358,12 @@ class Game:
                     # Øker poengscoren
                     self.score += 10
                     
+                    self.increased_points()
+                    
                     # Lager plattformer
                     y = 0
                     while len(self.platform_list) < 8:
-                        self.new_platform_method(y)
-                        
+                        self.new_platform_method(y)                      
                         
         else:
             self.player.scrolling = False
@@ -493,7 +494,7 @@ class Game:
         mixer.music.play()
     
     # Metode for hva som skal skje ved økt poeng
-    def increase_points(self):
+    def increased_points(self):
         # Øker farten til klypene
         if self.clip_speed < 0:
             self.clip_speed -= 0.01
@@ -502,6 +503,7 @@ class Game:
         
         # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
         if self.highest_random > 1:
+            # Øker antall kleshengere
             self.highest_random -= 1
         
         # Legger til nytt vaskemiddel hvert 300 poeng, hvis resterende vaskemidler er under 3
