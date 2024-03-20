@@ -69,6 +69,9 @@ class Game:
         # Poeng som avgjør om en får ekstra boost
         self.score_boost = 0
         
+        # Startfarten til clip
+        self.clip_speed = 3
+        
         # Høyeste tall i random
         self.highest_random = 200
         
@@ -427,20 +430,21 @@ class Game:
     # Metode for at klesklypen skal bevege seg
     def motion(self):
         clip = self.clip_list[0]
-        clip.rect.x += clip.speed
+        clip.rect.x += self.clip_speed
         if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
-            clip.speed = clip.speed*(-1)
+            self.clip_speed = self.clip_speed*(-1)
         
             
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
         # Sjekker om spilleren er på den øverste delen av skjermen
         if self.player.rect.top <= HEIGHT / 4:
+            print(self.clip_speed)
             
             # Synker graviditet når skjermen scroller ned
             self.player.scrolling = True
             
-            # Skyene scroller nedover
+            # Bakgrunnselementene scroller nedover
             for be in self.background_element_list:
                 be.y += be.speed
             for be in self.background_element_list:
@@ -483,6 +487,10 @@ class Game:
             
             # Sjekker om kleshenger og klype skal bli laget
             if r_clip == 1 and len(self.hanger_list) < 1:
+                # Får farten i positiv retning
+                if self.clip_speed < 0:
+                    self.clip_speed *= (-1)
+                    
                 new_hanger = Hanger(
                     0,
                     0)
@@ -507,12 +515,15 @@ class Game:
                 p.rect.y += ELEMENT_SPEED
             for p in self.platform_list:
                 if p.rect.y > HEIGHT:
+                    
                     # Øker poengscoren
                     self.score += 10
-                    
+                                      
                     # Øker farten til klypene
-                    for i in range(len(self.clip_list)):
-                        self.clip_list[i].increase_speed_clip()
+                    if self.clip_speed < 0:
+                        self.clip_speed -= 0.1
+                    else:
+                        self.clip_speed += 0.1
                     
                     # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
                     if self.highest_random > 1:
