@@ -79,12 +79,10 @@ class Game:
         self.player = Player()
         
         # Lager plattformer
-        while len(self.platform_list) < 10:
+        while len(self.platform_list) < 8:
             random_y = random.randint(10, HEIGHT-20)
-            safe = self.new_platform_method(random_y)
-            if safe == False:
-                self.new_platform_method(random_y)
-            
+            self.new_platform_method(random_y)
+
         
         self.run()
 
@@ -403,8 +401,7 @@ class Game:
             # Legger i lista
             self.platform_list.append(self.new_platform)
         else:
-            print("Plattformen kolliderte, prøver på nytt")
-            return safe
+            print("Plattformen kolliderte")
             
         
 
@@ -549,9 +546,9 @@ class Game:
                                 self.detergent_list.append(detergent)
 
                     
+                    # Lager plattformer
                     y = 0
-                    safe = self.new_platform_method(y)
-                    if safe == False:
+                    while len(self.platform_list) < 8:
                         self.new_platform_method(y)
                         
                         
