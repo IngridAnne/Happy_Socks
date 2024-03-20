@@ -23,7 +23,7 @@ ORANGE = (237, 125, 45)
 
 
 # Spiller/sokk forhold
-P_RATIO = 1.73
+P_RATIO = 1.7
 
 # Innstillinger for startskjerm
 SOCK_WIDTH = 200
