@@ -256,13 +256,13 @@ class Game:
         # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
         if r_long == 1:
             self.new_platform = Platform(
-                random.randint(WIDTH//2, WIDTH + 100),
+                random_x,
                 y,
                 PLATFORM_LONG_WIDTH,
                 PLATFORM_HEIGHT
             )
             self.new_platform_margin = Platform(
-                random.randint(WIDTH//2, WIDTH + 100) - PLATFORM_MARGIN,
+                random_x - PLATFORM_MARGIN,
                 y - PLATFORM_MARGIN,
                 PLATFORM_MARGIN_LONG_WIDTH,
                 PLATFORM_MARGIN_HEIGHT
