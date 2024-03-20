@@ -79,7 +79,7 @@ class Game:
         self.player = Player()
         
         # Lager plattformer
-        while len(self.platform_list) < 8:
+        while len(self.platform_list) < 7:
             random_y = random.randint(10, HEIGHT-20)
             self.new_platform_method(random_y)
 
@@ -166,89 +166,6 @@ class Game:
         # Hvis musikken er ferdig begynner den på nytt
         if not pg.mixer.music.get_busy():
                 self.play_background_music()
-                
-                
-    # Metode som tegner ting på skjermen
-    def draw(self):
-        # Fyller skjermen med en farge og elementer
-        if self.score <= 200:
-            self.screen.fill(LIGHTBLUE)
-            ratio = 2
-        elif self.score > 200 and self.score <= 400:
-            self.screen.fill(ORANGE)
-            ratio = 1.66
-            for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*2, be.rd))
-                # Bildet er hentet fra http://www.clker.com/clipart-6958.html
-        else:
-            self.screen.fill(PURPLE)
-            ratio = 1.69
-            for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*2, be.rd))
-                # Bildet er hentet fra https://no.pinterest.com/pin/584482857867587248/
-         
-         
-        # Fyller bakgrunnselementliste med bakgrunnselementer
-        while len(self.background_element_list) < 8:
-            self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
-                                    random.randint(-HEIGHT, -80),
-                                    ratio
-                                ))
-            
-            
-        # Tegner bakgrunnselementene
-        for be in self.background_element_list:
-            self.screen.blit(be.image, (be.x, be.y))
-        
-        
-        # Tegner det som skal på skjermen
-        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
-        for i in range(len(draw_list)):
-            for j in draw_list[i]:
-                self.screen.blit(j.image, (j.rect.x, j.rect.y))
-        
-        
-        # Tegner spilleren
-        self.screen.blit(self.player.image, (self.player.pos[0], self.player.pos[1]))
-        
-        
-        # Tegner poeng
-        if self.score > 0:
-            h = 30
-            self.text(f"{self.score}", WIDTH//2, HEIGHT- (h), WHITE, 30)
-        
-        
-        # "Flipper" displayet for å vise hva vi har tegnet
-        pg.display.flip()
-    
-    
-    def music(self):
-        if self.playing == False:
-            mixer.music.stop()
-            mixer.music.load('Lyd/game_over.mp3')
-
-            mixer.music.play()
-    
-    
-    # Metode for å spille bakgrunnsmusikk
-    def play_background_music(self):
-        # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
-        # https://archive.org/details/popcorn_202209
-        mixer.init()
-        mixer.music.load('Lyd/POPCORN.mp3')
-        mixer.music.set_volume(0.2)
-
-        mixer.music.play()
-        
-     
-    # Funksjon som skriver tekst
-    def text(self, text, x, y, color, fontSize):
-        font = pg.font.SysFont("Arial", fontSize)
-        textPicture = font.render(text, True, color)
-        textRectangle = textPicture.get_rect()
-        
-        # Skriver i vinduet
-        self.screen.blit(textPicture, (x - textRectangle.width//2, y - textRectangle.height//2))
         
         
     # Metode som viser startskjerm
@@ -309,45 +226,7 @@ class Game:
                 if event.type == pg.KEYUP:
                     if event.key == pg.K_RETURN:
                         waiting = False
-    
-    
-    # Metode for å finne poeng til spilleren
-    def points(self):
-        
-        if self.playing == False:
-            # Skriver inn poengscoren i en fil
-            filename = "score.txt"
-            with open(filename, "a") as file:
-                file.write(f"{self.score}\n") 
             
-            # Henter ut highscoren
-            scores_list = np.loadtxt(filename, 'int')
-            self.highscore = max(scores_list)
-            
-    
-    # Metode for å gi spilleren en egenskap
-    def enchantement(self):
-        
-        # Sjekker kollisjon med vaskemaskin og gir deretter økt fart
-        for w in self.washing_machine_list:
-                if pg.Rect.colliderect(self.player.rect, w.rect):
-                    self.washing_machine_list.remove(w)
-                    #print("gir en boost")
-                    self.player.vel[1] = -40
-                    break
-        
-        # Sjekker kollisjon med gjørme og gir deretter minket fart
-        for m in self.mud_list:
-                if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
-                    self.player.dirty = True
-                    self.player.start = time.time()
-                    #print("Mud")
-        
-        # Sjekker kollisjon med klype og spiller dør hvis kollisjon
-        for c in self.clip_list:
-                if pg.Rect.colliderect(self.player.rect, c.rect):
-                    self.playing = False
-                    break
     
     # Metode som lager plattformer og margin
     def new_platform_method(self, y):
@@ -402,34 +281,6 @@ class Game:
             self.platform_list.append(self.new_platform)
         else:
             print("Plattformen kolliderte")
-            
-        
-
-                
-    # Metode for at spilleren får en egenskap ved å ta boost
-    def detergent_boost(self):
-        if len(self.detergent_list) > 0:
-            self.detergent_list.pop()
-            self.player.vel[1] = -40
-
-        
-    # Metode for å gi bevegelse til vaskemiddelet
-    def detergent_movement(self):
-        for d in range (len(self.detergent_list)):
-            det = self.detergent_list[d]
-            det.rect.y += det.speed
-            if det.rect.y <= DETERGENT_WIDTH * (d * 2 + 1):
-                det.speed *= (-1)
-            elif det.rect.y >= DETERGENT_WIDTH * (d * 2 + 3) - DETERGENT_HEIGHT:
-                det.speed *= (-1)  
-        
-    
-    # Metode for at klesklypen skal bevege seg
-    def motion(self):
-        clip = self.clip_list[0]
-        clip.rect.x += self.clip_speed
-        if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
-            self.clip_speed = self.clip_speed*(-1)
         
             
     # Metode for å scrolle alle elementene nedover
@@ -518,9 +369,9 @@ class Game:
                                       
                     # Øker farten til klypene
                     if self.clip_speed < 0:
-                        self.clip_speed -= 0.1
+                        self.clip_speed -= 0.01
                     else:
-                        self.clip_speed += 0.1
+                        self.clip_speed += 0.01
                     
                     # Sikrer at lagingen av et tilfeldig tall ikke blir ugyldig
                     if self.highest_random > 1:
@@ -554,8 +405,156 @@ class Game:
                         
         else:
             self.player.scrolling = False
+    
+    
+    # Metode som tegner ting på skjermen
+    def draw(self):
+        # Fyller skjermen med en farge og elementer
+        if self.score <= 200:
+            self.screen.fill(LIGHTBLUE)
+            ratio = 2
+        elif self.score > 200 and self.score <= 400:
+            self.screen.fill(ORANGE)
+            ratio = 1.66
+            for be in self.background_element_list:
+                be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*2, be.rd))
+                # Bildet er hentet fra http://www.clker.com/clipart-6958.html
+        else:
+            self.screen.fill(PURPLE)
+            ratio = 1.69
+            for be in self.background_element_list:
+                be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*2, be.rd))
+                # Bildet er hentet fra https://no.pinterest.com/pin/584482857867587248/
+         
+         
+        # Fyller bakgrunnselementliste med bakgrunnselementer
+        while len(self.background_element_list) < 8:
+            self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
+                                    random.randint(-HEIGHT, -80),
+                                    ratio
+                                ))
             
+            
+        # Tegner bakgrunnselementene
+        for be in self.background_element_list:
+            self.screen.blit(be.image, (be.x, be.y))
+        
+        
+        # Tegner det som skal på skjermen
+        draw_list = [self.platform_list, self.mud_list, self.hanger_list, self.clip_list, self.detergent_list, self.washing_machine_list]
+        for i in range(len(draw_list)):
+            for j in draw_list[i]:
+                self.screen.blit(j.image, (j.rect.x, j.rect.y))
+        
+        
+        # Tegner spilleren
+        self.screen.blit(self.player.image, (self.player.pos[0], self.player.pos[1]))
+        
+        
+        # Tegner poeng
+        if self.score > 0:
+            h = 30
+            self.text(f"{self.score}", WIDTH//2, HEIGHT- (h), WHITE, 30)
+        
+        
+        # "Flipper" displayet for å vise hva vi har tegnet
+        pg.display.flip()
+         
+         
+            
+    """ Egenskaper til elementene i spillet"""       
+    # Metode for å gi spilleren en egenskap
+    def enchantement(self):
+        
+        # Sjekker kollisjon med vaskemaskin og gir deretter økt fart
+        for w in self.washing_machine_list:
+                if pg.Rect.colliderect(self.player.rect, w.rect):
+                    self.washing_machine_list.remove(w)
+                    #print("gir en boost")
+                    self.player.vel[1] = -40
+                    break
+        
+        # Sjekker kollisjon med gjørme og gir deretter minket fart
+        for m in self.mud_list:
+                if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
+                    self.player.dirty = True
+                    self.player.start = time.time()
+                    #print("Mud")
+        
+        # Sjekker kollisjon med klype og spiller dør hvis kollisjon
+        for c in self.clip_list:
+                if pg.Rect.colliderect(self.player.rect, c.rect):
+                    self.playing = False
+                    break
+                
+    # Metode for at spilleren får en egenskap ved å ta boost
+    def detergent_boost(self):
+        if len(self.detergent_list) > 0:
+            self.detergent_list.pop()
+            self.player.vel[1] = -40
 
+        
+    # Metode for å gi bevegelse til vaskemiddelet
+    def detergent_movement(self):
+        for d in range (len(self.detergent_list)):
+            det = self.detergent_list[d]
+            det.rect.y += det.speed
+            if det.rect.y <= DETERGENT_WIDTH * (d * 2 + 1):
+                det.speed *= (-1)
+            elif det.rect.y >= DETERGENT_WIDTH * (d * 2 + 3) - DETERGENT_HEIGHT:
+                det.speed *= (-1)  
+        
+    
+    # Metode for at klesklypen skal bevege seg
+    def motion(self):
+        clip = self.clip_list[0]
+        clip.rect.x += self.clip_speed
+        if clip.rect.x <= 0 or clip.rect.x >= WIDTH-CLIP_WIDTH:          
+            self.clip_speed = self.clip_speed*(-1)
+    
+    
+    
+    """ Metoder som ikke vises direkte på skjermen"""
+    def music(self):
+        if self.playing == False:
+            mixer.music.stop()
+            mixer.music.load('Lyd/game_over.mp3')
+
+            mixer.music.play()
+    
+    
+    # Metode for å spille bakgrunnsmusikk
+    def play_background_music(self):
+        # https://www.educative.io/answers/how-to-play-an-audio-file-in-pygame
+        # https://archive.org/details/popcorn_202209
+        mixer.init()
+        mixer.music.load('Lyd/POPCORN.mp3')
+        mixer.music.set_volume(0.2)
+
+        mixer.music.play()
+        
+    # Metode for å finne poeng til spilleren
+    def points(self):
+        if self.playing == False:
+            # Skriver inn poengscoren i en fil
+            filename = "score.txt"
+            with open(filename, "a") as file:
+                file.write(f"{self.score}\n") 
+            
+            # Henter ut highscoren
+            scores_list = np.loadtxt(filename, 'int')
+            self.highscore = max(scores_list)
+            
+    # Funksjon som skriver tekst
+    def text(self, text, x, y, color, fontSize):
+        font = pg.font.SysFont("Arial", fontSize)
+        textPicture = font.render(text, True, color)
+        textRectangle = textPicture.get_rect()
+        
+        # Skriver i vinduet
+        self.screen.blit(textPicture, (x - textRectangle.width//2, y - textRectangle.height//2))
+        
+        
     
 # Lager et spill-objekt
 game_object = Game()
@@ -571,5 +570,3 @@ while game_object.running:
 # Avslutter pygame
 pg.quit()
 sys.exit() # Dersom det ikke er tilstrekkelig med pg.quit()
-
-
