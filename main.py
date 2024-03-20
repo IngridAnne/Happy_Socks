@@ -191,7 +191,7 @@ class Game:
         self.rect = self.image.get_rect()
         self.screen.blit(self.image, (WIDTH//2 - SOCK_WIDTH//2, HEIGHT//2 - SOCK_HEIGHT//2))
         
-        if (self.score >= self.highscore):
+        if (self.score > self.highscore):
             self.text(f"Ny highscore! : {self.highscore}", WIDTH //2 , HEIGHT * 25/30, WHITE, 25)
         else:
             self.text(f"Highscore: {self.highscore}", WIDTH //2 , HEIGHT * 24/30, WHITE, 25)
@@ -239,17 +239,6 @@ class Game:
         )
         
         
-        # Lager sannsynligheten for at en vaskemaskin skal tegnes på skjermen
-        r_wm = random.randint(1, 30)
-        
-        # Sjekker om en vaskemaskin skal bli laget
-        if r_wm == 2 and self.platform_list[-1].taken == False:
-            self.platform_list[-1].taken = True
-            new_washing_machine = Washing_machine(
-                self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
-                self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2)-5)
-            self.washing_machine_list.append(new_washing_machine)
-        
         # Lager en random verdi mellom fra og med 1 til og med 8
         r_long = random.randint(1, 6)
         
@@ -280,44 +269,6 @@ class Game:
             # Legger i lista
             self.platform_list.append(self.new_platform)
         
-        # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
-        r_mud = random.randint(1, 2)
-        
-        # Sjekker om en gjørme skal bli laget
-        if r_mud == 1:
-            if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
-                r_mud = random.randint(1, 2)
-                if r_mud == 2 and self.platform_list[-1].taken == False:
-                    self.platform_list[-1].taken = True
-                    
-                    x = int(self.platform_list[-1].rect.x)
-                    y = int(self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH)
-                    ran = random.randint(x, y)
-                    new_mud = Mud(
-                        ran,
-                        self.platform_list[-1].rect.y - 1)
-                    self.mud_list.append(new_mud)
-        
-        
-        # Lager sannsynligheten for at kleshenger og klype skal tegnes på skjermen
-        r_clip = random.randint(1, self.highest_random)
-        
-        # Sjekker om kleshenger og klype skal bli laget
-        if r_clip == 1 and len(self.hanger_list) < 1:
-            # Får farten i positiv retning
-            if self.clip_speed < 0:
-                self.clip_speed *= (-1)
-                
-            new_hanger = Hanger(
-                0,
-                0)
-            self.hanger_list.append(new_hanger)
-            
-            new_clip = Clip(
-                0,
-                -CLIP_HEIGHT//2)
-            self.clip_list.append(new_clip)
-        
             
     # Metode for å scrolle alle elementene nedover
     def scroll(self):
@@ -326,6 +277,55 @@ class Game:
             
             # Synker tyngdekraften når skjermen scroller ned
             self.player.scrolling = True
+            
+            # Lager sannsynligheten for at en vaskemaskin skal tegnes på skjermen
+            r_wm = random.randint(1, 200)
+            
+            # Sjekker om en vaskemaskin skal bli laget
+            if r_wm == 2 and self.platform_list[-1].taken == False:
+                self.platform_list[-1].taken = True
+                new_washing_machine = Washing_machine(
+                    self.platform_list[-1].rect.x + (PLATFORM_WIDTH)/2 - WASHING_MACHINE_SIDE/2,
+                    self.platform_list[-1].rect.y - self.platform_list[-1].rect.h -((WASHING_MACHINE_SIDE*W_RATIO)/2)-5)
+                self.washing_machine_list.append(new_washing_machine)
+            
+            # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
+            r_mud = random.randint(1, 8)
+            
+            # Sjekker om en gjørme skal bli laget
+            if r_mud == 1:
+                if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
+                    r_mud = random.randint(1, 2)
+                    if r_mud == 2 and self.platform_list[-1].taken == False:
+                        self.platform_list[-1].taken = True
+                        
+                        x = int(self.platform_list[-1].rect.x)
+                        y = int(self.platform_list[-1].rect.x + self.platform_list[-1].rect.w - MUD_WIDTH)
+                        ran = random.randint(x, y)
+                        new_mud = Mud(
+                            ran,
+                            self.platform_list[-1].rect.y - 1)
+                        self.mud_list.append(new_mud)
+            
+            
+            # Lager sannsynligheten for at kleshenger og klype skal tegnes på skjermen
+            r_clip = random.randint(1, self.highest_random)
+            
+            # Sjekker om kleshenger og klype skal bli laget
+            if r_clip == 1 and len(self.hanger_list) < 1:
+                # Får farten i positiv retning
+                if self.clip_speed < 0:
+                    self.clip_speed *= (-1)
+                    
+                new_hanger = Hanger(
+                    0,
+                    0)
+                self.hanger_list.append(new_hanger)
+                
+                new_clip = Clip(
+                    0,
+                    -CLIP_HEIGHT//2)
+                self.clip_list.append(new_clip)
             
             # Bakgrunnselementene scroller nedover
             for be in self.background_element_list:
