@@ -360,7 +360,12 @@ class Game:
         )
         
         # Lager en margin til plattformen
-        self.new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+        self.new_platform_margin = Platform(
+            random_x - PLATFORM_MARGIN,
+            y - PLATFORM_MARGIN,
+            PLATFORM_MARGIN_WIDTH,
+            PLATFORM_MARGIN_HEIGHT
+        )
         
         # Lager en random verdi mellom fra og med 1 til og med 8
         rd = random.randint(1, 8)
@@ -373,7 +378,12 @@ class Game:
                 PLATFORM_LONG_WIDTH,
                 PLATFORM_HEIGHT
             )
-            self.new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
+            self.new_platform_margin = Platform(
+                random_x - PLATFORM_MARGIN,
+                y - PLATFORM_MARGIN,
+                PLATFORM_MARGIN_LONG_WIDTH,
+                PLATFORM_MARGIN_HEIGHT
+            )
         
         safe = True
             
