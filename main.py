@@ -124,7 +124,7 @@ class Game:
     def update(self):
         self.player.update()
         
-        #self.jump = False
+        self.jump = False
         
         # Sjekker om en faller nedenfor skjermen og dør
         if self.player.pos[1] > HEIGHT:
@@ -279,8 +279,6 @@ class Game:
         if safe:
             # Legger i lista
             self.platform_list.append(self.new_platform)
-        else:
-            print("Plattformen kolliderte")
         
         # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
         r_mud = random.randint(1, 3)
@@ -289,7 +287,6 @@ class Game:
         if r_mud == 1:
             if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
                 r_mud = random.randint(1, 2)
-                #print(r_mud)
                 if r_mud == 2 and self.platform_list[-1].taken == False:
                     self.platform_list[-1].taken = True
                     
@@ -379,13 +376,13 @@ class Game:
             self.screen.fill(ORANGE)
             ratio = 1.66
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*2, be.rd))
+                be.image = pg.transform.scale(pg.image.load('Bilder/planet.png'), (be.rd*ratio, be.rd))
                 # Bildet er hentet fra http://www.clker.com/clipart-6958.html
         else:
             self.screen.fill(PURPLE)
             ratio = 1.69
             for be in self.background_element_list:
-                be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*2, be.rd))
+                be.image = pg.transform.scale(pg.image.load('Bilder/ufo.png'), (be.rd*ratio, be.rd))
                 # Bildet er hentet fra https://no.pinterest.com/pin/584482857867587248/
          
          
