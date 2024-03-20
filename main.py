@@ -279,6 +279,8 @@ class Game:
         if safe:
             # Legger i lista
             self.platform_list.append(self.new_platform)
+        else:
+            print("kolliderte")
         
         # Lager sannsynligheten for at en gjørme skal tegnes på skjermen
         r_mud = random.randint(1, 3)
