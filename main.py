@@ -188,7 +188,7 @@ class Game:
          
          
         # Fyller bakgrunnselementliste med bakgrunnselementer
-        while len(self.background_element_list) < 6:
+        while len(self.background_element_list) < 8:
             self.background_element_list.append(Background_element(random.randint(-20, WIDTH - 20),
                                     random.randint(-HEIGHT, -80),
                                     ratio
@@ -296,6 +296,7 @@ class Game:
         self.wait_for_key()
     
     
+    # Venter og sjekker om tastetrykk på enter eller quit
     def wait_for_key(self):
         waiting = True
         while waiting:
