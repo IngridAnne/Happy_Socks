@@ -347,57 +347,59 @@ class Game:
     
     # Metode som lager plattformer og margin
     def new_platform_method(self, y):
-        # Tar inn et y kordinat (enten random for startskjerm eller null for scrollende skjerm)
-        # Setter en random x-verdi
-        random_x = random.randint(10, WIDTH-110)
-        
-        # Lager en ny plattform
-        self.new_platform = Platform(
-            random_x,
-            y,
-            PLATFORM_WIDTH,
-            PLATFORM_HEIGHT
-        )
-        
-        # Lager en margin til plattformen
-        self.new_platform_margin = Platform(
-            random_x - PLATFORM_MARGIN,
-            y - PLATFORM_MARGIN,
-            PLATFORM_MARGIN_WIDTH,
-            PLATFORM_MARGIN_HEIGHT
-        )
-        
-        # Lager en random verdi mellom fra og med 1 til og med 8
-        rd = random.randint(1, 8)
-        
-        # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
-        if rd == 1:
+        while len(self.platform_list) < 10:
+            # Tar inn et y kordinat (enten random for startskjerm eller null for scrollende skjerm)
+            # Setter en random x-verdi
+            random_x = random.randint(10, WIDTH-110)
+            
+            # Lager en ny plattform
             self.new_platform = Platform(
                 random_x,
                 y,
-                PLATFORM_LONG_WIDTH,
+                PLATFORM_WIDTH,
                 PLATFORM_HEIGHT
             )
+            
+            # Lager en margin til plattformen
             self.new_platform_margin = Platform(
                 random_x - PLATFORM_MARGIN,
                 y - PLATFORM_MARGIN,
-                PLATFORM_MARGIN_LONG_WIDTH,
+                PLATFORM_MARGIN_WIDTH,
                 PLATFORM_MARGIN_HEIGHT
             )
-        
-        safe = True
             
-        # Sjekker om den nye plattformen kolliderer med noen av de gamle
-        for p in self.platform_list:
-            if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
-                safe = False
-                break
+            # Lager en random verdi mellom fra og med 1 til og med 8
+            rd = random.randint(1, 8)
+            
+            # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
+            if rd == 1:
+                self.new_platform = Platform(
+                    random_x,
+                    y,
+                    PLATFORM_LONG_WIDTH,
+                    PLATFORM_HEIGHT
+                )
+                self.new_platform_margin = Platform(
+                    random_x - PLATFORM_MARGIN,
+                    y - PLATFORM_MARGIN,
+                    PLATFORM_MARGIN_LONG_WIDTH,
+                    PLATFORM_MARGIN_HEIGHT
+                )
+            
+            safe = True
+                
+            # Sjekker om den nye plattformen kolliderer med noen av de gamle
+            for p in self.platform_list:
+                if pg.Rect.colliderect(self.new_platform_margin.rect, p.rect):
+                    safe = False
+                    break
+            
+            if safe:
+                # Legger i lista
+                self.platform_list.append(self.new_platform)
+            else:
+                print("Plattformen kolliderte, prøver på nytt")
         
-        if safe:
-            # Legger i lista
-            self.platform_list.append(self.new_platform)
-        else:
-            print("Plattformen kolliderte, prøver på nytt")
 
                 
     # Metode for at spilleren får en egenskap ved å ta boost
