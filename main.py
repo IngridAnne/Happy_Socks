@@ -7,7 +7,7 @@ import numpy as np
 from pygame import mixer
 import csv
 
-
+"""
 # Funksjon som lager plattformer og margin
 def new_platform_margin_function(y):
     # Lager ny platform med margin
@@ -34,7 +34,7 @@ def new_platform_margin_function(y):
         new_platform_margin = Platform(random_x - PLATFORM_MARGIN, random_y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
     
     return new_platform, new_platform_margin
-
+"""
 
 # Lager gameklassen
 class Game:
@@ -60,7 +60,7 @@ class Game:
         # Begynner å spille bakgrunnsmusikken
         self.play_background_music()
         
-        # Lister
+        
         
         # Lager en plattform for bakken
         self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
@@ -87,7 +87,9 @@ class Game:
                     WIDTH - DETERGENT_WIDTH*2,
                     DETERGENT_WIDTH*((i*2)+1))
             self.detergent_list.append(detergent)
-        print(self.detergent_list)
+        #print(self.detergent_list)
+        
+        
         
         # Poeng
         self.score = 0
@@ -104,7 +106,7 @@ class Game:
         # Lager plattformer
         while len(self.platform_list) < 10:
             random_y = random.randint(10, HEIGHT-20)
-            new_platform, new_platform_margin = new_platform_margin_function(random_y)
+            new_platform, new_platform_margin = self.new_platform_method(random_y)
             
             safe = True
             
@@ -118,7 +120,8 @@ class Game:
                 # Legger i lista
                 self.platform_list.append(new_platform)
             else:
-                print("Plattformen kolliderte, prøver på nytt")
+                pass
+                #print("Plattformen kolliderte, prøver på nytt")
             
         
         self.run()
@@ -368,7 +371,7 @@ class Game:
         for w in self.washing_machine_list:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
                     self.washing_machine_list.remove(w)
-                    print("gir en boost")
+                    #print("gir en boost")
                     self.player.vel[1] = -40
                     break
         
@@ -377,14 +380,45 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, m.rect) and self.player.vel[1] >= 0:
                     self.player.dirty = True
                     self.player.start = time.time()
-                    print("Mud")
-                    #self.player.not_dirty()
+                    #print("Mud")
         
         # Sjekker kollisjon med klype og spiller dør hvis kollisjon
         for c in self.clip_list:
                 if pg.Rect.colliderect(self.player.rect, c.rect):
                     self.playing = False
                     break
+    
+    # Metode som lager plattformer og margin
+    def new_platform_method(self, y):
+        # Tar inn et y kordinat (enten random for startskjerm eller null for scrollende skjerm)
+        # Setter en random x-verdi
+        random_x = random.randint(10, WIDTH-110)
+        
+        # Lager en ny plattform
+        new_platform = Platform(
+            random_x,
+            y,
+            PLATFORM_WIDTH,
+            PLATFORM_HEIGHT
+        )
+        
+        # Lager en margin til plattformen
+        new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_WIDTH, PLATFORM_MARGIN_HEIGHT)
+        
+        # Lager en random verdi mellom fra og med 1 til og med 8
+        rd = random.randint(1, 8)
+        
+        # Hvis den randome verdien er lik 1 skal plattformen byttes ut med en lang plattform
+        if rd == 1:
+            new_platform = Platform(
+                random_x,
+                y,
+                PLATFORM_LONG_WIDTH,
+                PLATFORM_HEIGHT
+            )
+            new_platform_margin = Platform(random_x - PLATFORM_MARGIN, y - PLATFORM_MARGIN, PLATFORM_MARGIN_LONG_WIDTH, PLATFORM_MARGIN_HEIGHT)
+        
+        return new_platform, new_platform_margin
                 
     # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
@@ -446,7 +480,7 @@ class Game:
             if r_mud == 1:
                 if self.platform_list[-1].rect.w == PLATFORM_LONG_WIDTH:
                     r_mud = random.randint(1, 2)
-                    print(r_mud)
+                    #print(r_mud)
                     if r_mud == 2 and self.platform_list[-1].taken == False:
                         self.platform_list[-1].taken = True
                         
@@ -519,7 +553,7 @@ class Game:
 
                     
                     y = 0
-                    new_platform, new_platform_margin = new_platform_margin_function(y)
+                    new_platform, new_platform_margin = self.new_platform_method(y)
                     
                     safe = True
                     
@@ -533,7 +567,8 @@ class Game:
                         # Legger i lista
                         self.platform_list.append(new_platform)
                     else:
-                        print("Plattformen kolliderte, prøver på nytt")       
+                        pass
+                        #print("Plattformen kolliderte, prøver på nytt")       
         else:
             self.player.scrolling = False
             
