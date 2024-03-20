@@ -78,7 +78,7 @@ class Game:
         # Lager plattformer
         while len(self.platform_list) < 10:
             random_y = random.randint(10, HEIGHT-20)
-            #new_platform, new_platform_margin = self.new_platform_method(random_y)
+            
             self.new_platform_method(random_y)
             
             safe = True
@@ -526,7 +526,7 @@ class Game:
 
                     
                     y = 0
-                    #new_platform, new_platform_margin = self.new_platform_method(y)
+                    
                     self.new_platform_method(y)
                     
                     safe = True
