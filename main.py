@@ -32,7 +32,7 @@ class Game:
         self.play_background_music()    
         
         # Lager en plattform for bakken
-        self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
+        self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT, 'Bilder/start_platform.png')]
 
         # Liste med vaskemaskiner
         self.washing_machine_list = []
@@ -248,13 +248,15 @@ class Game:
                 random_x,
                 y,
                 PLATFORM_LONG_WIDTH,
-                PLATFORM_HEIGHT
+                PLATFORM_HEIGHT,
+                'Bilder/long_platform.png'
             )
             self.new_platform_margin = Platform(
                 random_x - PLATFORM_MARGIN,
                 y - PLATFORM_MARGIN,
                 PLATFORM_MARGIN_LONG_WIDTH,
-                PLATFORM_MARGIN_HEIGHT
+                PLATFORM_MARGIN_HEIGHT,
+                'Bilder/long_platform.png'
             )
         
         safe = True
