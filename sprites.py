@@ -108,7 +108,8 @@ class Platform(Elements):
     def __init__(self, x, y, w, h, img = 'Bilder/platform.png'):
         # Plattformene er screen fra: https://www.google.com/url?sa=i&url=https%3A%2F%2Fsgfincorp.com%2F%3Fa%3Dfree-platform-game-assets-gui-by-bayat-games-kk-wkVZdLF9&psig=AOvVaw0qxGt-1A5LFFYGGTzkSsZL&ust=1711129113138000&source=images&cd=vfe&opi=89978449&ved=0CBQQjhxqFwoTCJCqm-nyhYUDFQAAAAAdAAAAABAR
         image = pg.Surface((w, h))
-        image = pg.image.load(img)
+        image.fill(DARKBROWN)
+        #image = pg.image.load(img)
         super().__init__(x, y, w, h, image)
 
         self.taken = False
