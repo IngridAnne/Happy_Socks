@@ -1,5 +1,6 @@
 # Importerer nyttige biblioteker
 import pygame as pg
+from pygame import mixer
 from settings import *
 import random
 import time
@@ -38,6 +39,10 @@ class Player:
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
+ 
+        # musikken er hentet fra: https://pixabay.com/sound-effects/search/game/
+        pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/jump.mp3'), maxtime=600)
+        mixer.music.set_volume(0.2)
     
     
     def update(self):
