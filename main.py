@@ -451,8 +451,8 @@ class Game:
                 
     # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
-        self.boost_music()
         if len(self.detergent_list) > 0:
+            self.boost_music()
             self.detergent_list.pop()
             self.player.vel[1] = -40
 
@@ -492,14 +492,14 @@ class Game:
         # https://archive.org/details/popcorn_202209
         mixer.init()
         mixer.music.load('Lyd/POPCORN.mp3')
-
+        mixer.music.set_volume(0.2)
         mixer.music.play()
     
     # Metode for å spille effektlyd
     def boost_music(self):
         # musikken er hentet fra: https://pixabay.com/sound-effects/search/game/
-        pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/boost.mp3'), maxtime=600)
-        mixer.music.set_volume(0.2)
+        mixer.Channel(0).set_volume(0.2)
+        pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/boost.mp3'))
     
     # Metode for hva som skal skje ved økt poeng
     def increased_points(self):
