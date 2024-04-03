@@ -32,7 +32,7 @@ class Game:
         self.play_background_music()    
         
         # Lager en plattform for bakken
-        self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT)]
+        self.platform_list = [Platform(0, HEIGHT-START_PLATFORM_HEIGHT, WIDTH, START_PLATFORM_HEIGHT, 'Bilder/start_platform.png')]
 
         # Liste med vaskemaskiner
         self.washing_machine_list = []
@@ -248,13 +248,15 @@ class Game:
                 random_x,
                 y,
                 PLATFORM_LONG_WIDTH,
-                PLATFORM_HEIGHT
+                PLATFORM_HEIGHT,
+                'Bilder/long_platform.png'
             )
             self.new_platform_margin = Platform(
                 random_x - PLATFORM_MARGIN,
                 y - PLATFORM_MARGIN,
                 PLATFORM_MARGIN_LONG_WIDTH,
-                PLATFORM_MARGIN_HEIGHT
+                PLATFORM_MARGIN_HEIGHT,
+                'Bilder/long_platform.png'
             )
         
         safe = True
@@ -430,6 +432,9 @@ class Game:
                 if pg.Rect.colliderect(self.player.rect, w.rect):
                     self.washing_machine_list.remove(w)
                     self.player.vel[1] = -40
+                    
+                    self.boost_music()
+                    
                     break
         
         # Sjekker kollisjon med gjørme og gir deretter minket fart
@@ -447,6 +452,7 @@ class Game:
     # Metode for at spilleren får en egenskap ved å ta boost
     def detergent_boost(self):
         if len(self.detergent_list) > 0:
+            self.boost_music()
             self.detergent_list.pop()
             self.player.vel[1] = -40
 
@@ -487,8 +493,13 @@ class Game:
         mixer.init()
         mixer.music.load('Lyd/POPCORN.mp3')
         mixer.music.set_volume(0.2)
-
         mixer.music.play()
+    
+    # Metode for å spille effektlyd
+    def boost_music(self):
+        # musikken er hentet fra: https://pixabay.com/sound-effects/search/game/
+        mixer.Channel(0).set_volume(0.2)
+        pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/boost.mp3'))
     
     # Metode for hva som skal skje ved økt poeng
     def increased_points(self):

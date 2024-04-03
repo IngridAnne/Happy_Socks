@@ -1,5 +1,6 @@
 # Importerer nyttige biblioteker
 import pygame as pg
+from pygame import mixer
 from settings import *
 import random
 import time
@@ -38,6 +39,15 @@ class Player:
     # Metode for hopping
     def jump(self):
         self.vel[1] = -20
+ 
+        
+        if self.dirty:
+            # musikken er hentet fra: https://pixabay.com/sound-effects/search/mud/
+            pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/mud.mp3'), maxtime=600)
+        else:
+            # musikken er hentet fra: https://pixabay.com/sound-effects/search/game/
+            mixer.Channel(0).set_volume(0.2)
+            pg.mixer.Channel(0).play(pg.mixer.Sound('Lyd/jump.mp3'))
     
     
     def update(self):
@@ -105,9 +115,11 @@ class Elements:
         
 
 class Platform(Elements):
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, w, h, img = 'Bilder/platform.png'):
+        # Plattformene er screen fra: https://www.google.com/url?sa=i&url=https%3A%2F%2Fsgfincorp.com%2F%3Fa%3Dfree-platform-game-assets-gui-by-bayat-games-kk-wkVZdLF9&psig=AOvVaw0qxGt-1A5LFFYGGTzkSsZL&ust=1711129113138000&source=images&cd=vfe&opi=89978449&ved=0CBQQjhxqFwoTCJCqm-nyhYUDFQAAAAAdAAAAABAR
         image = pg.Surface((w, h))
         image.fill(DARKBROWN)
+        #image = pg.image.load(img)
         super().__init__(x, y, w, h, image)
 
         self.taken = False
